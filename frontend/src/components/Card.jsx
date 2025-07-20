@@ -133,15 +133,15 @@ const pieChartOptions = {
     <>
 {
   load==true && <>
-    <div className="w-full flex flex-col items-center justify-center py-40">
-    <img src="Logos/Logo.webp" className="w-30 h-24" />
+    <div className="w-full flex flex-col items-center justify-center py-40 md:py-48">
+    <img src="Logos/Logo.webp" className="w-30 h-24 md:w-60 md:h-32" />
    <div className="w-full flex justify-center gap-y-2  text-center flex-col p-4 mt-4">
 
     <div className="mt-4 flex flex-row flex-wrap justify-center gap-x-12 gap-y-12 ">
   {new Array(4).fill("").map((i,ind)=>{
   return(
   <div className="text-center">
-    <img src={`sponsor/sponsor${ind+1}.png`} className="w-22 h-14"></img>
+    <img src={`sponsor/sponsor${ind+1}.png`} className="w-22 h-14 md:w-20 md:h-16"></img>
     </div>
     )
   })}
@@ -153,10 +153,21 @@ const pieChartOptions = {
 {
   load==false &&
   <>
-   <div className="w-full bg-slate-800 p-1 flex ">
+   <div className="w-full bg-slate-800 p-1 flex md:hidden">
   <img className="w-24 h-24" src={`Logos/${teamId}.webp`} />
 </div>
-  <div className="w-full flex flex-col justify-center items-center gap-y-4">
+ <nav className="bg-slate-800 hidden md:block text-white backdrop-blur-md shadow-md">
+  <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+    <div className="flex items-center space-x-2">
+      <img
+         src={`Logos/${teamId}.webp`}
+        alt="Logo"
+        className="w-20 h-16 md:w-36 md:h-28 lg:w-40 lg:h-32 object-contain"
+      />
+    </div>
+  </div>
+</nav>
+  <div className="w-full flex flex-col justify-center items-center gap-y-4 lg:hidden">
   <div className="w-full flex flex-row justify-center items-center">
   <div className="flex justify-center items-center my-2">
     <img src={items[0].image} className="w-64 h-64" />
@@ -184,12 +195,51 @@ const pieChartOptions = {
   <img className="w-24 h-24" src={`Logos/${teamId}.webp`} />
   </div>
   </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 my-4 gap-6">
-        <div className="text-black font-bold p-4 rounded ">
-          <Bar data={bar} options={barChartOptions} />
-        </div>
-      </div>
-              <footer className="bg-black text-white">
+       <div className="w-full flex items-center justify-center my-4 lg:hidden">
+  <div className="w-full max-w-md text-black font-bold p-4 rounded flex items-center justify-center">
+    <Bar data={bar} options={barChartOptions} />
+  </div>
+</div>
+<div className="w-full my-12 hidden lg:flex flex-row justify-center items-center gap-6 p-6 bg-gray-900 rounded-2xl ">
+  {/* 🖼️ Player Image */}
+  <div className="w-1/3 flex justify-center">
+    <img
+      src={items[0].image}
+      alt="Player"
+      className="w-80 h-80 object-contain rounded-xl border-4 border-slate-700 shadow-md"
+    />
+  </div>
+
+  {/* 🧾 Player Info + Logo */}
+  <div className="w-1/3 flex flex-col justify-center items-center gap-6 text-slate-200">
+    {/* Text Section */}
+    <div className="flex flex-col justify-center items-start gap-2 bg-gray-800 w-full p-4 rounded-xl shadow-inner">
+      <h1 className="text-2xl font-bold tracking-wide">
+        Name: {items[0].name} {items[0].captain ? "(C)" : ""}
+      </h1>
+      <p className="text-lg font-bold">Role: {items[0].role}</p>
+      <p className="text-lg font-bold">Matches: {items[0].matches}</p>
+      <p className="text-lg font-bold">Runs: {items[0].runs}</p>
+      <p className="text-lg font-bold">Wickets: {items[0].wickets}</p>
+    </div>
+
+    {/* Logo */}
+    <div className="mt-2">
+      <img
+        src={`Logos/${teamId}.webp`}
+        alt="Team Logo"
+        className="w-28 h-28 object-contain"
+      />
+    </div>
+  </div>
+
+  {/* 📊 Bar Chart */}
+  <div className="w-1/3 h-[300px] rounded-xl p-4">
+    <Bar data={bar} options={barChartOptions} />
+  </div>
+</div>
+
+              <footer className="bg-black text-white lg:hidden">
       <div className="w-full flex justify-center  text-center flex-col p-4 mt-4">
         <h2 className="text-xl font-semibold">Quick Links</h2>
         <ul className="mt-4 flex flex-row flex-wrap justify-center gap-x-12">

@@ -71,7 +71,7 @@ const History = () => {
   {new Array(4).fill("").map((i,ind)=>{
   return(
   <div className="text-center rounded-lg  bg-slate-800 transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
-    <img src={`${teamId.toUpperCase()}/${teamId.toUpperCase()}${ind+1}.jpg`} className="w-36 h-24 rounded-md shadow-slate-800"></img>
+    <img src={`${teamId}/${teamId.toUpperCase()}${ind+1}.jpg`} className="w-36 h-24 rounded-md shadow-slate-800"></img>
     </div>
     )
   })}

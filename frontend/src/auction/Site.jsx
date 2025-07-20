@@ -212,93 +212,125 @@ const barChartData = {
   return (
    <>
   {showCelebration===true && (win.length<matches || win.length===0 || (win.length===matches && win.length!=0 && jeet.length<=lose.length) ) && <>
-    <div className="flex py-2 my-4 overflow-hidden flex-col items-center justify-center text-white text-center">
-      {/* Fireworks */}
-      {showCelebration && <Confetti width={width} height={height} />}
-      {/* Trophy Animation */}
-      <motion.img
-        src="Icons/trophy.png"
-        alt="Trophy"
-        className="w-40 h-40 md:w-60 md:h-60"
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ duration: 2, type: "spring", stiffness: 100 }}
-      />
+   <div className="fixed inset-0  z-50 flex flex-col items-center justify-center text-white text-center overflow-hidden">
+  {/* Confetti */}
+  {showCelebration && (
+    <Confetti
+      width={window.innerWidth}
+      height={window.innerHeight}
+      numberOfPieces={250}
+      recycle={false}
+    />
+  )}
 
-      {/* Title */}
-      <motion.h1
-        className="text-lg md:text-xl font-bold mt-4 text-yellow-400"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        Welcome to the One v/s One Cricket League!
-      </motion.h1>
-      {/* Team Logos */}
-      <div className="flex flex-row flex-wrap justify-center gap-x-6 gap-y-1 my-6">
-        {teamLogos.map((logo, index) => (
-          <motion.img
-            key={index}
-            src={logo}
-            alt={`Team ${index + 1}`}
-            className="w-16 h-16 md:w-24 md:h-24"
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 1, delay: index * 0.2 }}
-          />
-        ))}
-       <div className="w-full flex-col items-center flex-wrap flex  justify-center my-12"> <button onClick={()=>setShowCelebration(false)} className="text-sm text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Start Playing</button></div>
-      </div>
-    <Fire show={true} />
-    </div>
+  {/* Trophy */}
+  <motion.img
+    src="Icons/trophy.png"
+    alt="Trophy"
+    className="w-32 h-32 sm:w-40 sm:h-40 md:w-52 md:h-52"
+    initial={{ scale: 0, rotate: -180 }}
+    animate={{ scale: 1, rotate: 0 }}
+    transition={{ duration: 2, type: "spring", stiffness: 100 }}
+  />
+
+  {/* Title */}
+  <motion.h1
+    className="text-lg md:text-xl font-bold mt-4 text-yellow-400"
+    initial={{ opacity: 0, y: -50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1 }}
+  >
+    Welcome to the One v/s One League!
+  </motion.h1>
+
+  {/* Logos */}
+  <div className="flex flex-wrap justify-center gap-4 my-4 max-w-[90vw] overflow-hidden">
+    {teamLogos.map((logo, index) => (
+      <motion.img
+        key={index}
+        src={logo}
+        alt={`Team ${index + 1}`}
+        className="w-14 h-14 sm:w-20 sm:h-20 md:w-24 md:h-24"
+        initial={{ scale: 0 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1, delay: index * 0.2 }}
+      />
+    ))}
+  </div>
+
+  {/* Button */}
+  <div className="my-6">
+    <button
+      onClick={() => setShowCelebration(false)}
+      className="text-sm text-white font-extrabold px-6 py-3 bg-orange-600 rounded-lg"
+    >
+      Start Playing
+    </button>
+  </div>
+
+  {/* Fire Animation */}
+  <Fire show={true} />
+</div>
   </>}
   {
     showCelebration===true && win.length===matches && win.length!=0 && jeet.length>lose.length &&  <>
-         <div className="flex py-2 my-4 overflow-hidden flex-col items-center justify-center  text-white text-center">
-      {/* Fireworks */}
-      {showCelebration && <Confetti width={width} height={height} />}
-      
-      {/* Trophy Animation */}
-      <motion.img
-        src="Icons/trophy.png"
-        alt="Trophy"
-        className="w-40 h-40 md:w-60 md:h-60"
-        initial={{ scale: 0, rotate: -180 }}
-        animate={{ scale: 1, rotate: 0 }}
-        transition={{ duration: 2, type: "spring", stiffness: 100 }}
-      />
+         <div className="fixed inset-0 w-full  flex flex-col items-center justify-center z-50 text-white text-center overflow-hidden">
+  {/* Fireworks */}
+  {showCelebration && <Confetti width={width} height={height} />}
 
-      {/* Title */}
-      <motion.h1
-        className="text-lg md:text-xl font-bold mt-4 text-yellow-400"
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 1 }}
-      >
-        Congratulations to the Champions!
-      </motion.h1>
+  {/* Trophy Animation */}
+  <motion.img
+    src="Icons/trophy.png"
+    alt="Trophy"
+    className="w-32 h-32 md:w-60 md:h-60"
+    initial={{ scale: 0, rotate: -180 }}
+    animate={{ scale: 1, rotate: 0 }}
+    transition={{ duration: 2, type: "spring", stiffness: 100 }}
+  />
 
-      {/* Champion Team Logo */}
-      <motion.img
-        src={`Logos/${playerteam}.webp`}
-        alt="Champion Team"
-        className="w-32 h-32 md:w-40 md:h-40 mt-6"
-        initial={{ scale: 0 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 1, delay: 0.5 }}
-      />
-      {/* Champion Text */}
-      <motion.p
-        className="text-lg md:text-xl font-semibold mt-4 text-green-400"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 1, delay: 1 }}
-      >
-        The One v/s One Cricket League Winners!
-      </motion.p>
-    <div className="w-full flex-col items-center flex-wrap flex my-12 justify-center"> <button onClick={()=>setShowCelebration(false)} className="text-sm text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Start Playing</button></div>
-      <Fire show={true} />
-    </div>
+  {/* Title */}
+  <motion.h1
+    className="text-lg md:text-xl font-bold mt-4 text-yellow-400"
+    initial={{ opacity: 0, y: -50 }}
+    animate={{ opacity: 1, y: 0 }}
+    transition={{ duration: 1 }}
+  >
+    Congratulations to the Champions!
+  </motion.h1>
+
+  {/* Champion Team Logo */}
+  <motion.img
+    src={`Logos/${playerteam}.webp`}
+    alt="Champion Team"
+    className="w-24 h-24 md:w-40 md:h-40 mt-6"
+    initial={{ scale: 0 }}
+    animate={{ scale: 1 }}
+    transition={{ duration: 1, delay: 0.5 }}
+  />
+
+  {/* Champion Text */}
+  <motion.p
+    className="text-lg md:text-xl font-semibold mt-4 text-green-400"
+    initial={{ opacity: 0 }}
+    animate={{ opacity: 1 }}
+    transition={{ duration: 1, delay: 1 }}
+  >
+    The One v/s One League Winners!
+  </motion.p>
+
+  {/* Button */}
+  <div className="w-full flex justify-center mt-12">
+    <button
+      onClick={() => setShowCelebration(false)}
+      className="text-sm text-white font-extrabold px-6 py-3 bg-orange-600 rounded-tl-lg rounded-tr-lg rounded-bl-lg"
+    >
+      Start Playing
+    </button>
+  </div>
+
+  {/* Fire Component */}
+  <Fire show={true} />
+</div>
     </>
   }
   { showCelebration===false && <>
@@ -419,6 +451,7 @@ const barChartData = {
           <div className="flex p-4 flex-row justify-center border-t border-slate-600 gap-4">
        <img src={`Logos/${playerteam}.webp`} className="w-28 h-28" />
      </div>
+     <div className="w-full flex flex-col items-center justify-center">
               <div className="grid grid-cols-1 md:grid-cols-2 my-4  gap-6">
         <div className="text-black  font-bold p-4 rounded ">
           <Bar data={barChartData} options={barChartOptions} />
@@ -426,6 +459,7 @@ const barChartData = {
         <div className=" p-4 rounded ">
           <Pie data={pieChartData} options={pieChartOptions} />
         </div>
+      </div>
       </div>
 {sellers.find((i)=>i.bid===-1)==undefined && <>
        <h1 className="text-xs font-extrabold text-slate-400 text-center">Top Sellers(In Lakhs)</h1>

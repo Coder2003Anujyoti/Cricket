@@ -5,7 +5,8 @@ const Standings = () => {
   const [searchParams] = useSearchParams();
   const [items,setItems]=useState([]);
   const [load,setLoad]=useState(true);
-  const teamId = searchParams.get("team"); 
+  const teamId = searchParams.get("team");
+  //console.log(teamId) 
   const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
   const get_Details=async()=>{
     const res=await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/standings`)
@@ -45,28 +46,39 @@ const Standings = () => {
           <div className="w-full bg-slate-800 p-1 flex ">
   <img className="w-24 h-24" src={`Logos/${teamId}.webp`} />
 </div>
-  <div className="w-full flex flex-row py-6 justify-center gap-12">
-   <div className="w-full flex  justify-center  gap-12" >
-
-       <div className="flex w-16 justify-center items-center border-b border-b-slate-400"> <p className="text-sm font-bold text-slate-400"> Logo </p></div>
-      <div className="flex w-24  justify-center items-center border-b  border-b-slate-400 "><p className="text-sm font-bold text-slate-400">Name</p></div>
-    <div className="flex w-16 justify-center items-center border-b border-b-slate-400"> <p className="text-sm font-bold text-slate-400">Win-ratio </p></div>
-   </div>
-   </div>
-  <div className="ml-2 mr-2 flex flex-row flex-wrap justify-center gap-y-8 gap-x-8">
-    {items.sort((a,b)=>b.win-a.win).map((i,ind)=>{
-      return(<>
-    <div className=" flex flex-row flex-wrap justify-center p-1 gap-x-16 border-b border-b-slate-600">
-    <Link to={`/history?team=${i.teamid}`}>
-      <div className="w-16 flex text-center justify-center items-center">   <img src={`Logos/${i.teamid}.webp`} className="w-12 h-12" /></div>
-      </Link>
-  <div className="flex w-16 justify-center items-center"> <p className="text-sm font-bold text-slate-400">{i.teamid.toUpperCase()}</p></div>
-   {i.win>0 && <div className="flex w-20 justify-center items-center"> <p className="text-sm font-bold text-slate-400">{Math.round((i.win/i.matches).toFixed(2)*100)}%</p></div>}
-      {i.win==0 && <div className="flex w-16 justify-center items-center"> <p className="text-sm font-bold text-slate-400">0%</p></div>}
+ <div className="max-w-2xl mx-auto p-4 bg-gray-900 text-white">
+      <h2 className="text-center text-2xl font-bold mb-4">Points Table</h2>
+      
+      <table className="w-full border-collapse">
+        <thead>
+          <tr className="border-b border-gray-600 text-gray-400">
+            <th className="p-2 text-left">#</th>
+            <th className="p-2 text-left">Team</th>
+            <th className="p-2">M</th>
+            <th className="p-2">W</th>
+            <th className="p-2">L</th>
+            
+            <th className="p-2">Pts</th>
+          </tr>
+        </thead>
+        <tbody>
+          {items.sort((a,b)=>b.win-a.win).map((team, index) => (
+            <tr key={team.id} className="border-b border-gray-700 text-center font-bold">
+              <td className="p-2">{index + 1}</td>
+              <td className="p-2 flex items-center font-bold">
+                <img src={`Logos/${team.teamid}.webp`} alt={team.teamid} className="w-6 h-6 mr-2" />
+                {team.teamid.toUpperCase()}
+              </td>
+              <td className="p-2">{team.matches}</td>
+              <td className="p-2">{team.win}</td>
+              <td className="p-2">{team.lose}</td>
+              
+        <td className="p-2">{2*(team.win) +1*(team.matches-(team.win+team.lose))}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       </div>
-      </>)
-    })}
-  </div>
         <footer className="bg-black mt-4 text-white">
       <div className="w-full flex justify-center  text-center flex-col p-4 mt-4">
         <h2 className="text-xl font-semibold">Quick Links</h2>
@@ -99,7 +111,7 @@ const Standings = () => {
   })}
 </div>
     </div>
-    <div class="border-t border-gray-700 mt-4 p-2 text-center text-gray-400">
+    <div className="border-t border-gray-700 mt-4 p-2 text-center text-gray-400">
       © 2025 Coder2003Anujyoti All rights reserved.
     </div>
 

@@ -48,7 +48,7 @@ const Fixtures = () => {
        {data.map((i,ind)=>{
     if(i.player===team || i.computer===team)
       return(<>
-    <div className=" flex flex-row flex-wrap justify-center items-center gap-x-16 border-b border-b-slate-600 p-5">
+    <div className=" flex flex-row w-full flex-wrap justify-center items-center gap-x-16 border-b border-b-slate-600 p-5">
 
       <div className="w-16 flex text-center justify-center items-center"><img src={`Logos/${team}.webp`} className="w-16 h-16" /></div>
       <div className="w-16 flex text-center justify-center items-center">   <img src={(i.computer!=team)?`Logos/${i.computer}.webp`:`Logos/${i.player}.webp`} className="w-16 h-16" /></div>

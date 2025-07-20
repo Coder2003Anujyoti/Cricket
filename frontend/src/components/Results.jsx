@@ -102,12 +102,12 @@ const Results = () => {
   <img className="w-24 h-24" src={`Logos/${teamId}.webp`} />
 </div>
   <div className="w-full flex flex-col justify-center">
-     <div className="flex justify-center items-center py-8"><h1 className="text-lg text-slate-400 font-bold">Match Results</h1></div>
-   <div className="ml-2 mr-2 flex flex-row flex-wrap justify-center gap-x-8 gap-y-8">
+     <div className="flex justify-center items-center py-8"><h1 className="text-sm p-2 bg-slate-800 rounded-lg text-slate-400 font-bold">Match Results</h1></div>
+   <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-8">
     {items.map((item,ind)=>{
       return(<>
         {item.map((i)=>{return(<>
-  <div className=" flex flex-row justify-center gap-16 p-2 border-b border-b-slate-600">
+  <div className=" w-full flex flex-row justify-center gap-16 p-2 border-b border-b-slate-600">
     <Link to={`/history?team=${teamId}`} >  <img src={`Logos/${teamId}.webp`} className="w-16 h-16"/>
     </Link>
     <div className="flex justify-center items-center"><h1 className="text-base text-yellow-400 font-bold">{i.status}</h1></div>

@@ -167,6 +167,7 @@ const pieChartOptions = {
        })
      }
      </div>
+      <div className="w-full flex flex-col items-center justify-center">
      <div className="grid grid-cols-1 md:grid-cols-2 my-4  gap-6">
         <div className="text-black  font-bold p-4 rounded ">
           <Bar data={bar} options={barChartOptions} />
@@ -174,6 +175,7 @@ const pieChartOptions = {
         <div className=" p-4 rounded ">
           <Pie data={pie} options={pieChartOptions} />
         </div>
+      </div>
       </div>
      </>
 }

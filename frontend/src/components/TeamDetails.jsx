@@ -1,6 +1,7 @@
 import React,{useEffect,useState} from "react";
 import {HashLink} from 'react-router-hash-link'
 import {useSearchParams,Link} from "react-router-dom"
+import { FaArrowUp } from "react-icons/fa";
 import { Bar, Pie } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend, ArcElement } from "chart.js";
 import ChartDataLabels from "chartjs-plugin-datalabels";
@@ -11,6 +12,8 @@ const TeamDetails = () => {
   const [pie,setPie]=useState({});
   const [histruns,setHistruns]=useState({});
   const [histwickets,setHistwickets]=useState({});
+  const [histteamruns,setHistteamruns]=useState({});
+    const [histteamwickets,setHistteamwickets]=useState({});
   const teamId = searchParams.get("team"); 
   const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
   const [load,setLoad]=useState(true);
@@ -37,7 +40,37 @@ const TeamDetails = () => {
           
   },
 };
+const histogramteamOptions = {
+  responsive: true,
+  scales: {
+    y: {
+      beginAtZero: true,
+      ticks: { color: "rgb(148, 163, 184)", font: { weight: "bold" } },
+      grid: { color: "rgba(255, 255, 255, 0.2)" },
+    },
+    x: {
+      ticks: {
+        color: "rgb(148, 163, 184)",
+        font: { weight: "bold", size: 12 },
+        autoSkip: false,
+        maxRotation: 45,
+        minRotation: 0,
+      },
+      grid: { display: false },
+    },
+  },
+  plugins: {
+    legend: { display: false },
+    datalabels: {
+      color: "transparent", // hiding data labels
+      font: { weight: "bold", size: 14 },
+    },
+  },
+};
+
     const barChartOptions = {
+       responsive: true, // 💡 Enable responsiveness
+  maintainAspectRatio: false, // 💡 Allow custom height
   plugins: {
     legend: {
       labels: {
@@ -94,6 +127,7 @@ const TeamDetails = () => {
   },
 };
 const pieChartOptions = {
+  
   plugins: {
     legend: {
       labels: {
@@ -168,11 +202,41 @@ const histogramWickets = {
       },
     ],
   };
+  const filterteamruns = data.data.filter((i)=>i.team==teamId).sort((a, b) => b.runs - a.runs)        // ✅ sort by runs (descending)
+  .slice(0, 6);                           // ✅ top 6
+    const filterteamwickets=data.data.filter((i)=>i.team==teamId).sort((a,b)=>b.wickets-a.wickets).slice(0,6);
+    //console.log(filterteamruns[0].name + "" + filterteamwickets[0].name)
+    const histogramteamRuns = {
+  labels: filterteamruns.map((batter)=> batter.name),
+  datasets: [
+    {
+      label: "Runs Scored",
+      data: filterteamruns.map((batter) => batter.runs),
+      backgroundColor: "#3b82f6", // Blue color
+      borderWidth: 1,
+      borderRadius: 5,
+    },
+  ],
+};
+const histogramteamWickets = {
+  labels: filterteamwickets.map((batter) => batter.name),
+  datasets: [
+    {
+      label: "Wickets Scored",
+      data: filterteamwickets.map((batter) => batter.wickets),
+      backgroundColor: "#3b82f6", // Blue color
+      borderWidth: 1,
+      borderRadius: 5,
+    },
+  ],
+};
   setBar(barChartData)
   setPie(pieChartData)
     setItem(data.data);
     setHistruns(histogramRuns);
   setHistwickets(histogramWickets);
+  setHistteamruns(histogramteamRuns)
+  setHistteamwickets(histogramteamWickets)
     setLoad(false);
   }
   useEffect(()=>{
@@ -185,15 +249,15 @@ const histogramWickets = {
   return (
     <>
       {load==true && <>
-    <div className="w-full flex flex-col items-center justify-center py-40">
-    <img src="Logos/Logo.webp" className="w-30 h-24" />
+    <div className="w-full flex flex-col items-center justify-center py-40 md:py-48">
+    <img src="Logos/Logo.webp" className="w-30 h-24 md:w-60 md:h-32" />
    <div className="w-full flex justify-center gap-y-2  text-center flex-col p-4 mt-4">
 
     <div className="mt-4 flex flex-row flex-wrap justify-center gap-x-12 gap-y-12 ">
   {new Array(4).fill("").map((i,ind)=>{
   return(
   <div className="text-center">
-    <img src={`sponsor/sponsor${ind+1}.png`} className="w-22 h-14"></img>
+    <img src={`sponsor/sponsor${ind+1}.png`} className="w-22 h-14 md:w-20 md:h-16"></img>
     </div>
     )
   })}
@@ -202,12 +266,98 @@ const histogramWickets = {
     </div>
   </>}
 {load==false && <>
-    <div className="w-full bg-slate-800 flex p-1">
+{/* //&Navbar for mobile */}
+    <div className="w-full bg-slate-800 flex p-1 md:hidden">
   <img className="w-24 h-24" src={`Logos/${teamId}.webp`} />
 </div>
-<div className="w-full my-16 flex flex-wrap gap-x-12 gap-y-12 items-center justify-center flex-row">
+{/* //^Navbar for big screen */}
+  <nav className="bg-slate-800 hidden md:block text-white backdrop-blur-md shadow-md">
+  <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+    <div className="flex items-center space-x-2">
+      <img
+         src={`Logos/${teamId}.webp`}
+        alt="Logo"
+        className="w-20 h-16 md:w-36 md:h-28 lg:w-40 lg:h-32 object-contain"
+      />
+    </div>
+  </div>
+</nav>
+{/* //^Service section for pc */}
+<div className="md:flex hidden justify-center items-center py-4">
+  <h1 className="text-slate-400 text-xl font-bold">Team Players</h1>
+  </div>
+  <div className="w-full md:flex p-4 flex-wrap flex-row justify-center hidden  gap-1 md:gap-6">
+    {item.map((i)=>{
+    if(i.team==teamId)
+      return(<>
+        <div className="p-1 flex flex-col gap-1 rounded-lg bg-slate-800 text-center md:text-base justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
+    <div className="flex justify-center items-center"> <img className="w-24 h-24 md:w-36 md:h-36"src={i.image} /></div>
+   <div className="flex flex-col text-center my-2 md:text-base">
+   {i.captain===false &&  <p className="text-sm font-bold text-slate-400 md:text-base">{i.name}</p>}
+    {i.captain===true &&
+      <p className="text-sm font-bold text-slate-400 md:text-base">{i.name} (C)</p>
+    }
+  </div>
+        </div>
+      </>)
+    })}
+  </div>
+   <div className="w-full hidden flex-col text-center gap-4 my-6 md:flex border-t border-t-slate-600 py-6">
+      <h1 className="text-xl font-bold text-green-400 ">Team Stats</h1>
+  <div className="w-full py-4 flex justify-center">
+    <h1 className="text-lg font-bold text-slate-400 ">Top Batters</h1>
+  </div>
+  <div className="w-full flex p-4 flex-wrap flex-row justify-center gap-6 ">
+    
+    {
+      item.filter((i)=> i.team==teamId).sort((a,b)=>b.runs-a.runs).map((i,ind)=>{
+      if(ind<6)
+        return(<>
+            <div className="p-4 flex flex-col gap-4 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
+    <div className="flex justify-center items-center"><img src={i.image} className="w-16 h-16 md:w-36 md:h-36" /></div>
+    <div><p className="text-slate-400 text-base font-bold">{i.name}</p>
+         <p className="text-slate-400 text-base font-bold">Runs-:{i.runs}</p></div>
+           </div>
+        </>)
+      })
+    }
+    </div>
+    <div className="w-full py-4 flex justify-center">
+    <h1 className="text-lg font-bold text-slate-400">Top Bowlers</h1>
+  </div>
+  <div className="w-full flex p-4 flex-wrap flex-row justify-center gap-6">
+    {
+      item.filter((i)=> i.team==teamId).sort((a,b)=>b.wickets-a.wickets).map((i,ind)=>{
+      if(ind<6 && i.team==teamId)
+        return(<>
+    <div className="p-4 flex flex-col gap-4 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
+    <div className="flex justify-center items-center"><img src={i.image} className="w-16 h-16 md:w-36 md:h-36" /></div>
+    <div><p className="text-slate-400 text-base font-bold">{i.name}</p>
+         <p className="text-slate-400 text-base font-bold">Wickets-:{i.wickets}</p></div>
+           </div>
+        </>)
+      })
+    }
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 px-4">
+  <div className="bg-gray-900 p-6 rounded-xl  w-full h-[350px]">
+    <h2 className="text-slate-400 text-sm font-bold mb-4 text-center ">
+      Batting Analysis
+    </h2>
+    <Bar data={histteamruns} options={histogramteamOptions} />
+  </div>
+  <div className="bg-gray-900 p-6 rounded-xl w-full h-[350px]">
+    <h2 className="text-slate-400 text-sm font-bold mb-4 text-center">
+      Bowling Analysis
+    </h2>
+    <Bar data={histteamwickets} options={histogramteamOptions} />
+  </div>
+</div>
+</div>
+{/* //&Service section for mobile */}
+<div className="w-full my-16 flex flex-wrap gap-x-12 gap-y-12 items-center justify-center flex-row md:hidden">
     <Link to={`/play?team=${teamId}`} >
-    <div className="text-center p-4 rounded-lg  bg-slate-800">
+    <div className="text-center p-4 rounded-lg  bg-slate-800 md:hidden">
     <img src="Icons/crickets.png" className="w-24 h-24"></img>
     <h4 className="text-lg text-slate-400 font-bold">Play</h4>
     </div>
@@ -243,9 +393,10 @@ const histogramWickets = {
     </div>
     </Link>
 </div>
-<div className="w-full flex flex-col border-t border-b border-slate-600 p-4">
+{/* //&Analysis for mobile */}
+<div className="w-full flex flex-col border-t border-b border-slate-600 p-4 md:hidden">
       <div className="w-full flex justify-center"><p className="text-xl font-extrabold text-slate-400">Analysis</p></div>
-        <div className="grid  grid-cols-1 md:grid-cols-2 my-4 gap-6 text-center flex flex-row">
+        <div className="grid  grid-cols-1 md:grid-cols-2 my-4 gap-6 text-center justify-center items-center flex flex-row">
         <div className="text-black font-bold p-4 rounded ">
           <Bar data={bar} options={barChartOptions} />
         </div>
@@ -254,10 +405,25 @@ const histogramWickets = {
         </div>
       </div>
       </div>
-<div className="w-full flex flex-col text-center gap-4 my-6">
-      <h1 className="text-xl font-extrabold text-green-400">Tournament Stats</h1>
+{/* //^Analysis for pc */}
+      <div className="w-full hidden md:flex flex-col border-t border-b border-slate-600 p-4 ">
+  <div className="w-full flex justify-center">
+    <p className="text-xl font-bold text-slate-400">Analysis</p>
+  </div>
+  <div className="md:grid grid-cols-1 md:grid-cols-2 my-4 gap-6 text-center">
+    <div className="w-full max-w-[600px] h-[300px] md:h-[400px] mx-auto  text-black font-bold p-4 rounded">
+      <Bar data={bar} options={barChartOptions} />
+    </div>
+    <div className="w-full max-w-[600px] h-[300px] md:h-[400px] mx-auto  p-4 rounded">
+      <Pie data={pie} options={pieChartOptions} />
+    </div>
+  </div>
+</div>
+{/* //&Tournament stats for mobile */}
+<div className="w-full flex flex-col text-center gap-4 my-6 md:hidden">
+      <h1 className="text-xl font-extrabold text-green-400 ">Tournament Stats</h1>
   <div className="w-full py-4 flex justify-center">
-    <h1 className="text-lg font-extrabold text-slate-400">Top Batters</h1>
+    <h1 className="text-lg font-extrabold text-slate-400 ">Top Batters</h1>
   </div>
   <div className="w-full flex p-4 flex-wrap flex-row justify-center gap-2 ">
     
@@ -304,7 +470,66 @@ const histogramWickets = {
       <Bar data={histwickets} options={histogramOptions} />
     </div>
     </div>
-    <footer className="bg-black text-white">
+    {/* //* Tournament stats for PC */}
+    <div className="w-full hidden flex-col text-center gap-4 my-6 md:flex">
+      <h1 className="text-xl font-bold text-green-400 ">Tournament Stats</h1>
+  <div className="w-full py-4 flex justify-center">
+    <h1 className="text-lg font-bold text-slate-400 ">Top Batters</h1>
+  </div>
+  <div className="w-full flex p-4 flex-wrap flex-row justify-center gap-6 ">
+    
+    {
+      item.sort((a,b)=>b.runs-a.runs).map((i,ind)=>{
+      if(ind<6)
+        return(<>
+     
+            <div className="p-4 flex flex-col gap-4 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
+    <div className="flex justify-center items-center"><img src={i.image} className="w-16 h-16 md:w-36 md:h-36" /></div>
+    <div><p className="text-slate-400 text-base font-bold">{i.name}</p>
+         <p className="text-slate-400 text-base font-bold">Runs-:{i.runs}</p></div>
+           </div>
+        
+        </>)
+      })
+    }
+    </div>
+    <div className="w-full py-4 flex justify-center">
+    <h1 className="text-lg font-bold text-slate-400">Top Bowlers</h1>
+  </div>
+  <div className="w-full flex p-4 flex-wrap flex-row justify-center gap-6">
+    {
+      item.sort((a,b)=>b.wickets-a.wickets).map((i,ind)=>{
+      if(ind<6)
+        return(<>
+      
+    <div className="p-4 flex flex-col gap-4 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
+    <div className="flex justify-center items-center"><img src={i.image} className="w-16 h-16 md:w-36 md:h-36" /></div>
+    <div><p className="text-slate-400 text-base font-bold">{i.name}</p>
+         <p className="text-slate-400 text-base font-bold">Wickets-:{i.wickets}</p></div>
+           </div>
+       
+        </>)
+      })
+    }
+    </div>
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-6 my-6 px-4">
+  <div className="bg-gray-900 p-6 rounded-xl  w-full h-[350px]">
+    <h2 className="text-slate-400 text-sm font-bold mb-4 text-center ">
+      Batting Analysis
+    </h2>
+    <Bar data={histruns} options={histogramOptions} />
+  </div>
+
+  <div className="bg-gray-900 p-6 rounded-xl w-full h-[350px]">
+    <h2 className="text-slate-400 text-sm font-bold mb-4 text-center">
+      Bowling Analysis
+    </h2>
+    <Bar data={histwickets} options={histogramOptions} />
+  </div>
+</div>
+    </div>
+{/* //&Footer for mobile */}
+    <footer className="bg-black text-white md:hidden">
       <div className="w-full flex justify-center  text-center flex-col p-4 mt-4">
         <h2 className="text-xl font-semibold">Quick Links</h2>
         <ul className="mt-4 flex flex-row flex-wrap justify-center gap-x-12">
@@ -339,6 +564,50 @@ const histogramWickets = {
     <div class="border-t border-gray-700 mt-4 p-2 text-center text-gray-400">
       © 2025 Coder2003Anujyoti All rights reserved.
     </div>
+</footer>
+ {/* //* Footer for big screen */}
+ <footer className="bg-black text-white pt-1 hidden md:block">
+      <div className="w-full flex justify-center  text-center flex-col p-4 mt-4">
+        <h2 className="text-xl font-semibold">Quick Links</h2>
+        <ul className="mt-4 flex flex-row flex-wrap justify-center gap-x-12">
+    <HashLink smooth to='/#abouts'> <li className="text-gray-400">
+       About Us</li></HashLink>
+     <HashLink smooth to='/#servicess'> <li className="text-gray-400">Services</li></HashLink>
+     <HashLink smooth to='/#gallerys'><li className="text-gray-400">Gallery</li></HashLink>
+        </ul>
+     </div>
+      <div className="w-full flex justify-center  text-center flex-col mt-4">
+        <h2 className="text-xl font-semibold">Teams</h2>
+        <ul className="mt-4 flex flex-row flex-wrap justify-center gap-x-6 gap-y-4 ml-2 mr-2">
+        {teams.map((i)=>{
+          return(<>
+         <li><img className="w-16 h-16" src={`Logos/${i}.webp`}/></li>
+          </>)
+        })}
+        </ul>
+      </div>
+            <div className="w-full flex justify-center gap-y-2  text-center flex-col p-4 mt-4">
+    <h2 className="text-xl font-semibold">Sponsors</h2>
+    <div className="mt-4 flex flex-row flex-wrap justify-center gap-x-10 gap-y-4 ">
+  {new Array(4).fill("").map((i,ind)=>{
+  return(
+  <div className="text-center">
+    <img src={`sponsor/sponsor${ind+1}.png`} className="w-22 h-12"></img>
+    </div>
+    )
+  })}
+</div>
+    </div>
+    <div className="border-t border-gray-700 mt-4 p-2 text-center text-gray-400">
+      © 2025 Coder2003Anujyoti All rights reserved.
+    </div>
+     <button
+  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+  className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-slate-600 text-white p-2 sm:p-3 rounded-full shadow-md sm:shadow-lg  transition-all duration-300 z-50"
+  aria-label="Scroll to top"
+>
+  <FaArrowUp className="w-4 h-4 sm:w-5 sm:h-5" />
+</button>
 </footer>
 </>}
 </>

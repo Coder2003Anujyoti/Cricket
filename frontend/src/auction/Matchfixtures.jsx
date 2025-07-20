@@ -31,7 +31,7 @@ const matchnumber = JSON.parse(decodeURIComponent(queryParams.get("matchnumber")
   <div className="w-full flex flex-row flex-wrap justify-center items-center my-4 gap-y-8 gap-x-8">
     {new Array(matchnumber).fill(0).map((i,ind)=>{
       return(<>
-    <div className="flex flex-row flex-wrap justify-center items-center gap-x-16 border-b border-b-slate-600 p-5">
+    <div className="flex w-full flex-row flex-wrap justify-center items-center gap-x-16 border-b border-b-slate-600 p-5">
 
       <div className="w-16 flex text-center justify-center items-center">   <img src={`Logos/${player}.webp`} className="w-16 h-16" /></div>
       <div className="w-16 flex text-center justify-center items-center">   <img src={`Logos/${computer}.webp`} className="w-16 h-16" /></div>

@@ -1,0 +1,11 @@
+
+html,
+body,ul,section,div{
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;     /* Firefox */
+}
+
+html::-webkit-scrollbar,
+body::-webkit-scrollbar, ul::-webkit-scrollbar,section::-webkit-scrollbar,div::-webkit-scrollbar{
+  display: none;             /* Chrome, Safari, Opera */
+}
