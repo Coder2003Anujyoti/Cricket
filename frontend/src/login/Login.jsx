@@ -65,6 +65,14 @@ export default function Login() {
           toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>User is not found</strong>);
         }
       }
+        else if(response.ok){
+      if(mode == "signup"){
+           toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>User register successfully</strong>);
+        }
+        else if(mode=="forgot"){
+          toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Password changed successfully</strong>);
+        }
+      }
       //console.log('Form submitted:', { username, password });
     if (mode === "login" && response.ok) {
   login({ username: data.username });
