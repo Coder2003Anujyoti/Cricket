@@ -61,4 +61,5 @@ router.get('/users',authenticateToken, authorizeRoles("admin"),async(req,res)=>{
   const data=await UsersCollection.find()
   return res.json({user_data:data})
 })
+//Export
 module.exports = router;
