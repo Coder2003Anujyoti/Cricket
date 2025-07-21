@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 dotenv.config();
-const MONGO_URI="mongodb+srv://anujyotide:cr7FUgn1CxHAHUxo@benapi.x6nes.mongodb.net/Gaming?retryWrites=true&w=majority"
+const  MONGO_URI = process.env.MONGO_URI;
 const connectDB = async () => {
   try {
     await mongoose.connect(MONGO_URI, {

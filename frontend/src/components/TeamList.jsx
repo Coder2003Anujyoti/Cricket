@@ -65,6 +65,9 @@ const get_data=async()=>{
 {/* //& Navbar for mobile */}
   <div className="w-full bg-slate-800 flex p-1 md:hidden ">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} />
+  <div className="w-full bg-slate-800 flex p-1  justify-end items-center md:hidden ">
+  <HashLink smooth to="/login"><img className="w-12 h-12" src={`Icons/cricket.webp`} /></HashLink>
+  </div>
 </div>
 {/* //* Navbar for big screens */}
    <nav className="bg-slate-800 hidden md:block text-white backdrop-blur-md shadow-md">
@@ -76,6 +79,9 @@ const get_data=async()=>{
         className="w-20 h-16 md:w-32 md:h-20 lg:w-36 lg:h-24 object-contain"
       />
     </div>
+    <div className="w-full bg-slate-800 flex p-1  justify-end items-center ">
+  <HashLink smooth to="/login"><img className="w-16 h-16" src={`Icons/cricket.webp`} /></HashLink>
+  </div>
   </div>
 </nav>
 {/* //& About section for mobile */}

@@ -7,10 +7,8 @@ const app = express();
 const router = express.Router();
 const bodyParser=require('body-parser');
 const mongoose = require('mongoose');
-const  connectDB = require('../db/config.js');
 const { GFGCollection, Collection, ResultCollection }= require('../schemas/index.js');
    const addDataToMongodb = async() => {
-     await connectDB();
     await GFGCollection.deleteMany();
     await GFGCollection.insertMany(data);
    await Collection.deleteMany();
@@ -18,7 +16,7 @@ const { GFGCollection, Collection, ResultCollection }= require('../schemas/index
    await ResultCollection.deleteMany();
     await ResultCollection.insertMany(result);
 }
-addDataToMongodb();
+//addDataToMongodb();
 router.get('/',async(req,res)=>{
   try{
     const data=await GFGCollection.find();

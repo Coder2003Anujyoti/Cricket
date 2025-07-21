@@ -26,9 +26,16 @@ import Iplteam from "./road/Iplteam.jsx";
 import Iplfixtures from "./road/Iplfixtures.jsx";
 import Iplplayerstats from "./road/Iplplayerstats.jsx";
 import Warning from "./Warning.jsx";
-
+import HomeRoutes from "./HomeRoutes.jsx"
+import { AuthProvider  } from './protector/useAuth.jsx'
+import Protected from './protector/Protected.jsx'
 const App = () => {
   const [blocked, setBlocked] = useState(false);
+    useEffect(()=>{
+    sessionStorage.removeItem("token")
+    sessionStorage.removeItem("username")
+    sessionStorage.removeItem("role")
+    },[])
 
   useEffect(() => {
     const handleResize = () => {
@@ -65,6 +72,8 @@ const App = () => {
   }
 
   return (
+    <>
+     <AuthProvider>
     <Router>
       <Routes>
         <Route path="/" element={<TeamList />} />
@@ -92,7 +101,10 @@ const App = () => {
         <Route path="/iplfixtures" element={<Warning><Iplfixtures /></Warning>} />
         <Route path="/iplplayerstats" element={<Warning><Iplplayerstats /></Warning>} />
       </Routes>
+      <HomeRoutes />
     </Router>
+    </AuthProvider>
+    </>
   );
 };
 
