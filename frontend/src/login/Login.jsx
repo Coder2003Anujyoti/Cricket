@@ -8,6 +8,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [lock,setLock]=useState(false)
   const { login } = useAutho();
   const navigate = useNavigate();
    useEffect(()=>{
@@ -15,14 +16,15 @@ export default function Login() {
   sessionStorage.removeItem("username")
   sessionStorage.removeItem("role")
   },[])
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+  const handSubmit = async () => {
+   
 
     let valid = true;
 
     if (username.trim()=="" || password.trim()=="") {
       toast.error("Invalid input");
       valid = false;
+      
     }
 
     if (!valid) return;
@@ -56,21 +58,26 @@ export default function Login() {
       if(!response.ok){
         if(mode == "signup"){
            toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>User is already registered</strong>);
+          
         }
         else if(mode == "login"){
           console.log(data)
            toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>User need to register first</strong>);
+          
         }
         else{
           toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>User is not found</strong>);
+          
         }
       }
         else if(response.ok){
       if(mode == "signup"){
            toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>User register successfully</strong>);
+           
         }
         else if(mode=="forgot"){
           toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Password changed successfully</strong>);
+          
         }
       }
       //console.log('Form submitted:', { username, password });
@@ -87,10 +94,19 @@ export default function Login() {
       console.log(err)
    toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
     }
+    finally {
+    setLock(false); // Re-enable submit button
+  }
     }
    
   };
-
+const handleSubmit = (e) => {
+  e.preventDefault(); 
+  if (!lock) {
+    setLock(true);
+    handSubmit();
+  }
+};
   return (
     <div className="fixed inset-0 flex items-center justify-center">
       <Toaster position="top-center" toastOptions={{
@@ -136,7 +152,7 @@ export default function Login() {
             </button>
           </div>
 
-          <button type="submit" className="w-full py-2 mb-2 md:bg-indigo-500 md:text-white font-bold text-white bg-gray-900 rounded-md md:hover:bg-indigo-600 transition">
+          <button type="submit" disabled={lock} className="w-full py-2 mb-2 md:bg-indigo-500 md:text-white font-bold text-white bg-gray-900 rounded-md md:hover:bg-indigo-600 transition">
             {mode === 'login' ? 'Login' : mode === 'signup' ? 'Sign Up' : 'Reset Password'}
           </button>
         </form>
