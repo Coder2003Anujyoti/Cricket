@@ -44,7 +44,7 @@ router.post("/login",async(req,res)=>{
   if (!user) return res.status(400).json({ error: 'User not found' });
   const isMatch = await bcrypt.compare(password, user.hasheduserpassword);
   if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
-  const token = jwt.sign({ username: user.username, role: user.role }, process.env.JWT_SECRET);
+  const token = jwt.sign({ username: user.username, role: user.role }, process.env.JWT_SECRET,{ expiresIn: '1h' } );
   res.json({ token, username: user.username, role: user.role });
 });
 router.post('/forget',async(req,res)=>{
