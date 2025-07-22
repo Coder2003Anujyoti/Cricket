@@ -1,4 +1,5 @@
 import React,{useState,useEffect} from "react";
+import { toast, Toaster } from 'react-hot-toast';
 import { useSearchParams } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -26,6 +27,7 @@ const [player,setPlayer]=useState([])
 const [isOpen, setIsOpen] = useState(false);
 const [loading,setLoading]=useState(true)
 const [len,setLen]=useState(0)
+const [hide,setHide]=useState(false)
 const [searchParams] = useSearchParams();
 const pquery = searchParams.get("player");
   const cquery= searchParams.get("computer")
@@ -48,13 +50,22 @@ const pquery = searchParams.get("player");
     const mal=datares.user_data.filter((i)=>i.username==username)
     const val=mal[0].participation.filter((i)=>i.id===id)
     const c=data.data.filter((i)=>i.team==cquery || i.team==pquery)
-    if(!data.error){
+    if(!data.error && val.length==0){
      setTimeout(()=>{
       setLoading(false)
       setTeam(c)
       setLen(val.length)
     },2000)
     }
+   // alert(mal[0].selected.length)
+    else if(!data.error && val.length==1){
+      setTimeout(()=>{
+      setLoading(false)
+      setPlayer(val[0].selected)
+      setLen(val.length)
+    },2000)
+    }
+    
   }
   catch(err){
     console.log("It is an error-: ",err)
@@ -85,10 +96,13 @@ const pquery = searchParams.get("player");
 })
 const data=await response.json();
 if(!response.ok){
+toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
   setLocked(false)
 }
 else if(response.ok){
+toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Players register successfully</strong>);
   setLocked(false)
+  setHide(true)
 }
   }
   const submit=()=>{
@@ -99,6 +113,9 @@ else if(response.ok){
   }
   return (
  <>
+ <Toaster position="top-center" toastOptions={{
+          className: 'font-bold', // Tailwind class applied to all toasts
+        }}/>
       {loading == true && <>
      <div className="w-full flex flex-col items-center justify-center py-40 md:py-48">
     <img src="Logos/Logo.webp" className="w-30 h-24 md:w-60 md:h-32" />
@@ -176,9 +193,11 @@ else if(response.ok){
     </div>
   ))}
 </div>
+{ hide==false && len==0 &&
 <div className="w-full my-4 flex justify-center">
 <button disabled={locked} onClick={submit} className="bg-slate-800 px-6 py-2 text-white font-bold rounded-md">Save</button>
 </div>
+}
   </>
 }
     </>
