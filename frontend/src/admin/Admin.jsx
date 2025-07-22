@@ -1,5 +1,15 @@
 import React,{useState,useEffect} from 'react'
 import { FaArrowUp } from "react-icons/fa";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faMagnifyingGlass,
+  faSignOutAlt,
+  faBars,
+  faTimes,
+  faUserShield,
+  faHouse,
+  faTrophy
+} from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
 const get_data=()=>{
@@ -63,9 +73,43 @@ const Admin = () => {
   </>}
   {loading==false && <>
   {/* //& Navbar for mobile */}
-    <div className="w-full bg-slate-800 flex p-1 md:hidden ">
-    <img className="w-28 h-16" src={`Logos/Logo.webp`} />
-  </div>
+    <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
+  <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
+  
+  <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
+    <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="w-8 h-8" />
+  </button>
+
+  {/* Mobile Nav Links - Dropdown */}
+  {isOpen && (
+    <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
+      <div className="flex flex-col space-y-4">
+        <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
+          <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-blue-500" />
+          <span>Home</span>
+        </Link>
+
+        {role === "admin" && (
+          <Link to="/create" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+            <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />
+            <span>Admin</span>
+          </Link>
+        )}
+
+        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-600">
+          <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
+          <span>User</span>
+        </Link>
+
+        <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
+          <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
+          <span>Sign Out</span>
+        </Link>
+      </div>
+    </div>
+  )}
+</div>
+
   {/* //* Navbar for big screens */}
      <nav className="bg-slate-800 hidden md:block text-white backdrop-blur-md shadow-md">
     <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
@@ -75,6 +119,23 @@ const Admin = () => {
           alt="Logo"
           className="w-20 h-16 md:w-32 md:h-20 lg:w-36 lg:h-24 object-contain"
         />
+      </div>
+       <div className="hidden md:flex items-center gap-4 space-x-6">
+      <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
+      <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-blue-500" />
+      <span>Home</span>
+      </Link>
+      {role=="admin" && <>
+      <Link to="/create"  className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500"
+      >
+        <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />
+        <span>Admin</span>
+      </Link>
+      </>}
+      <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
+      <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
+      <span>Sign Out</span>
+      </Link>
       </div>
     </div>
   </nav>
@@ -113,6 +174,13 @@ const Admin = () => {
     </tbody>
   </table>
 </div>
+<button
+  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+  className="fixed bottom-6 right-3 md:right-6 bg-slate-700 text-white p-3 rounded-full shadow-lg md:hover:bg-sky-500 transition"
+  aria-label="Scroll to top"
+>
+<FaArrowUp />
+</button>
   </>}
   </>
   )
