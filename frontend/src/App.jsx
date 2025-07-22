@@ -101,7 +101,7 @@ const App = () => {
         <Route path="/iplfixtures" element={<Warning><Iplfixtures /></Warning>} />
         <Route path="/iplplayerstats" element={<Warning><Iplplayerstats /></Warning>} />
       </Routes>
-      <HomeRoutes />
+     <HomeRoutes />
     </Router>
     </AuthProvider>
     </>

@@ -84,7 +84,12 @@ export default function Login() {
     if (mode === "login" && response.ok) {
   login({ username: data.username });
   toast.dismiss()
-    navigate('/admin', { replace: true });
+  if(data.role=="admin"){
+  navigate('/admin', { replace: true })
+  }
+  else{
+    navigate('/useruser', { replace: true })
+  }
   sessionStorage.setItem("token",data.token)
   sessionStorage.setItem("username",JSON.stringify(data.username))
   sessionStorage.setItem("role",JSON.stringify(data.role))

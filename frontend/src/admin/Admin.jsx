@@ -96,7 +96,7 @@ const Admin = () => {
           </Link>
         )}
 
-        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-600">
+        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
           <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
           <span>User</span>
         </Link>
@@ -174,13 +174,7 @@ const Admin = () => {
     </tbody>
   </table>
 </div>
-<button
-  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-  className="fixed bottom-6 right-3 md:right-6 bg-slate-700 text-white p-3 rounded-full shadow-lg md:hover:bg-sky-500 transition"
-  aria-label="Scroll to top"
->
-<FaArrowUp />
-</button>
+
   </>}
   </>
   )

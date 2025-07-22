@@ -61,5 +61,22 @@ router.get('/users',authenticateToken, authorizeRoles("admin"),async(req,res)=>{
   const data=await UsersCollection.find()
   return res.json({user_data:data})
 })
+router.get('/allusers',async(req,res)=>{
+  const data=await UsersCollection.find()
+  return res.json({user_data:data})
+})
+router.post('/addParticipation', async (req, res) => {
+  const { username, participationEntry } = req.body;
+  try {
+    const user = await UsersCollection.findOne({ username });
+    if (!user) return res.status(404).json({ message: "User not found" });
+    user.participation.push(participationEntry);
+    await user.save();
+    res.status(200).json({ message: "Participation added", user });
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+
 //Export
 module.exports = router;

@@ -124,7 +124,7 @@ const Create = () => {
           </Link>
         )}
 
-        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-600">
+        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
           <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
           <span>Users</span>
         </Link>
