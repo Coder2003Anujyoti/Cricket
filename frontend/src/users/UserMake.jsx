@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from "react";
+import { useNavigate } from "react-router-dom";
+import { MdWarningAmber } from "react-icons/md";
 import { toast, Toaster } from 'react-hot-toast';
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams,useLocation } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaBroadcastTower } from "react-icons/fa"; // FontAwesome
@@ -15,6 +17,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
+import {io} from "socket.io-client";
+let socket;
 const get_name=()=>{
   return JSON.parse(sessionStorage.getItem("username"))
 }
@@ -28,10 +32,31 @@ const [isOpen, setIsOpen] = useState(false);
 const [loading,setLoading]=useState(true)
 const [len,setLen]=useState(0)
 const [hide,setHide]=useState(false)
+const [show,setShow]=useState(true)
+const [store,setStore]=useState("")
 const [searchParams] = useSearchParams();
 const pquery = searchParams.get("player");
   const cquery= searchParams.get("computer")
   const id= searchParams.get("id")
+  const navigate = useNavigate();
+  const location = useLocation();
+  useEffect(() => {
+    toast.dismiss(); // dismiss all toasts on route change
+  }, [location]);
+  useEffect(() => {
+  socket = io('http://localhost:8000/');
+  socket.on("gamestart",(msg)=>{
+    if(msg.id==id){
+    navigate(-1)
+    setShow(false)
+    }
+    else
+    setShow(true)
+  })
+  return ()=>{
+    socket.off("gamestart")
+  }
+  },[])
  const adds=(i)=>{
    setSelect([...select,i.name])
    setPlayer([...player,i])
@@ -134,7 +159,7 @@ toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Players register success
     </div>
   </>}
   {
-    loading==false && <>
+    loading==false && show==true && <>
         <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
     <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
@@ -202,6 +227,21 @@ toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Players register success
 }
     </>
   }
+{
+  loading==false && show==false && <>
+    <div className="flex justify-center items-center my-40 px-4">
+      <div className="bg-white shadow-2xl rounded-2xl p-8 max-w-md w-full text-center border border-yellow-400">
+        <MdWarningAmber className="text-6xl text-yellow-500 mx-auto mb-4" />
+        <h2 className="text-2xl font-bold text-gray-800 mb-2">
+          Access Restricted
+        </h2>
+        <p className="text-gray-600">
+          <span className="font-semibold text-sky-600">Game is Live</span>.
+        </p>
+      </div>
+    </div>
+  </>
+}
  </>
   );
 };

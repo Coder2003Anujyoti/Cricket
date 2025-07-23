@@ -13,6 +13,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
+import {io} from "socket.io-client";
+let socket;
 const get_data=()=>{
   return sessionStorage.getItem("token")
 }
@@ -30,6 +32,16 @@ tomorrow.setDate(today.getDate() + 1);
   const [isOpen, setIsOpen] = useState(false);
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
+  const [show,setShow]=useState("")
+  const [start,setStart]=useState(false)
+  const [message,setMessage]=useState("")
+const [playerrun, setPlayerRun] = useState(0);
+const [computerrun, setComputerRun] = useState(0);
+const [playerwicket, setPlayerWicket] = useState(0);
+const [computerwicket, setComputerWicket] = useState(0);
+const [target,setTarget]=useState(0)
+const [overs, setOvers] = useState("");
+const [winner,setWinner]=useState("")
   const show_data=async()=>{
     try{
      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/gettournaments");
@@ -52,6 +64,66 @@ tomorrow.setDate(today.getDate() + 1);
       behavior: 'smooth',
     });
   },[token])
+  useEffect(() => {
+  socket = io('http://localhost:8000/');
+  socket.on("gamestart",(msg)=>{
+    setShow(msg.id)
+    setStart(msg.start)
+  })
+  socket.on("gamebeforetoss",(msg)=>{
+    setShow(msg.id)
+    setMessage(msg.msg)
+  })
+  socket.on("gameplay",(msg)=>{
+    setShow(msg.id)
+    setPlayerRun(msg.playerrun)
+    setPlayerWicket(msg.playerwicket)
+    setComputerRun(msg.computerrun)
+    setComputerWicket(msg.computerwicket)
+    setOvers(msg.overs)
+  })
+  socket.on("gameaddtarget",(msg)=>{
+    setShow(msg.id)
+    setPlayerRun(msg.playerrun)
+    setPlayerWicket(msg.playerwicket)
+    setComputerRun(msg.computerrun)
+    setComputerWicket(msg.computerwicket)
+    setOvers(msg.overs)
+    setTarget(msg.target)
+  })
+  socket.on("gameplaycomputer",(msg)=>{
+    setShow(msg.id)
+    setComputerRun(msg.computerrun)
+    setComputerWicket(msg.computerwicket)
+    setOvers(msg.overs)
+  })
+  socket.on("gameresult",(msg)=>{
+    setShow(msg.id)
+    setComputerRun(msg.computerrun)
+    setComputerWicket(msg.computerwicket)
+    setOvers(msg.overs)
+    setWinner(msg.winner)
+    setMessage(msg.msg)
+    setTarget(msg.target)
+    setStart(msg.start)
+  })
+  socket.on("gamecresult",(msg)=>{
+    setShow(msg.id)
+    setPlayerRun(msg.playerrun)
+    setPlayerWicket(msg.playerwicket)
+    setOvers(msg.overs)
+    setWinner(msg.winner)
+    setMessage(msg.msg)
+    setTarget(msg.target)
+    setStart(msg.start)
+  })
+  socket.on("gameplayplayer",(msg)=>{
+    setShow(msg.id)
+    setPlayerRun(msg.playerrun)
+    setPlayerWicket(msg.playerwicket)
+    setOvers(msg.overs)
+  })
+  },[])
   return (
   <>
     {loading == true && <>
@@ -92,7 +164,7 @@ tomorrow.setDate(today.getDate() + 1);
   )}
 </div>
 <div className="w-full flex items-center">
-<img src="Screen/2024.webp" />
+<img src="Screen/Main.webp" />
 </div>
 <div className="w-full  flex flex-col justify-center md:hidden">
   <div id='adminabout' className="w-full py-2 flex-col flex justify-center border-b border-b-slate-600
@@ -122,13 +194,13 @@ This version focuses purely on the display of player names, ideal for an app whe
     </HashLink>
     </div>
     </div>
-  
+  { items.length > 0 && <>
      <h1 className="text-green-400 text-lg font-bold shadow-green-400">Ongoing Tournaments</h1>
     <div className="overflow-x-auto scroll-smooth px-3 py-4">
   <div className="flex gap-4">
     {items.sort((a,b)=>b.hasStarted-a.hasStarted).map((t, idx) => (
   <div key={idx} className="min-w-[300px] max-w-[300px] bg-slate-800 text-white p-5 rounded-xl shadow-lg flex-shrink-0">
-{ t.hasStarted==true  && <>
+{ ((show==t.matchID && start==true)|| t.hasStarted==true) &&  <>
   <span className="text-red-600 text-xl"><FaBroadcastTower /></span>
   <p className="text-white font-bold">Live</p>
   </>}
@@ -136,8 +208,13 @@ This version focuses purely on the display of player names, ideal for an app whe
 <div className="flex flex-col items-center">
 <img src={`Logos/${t.playerteam}.webp`} alt={t.playerteam} className="w-24 h-24"/>
 <p className=" text-base font-bold">{t.playerteam.toUpperCase()}</p>
-{ ((t.playerrun>=0 || t.playerwicket>=0) && t.message=="Player Scored") &&
-<p className="text-base font-bold">{t.playerrun+"/"+t.playerwicket}</p>}
+{((playerrun > 0 && t.matchID === show) || t.playerrun > 0) && 
+<>
+  <p className="text-base font-bold">
+    {t.playerrun > 0 ? `${t.playerrun}/${t.playerwicket}` : `${playerrun}/${playerwicket}`}
+  </p>
+  </>
+}
 </div>
   <div className="text-center">
  <h2 className="text-base font-extrabold">V/S</h2>
@@ -145,16 +222,23 @@ This version focuses purely on the display of player names, ideal for an app whe
 <div className="flex flex-col items-center">
 <img src={`Logos/${t.computerteam}.webp`} alt={t.computerteam} className="w-24 h-24"/>
 <p className="text-base font-bold">{t.computerteam.toUpperCase()}</p>
-{ ((t.computerrun>=0 || t.computerwicket>=0) && t.message=="Computer Scored") &&
-<p className="text-base font-bold">{t.computerrun+"/"+t.computerwicket}</p>}
+{((computerrun > 0 && t.matchID === show) || t.computerrun > 0) && 
+<>
+  <p className="text-base font-bold">
+    {t.computerrun > 0 ? `${t.computerrun}/${t.computerwicket}` : `${computerrun}/${computerwicket}`}
+  </p>
+  </>
+}
 </div></div>
 <div className="flex justify-center items-center flex-col gap-4">
 <div className="text-center flex flex-col gap-1">
-{ t.message.includes("toss") &&
-<h2 className="text-base font-bold">Toss-: {t.message}</h2>}
-{ (t.message=="Player scored" || t.message=="Computer scored") && <h2 className="text-base font-bold">Overs-: {t.overs}</h2>}
-{ (t.message=="Target") && <h2 className="text-base font-bold">Target-: {t.target}</h2>}
-{ t.winner!="" && <h2 className="text-base font-bold">Winner-: {t.winner}</h2>}
+{ ((show==t.matchID && message!="") || t.message!="") && 
+<h2 className="text-base my-2 font-bold">{t.message=="" ? message : t.message}</h2>}
+{(((overs !== "" && show === t.matchID) || t.overs !== "") && (
+  <h2 className="text-base font-bold">Overs: {t.overs !== "" ? t.overs : overs}</h2>
+))}
+{ ((target!=0 && show==t.matchID) || t.target!=0 ) &&  <h2 className="text-base font-bold">Target-: {t.target!=0 ? t.target : target}</h2>}
+{ ((winner!="" && show==t.matchID) || t.winner!="")  && <h2 className="text-base font-bold">{t.winner!="" ? t.winner : winner}</h2>}
 </div>
 <div className="text-center flex flex-col">
 <h2 className="text-base font-bold">{t.name}</h2>
@@ -162,17 +246,19 @@ This version focuses purely on the display of player names, ideal for an app whe
 </div>
 </div>
 <div className="flex justify-center gap-3 mt-4">
-{ t.hasStarted==false && 
+{ show!=t.matchID && t.hasStarted==false && t.winner==""  && 
 <HashLink smooth to={`/usermake?player=${t.playerteam}&&computer=${t.computerteam}&&id=${t.matchID}`}>
 <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Make Team</button>
   </HashLink>
 }
-{ t.winner!="" && <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Score</button>}
+{ ((show==t.matchID && winner!="") || t.winner!='') && <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Score</button>}
         </div>
       </div>
     ))}
   </div>
 </div>
+</>
+}
 </div>
   <div id="admingallery" className="w-full py-2 my-4 flex-col flex justify-center  items-center text-center md:hidden p-2 gap-2">
     <h3 className="text-lg text-slate-400 font-bold">Gallery</h3>

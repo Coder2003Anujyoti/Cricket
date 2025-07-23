@@ -3,6 +3,8 @@ import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import PlayerFirst from './PlayerFirst.jsx';
 import ComputerFirst from './ComputerFirst.jsx';
+import {io} from "socket.io-client";
+let socket;
 const AdminPlay = () => {
 const [searchParams] = useSearchParams();
 const [loading,setLoading]=useState(true)
@@ -18,6 +20,11 @@ const [choose,setChoose]=useState(false)
 const [selectteam,setSelectteam]=useState([])
   const pquery = searchParams.get("player");
   const cquery= searchParams.get("computer")
+  const matchID=searchParams.get("id")
+  useEffect(() => {
+  socket = io('http://localhost:8000/');
+  socket.emit("start",{id:matchID,started:true})
+  },[])
   const add_Players=(i)=>{
       window.scrollTo({ top: 0, behavior: "smooth" });
     setPlayers([...players,i]);
@@ -107,7 +114,9 @@ const [selectteam,setSelectteam]=useState([])
  </div>
  </div>
   <div className="w-full flex justify-center items-center">
-  <button onClick={()=>setChoose(true)} className="text-sm text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Start Playing</button>
+  <button onClick={()=>{
+  socket.emit("beforetoss",{id:matchID,started:true,msg:"Toss"})
+  setChoose(true)}} className="text-sm text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Start Playing</button>
   </div>
  </div>
  </>
@@ -210,8 +219,10 @@ const [selectteam,setSelectteam]=useState([])
       </h1></div>
     <div className="w-full flex justify-center items-center">
       <button className="p-4 font-extrabold text-slate-400 rounded-lg bg-slate-800" onClick={()=>{
+      socket.emit("beforetoss",{id:matchID,started:true,msg:`${cquery.toUpperCase()} elected to bat first`})
       window.scrollTo({ top: 0, behavior: "smooth" });
-      setComputerfirst(true)}}>Submit</button>
+      setComputerfirst(true)
+      }}>Submit</button>
     </div>
     </>
   }
@@ -222,8 +233,10 @@ const [selectteam,setSelectteam]=useState([])
       </h1></div>
     <div className="w-full flex justify-center items-center">
       <button className="p-4 font-extrabold text-slate-400 rounded-lg bg-slate-800" onClick={()=>{
+      socket.emit("beforetoss",{id:matchID,started:true,msg:`${cquery.toUpperCase()} elected to bowl first`})
       window.scrollTo({ top: 0, behavior: "smooth" });
-      setPlayerfirst(true)}}>Submit</button>
+      setPlayerfirst(true)
+      }}>Submit</button>
     </div>
     </>
   }
@@ -234,9 +247,11 @@ const [selectteam,setSelectteam]=useState([])
       </h1></div>
       <div className="w-full flex justify-center items-center flex-row gap-28">
   <div className="text-center p-4 rounded-lg bg-slate-800" onClick={()=>{
+  socket.emit("beforetoss",{id:matchID,started:true,msg:`${pquery.toUpperCase()} elected to bat first`})
   window.scrollTo({ top: 0, behavior: "smooth" });
   setPlayerfirst(true)}}> <img className="w-16 h-16" src="Icons/Batsman.png" /></div>
   <div className="text-center p-4 rounded-lg bg-slate-800" onClick={()=>{
+  socket.emit("beforetoss",{id:matchID,started:true,msg:`${pquery.toUpperCase()} elected to bowl first`})
   window.scrollTo({ top: 0, behavior: "smooth" });
   setComputerfirst(true)}}> <img className="w-16 h-16" src="Icons/Bowler.png" /></div>
       </div>
@@ -245,10 +260,10 @@ const [selectteam,setSelectteam]=useState([])
 </>
 }
 {
-  playerfirst===true && <PlayerFirst players={players} oppositionplayers={computerteam.slice(0,10)} />
+  playerfirst===true && <PlayerFirst matchid={matchID} players={players} oppositionplayers={computerteam.slice(0,10)} />
 }
 {
-  computerfirst===true && <ComputerFirst players={players} oppositionplayers={computerteam.slice(0,10)} />
+  computerfirst===true && <ComputerFirst matchid={matchID} players={players} oppositionplayers={computerteam.slice(0,10)} />
 }
   </>
   }

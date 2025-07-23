@@ -11,7 +11,7 @@ import {
   faTrophy
 } from '@fortawesome/free-solid-svg-icons';
 import { toast, Toaster } from 'react-hot-toast';
-import { Link } from "react-router-dom";
+import { Link,useLocation } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
 const get_data=()=>{
   return sessionStorage.getItem("token")
@@ -44,6 +44,11 @@ const Create = () => {
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [computerDropdownOpen, setComputerDropdownOpen] = useState(false);
    const [lock,setLock]=useState(false)
+   const location = useLocation();
+
+  useEffect(() => {
+    toast.dismiss(); 
+  }, [location]);
    const handSubmit = async() => {
     if (tournamentName && matchID && userTeam && computerTeam) {
       //alert(`Tournament: ${tournamentName}\nMatch ID: ${matchID}\nUser Team: ${userTeam.name}\nComputer Team: ${computerTeam.name}`);
@@ -64,7 +69,7 @@ const Create = () => {
     const data=await response.json();
     console.log(data)
     if(!response.ok){
-        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Server is busy</strong>);
+        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
     }
     else if(response.ok){
       toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Tournament register successfully</strong>);
@@ -90,6 +95,7 @@ const Create = () => {
     handSubmit();
   }
 };
+
 
   const filteredComputerTeams = userTeam
     ? teams.filter((team) => team.name !== userTeam.name)

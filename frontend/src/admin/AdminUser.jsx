@@ -139,7 +139,8 @@ This version focuses purely on the display of player names, ideal for an app whe
     </HashLink>
     </div>
     </div>
-     <h1 className="text-green-400 text-lg font-bold shadow-green-400">Tournaments</h1>
+  { items.length>0 && <>
+     <h1 className="text-green-400 text-lg font-bold shadow-green-400">Ongoing Tournaments</h1>
     <div className="overflow-x-auto scroll-smooth px-3 py-4">
   <div className="flex gap-4">
     {items.map((t, idx) => (
@@ -154,13 +155,13 @@ This version focuses purely on the display of player names, ideal for an app whe
 <div className="flex flex-col items-center">
 <img src={`Logos/${t.computerteam}.webp`} alt={t.computerteam} className="w-24 h-24"/>
 <p className="text-base font-bold">{t.computerteam.toUpperCase()}</p></div></div>
-<div className="text-center fkex flex-col gap-2">
+<div className="text-center flex flex-col gap-2">
 <h2 className="text-base font-bold">{t.name}</h2>
 <h2 className="text-xs font-semibold">{tomorrow.toDateString()}</h2>
 </div>
 <div className="flex justify-center gap-3 mt-4">
 { t.winner=="" &&
-<HashLink smooth to={`/adminplay?player=${encodeURIComponent(t.playerteam)}&&computer=${encodeURIComponent(t.computerteam)}`}>
+<HashLink smooth to={`/adminplay?player=${encodeURIComponent(t.playerteam)}&&computer=${encodeURIComponent(t.computerteam)}&&id=${encodeURIComponent(t.matchID)}`}>
 <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md"> Play</button>
   </HashLink>
 }
@@ -170,6 +171,8 @@ This version focuses purely on the display of player names, ideal for an app whe
     ))}
   </div>
 </div>
+</>
+}
 </div>
   <div id="admingallery" className="w-full py-2 my-4 flex-col flex justify-center  items-center text-center md:hidden p-2 gap-2">
     <h3 className="text-lg text-slate-400 font-bold">Gallery</h3>

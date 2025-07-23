@@ -3,7 +3,9 @@ import Fire from './Fire';
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-const Winner = ({winner,yourteam,opposteam}) => {
+import {io} from "socket.io-client";
+let socket;
+const Winner = ({winner,yourteam,opposteam,matchid}) => {
   const [histruns,setHistruns]=useState({});
   const [histwickets,setHistwickets]=useState({});
   const [load,setLoad]=useState(true);
@@ -11,6 +13,10 @@ const Winner = ({winner,yourteam,opposteam}) => {
   const playerdata=yourteam;
 const computerdata= opposteam;
 const motm=array.sort((a,b)=>(b.runs+b.wickets)-(a.runs+a.wickets));
+useEffect(() => {
+  socket = io('http://localhost:8000/');
+  socket.emit("adddata",{id:matchid,players:motm})
+  },[])
 const playertotal=playerdata.reduce((total,i)=>{
   total+=(i.runs);
   return total;

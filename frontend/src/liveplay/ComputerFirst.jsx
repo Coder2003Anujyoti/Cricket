@@ -3,13 +3,14 @@ import { motion, AnimatePresence } from "framer-motion";
 import Winner from "./Winner.jsx"
 import { Line,Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, CategoryScale, LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-
+import {io} from "socket.io-client";
+let socket;
 // Register required Chart.js components
 ChartJS.register(CategoryScale,LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend,ArcElement);
 var bar=0;
 var cbar=0;
 var sbar=0;
-const ComputerFirst = ({players,oppositionplayers}) => {
+const ComputerFirst = ({matchid,players,oppositionplayers}) => {
   const [show,setShow]=useState(true);
   const [turn,setTurn]=useState("Computer");
   const [playeroption,setPlayeroption]=useState(0);
@@ -37,6 +38,9 @@ const ComputerFirst = ({players,oppositionplayers}) => {
   const [playerover,setPlayerover]=useState([])
   const [computerover,setComputerover]=useState([])
   const buttons=[1,2,3,4,5,6];
+  useEffect(() => {
+  socket = io('http://localhost:8000/');
+  },[])
   useEffect(()=>{
     const get_Player=players.map((i)=>{
       i.runs=0;
@@ -142,6 +146,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     }
     return {...item}
   })
+  socket.emit("cresult",{id:matchid,started:true,playerrun:runs+i,playerwicket:wickets,overs:"",winner:`${players[0].team.toUpperCase()} is winner`})
   setYourteam(b);
   setPlayerstats(up)
   setPlayerrun(playerrun+i)
@@ -161,6 +166,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     }
     return {...item}
   })
+  socket.emit("cresult",{id:matchid,started:true,playerrun:runs+i,playerwicket:wickets,overs:"",winner:"Draw"})
   setYourteam(b);
   setPlayerstats(up)
   setPlayerrun(playerrun+i)
@@ -180,6 +186,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     }
     return {...item}
   })
+  socket.emit("cresult",{id:matchid,started:true,playerrun:runs+i,playerwicket:wickets,overs:"",winner:`${oppositionplayers[0].team.toUpperCase()} is winner`})
   setYourteam(b);
   setPlayerstats(up)
   setPlayerrun(playerrun+i)
@@ -211,6 +218,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.runs+=playerrun;
     }
     return {...i}})
+    socket.emit("cresult",{id:matchid,started:true,playerrun:runs,playerwicket:wickets+1,overs:"",winner:"Draw"})
   setYourteam(a);
      setOpposteam(b);
   setPlayerstats(updated);
@@ -242,6 +250,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.runs+=playerrun;
     }
     return {...i}})
+    socket.emit("cresult",{id:matchid,started:true,playerrun:runs,playerwicket:wickets+1,overs:"",winner:`${oppositionplayers[0].team.toUpperCase()} is winner`})
   setYourteam(a);
      setOpposteam(b);
   setPlayerstats(updated);
@@ -265,6 +274,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     }
     return {...item}
   })
+  socket.emit("cresult",{id:matchid,started:true,playerrun:runs+i,playerwicket:wickets,overs:"",winner:`${players[0].team.toUpperCase()} is winner`})
   setYourteam(b);
   setPlayerstats(up)
   setPlayerrun(playerrun+i)
@@ -274,6 +284,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
      else{
    if(i!=value){
      if(overs%6!=5){
+     socket.emit("playplayer",{id:matchid,started:true,playerrun:runs+i,playerwicket:wickets,overs:`${number}.${overs+1}`})
      setPlayerrun(playerrun+i)
      setRuns(runs+i);
      setPlayeroption(i)
@@ -281,6 +292,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
      setOvers(overs+1);
      }
      if(overs%6==5){
+     socket.emit("playplayer",{id:matchid,started:true,playerrun:runs+i,playerwicket:wickets,overs:`${number+1}.0`})
        setIndex((index+1)%10);
               setPlayerrun(playerrun+i)
       setRuns(runs+i);
@@ -315,6 +327,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.runs+=playerrun;
     }
     return {...i}})
+    socket.emit("cresult",{id:matchid,started:true,playerrun:runs,playerwicket:wickets+1,overs:"",winner:"Draw"})
   setYourteam(a);
      setOpposteam(b);
   setPlayerstats(updated);
@@ -346,6 +359,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.runs+=playerrun;
     }
     return {...i}})
+    socket.emit("cresult",{id:matchid,started:true,playerrun:runs,playerwicket:wickets+1,overs:"",winner:`${oppositionplayers[0].team.toUpperCase()} is winner`})
   setYourteam(a);
      setOpposteam(b);
   setPlayerstats(updated);
@@ -379,6 +393,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.runs+=playerrun
     }
     return {...i}})
+    socket.emit("playplayer",{id:matchid,started:true,playerrun:runs,playerwicket:wickets+1,overs:`${number}.${overs+1}`})
     setYourteam(a);
      setOpposteam(b);
      setShow(true);
@@ -415,6 +430,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.runs+=playerrun
     }
     return {...i}})
+    socket.emit("playplayer",{id:matchid,started:true,playerrun:runs,playerwicket:wickets+1,overs:`${number+1}.0`})
     setYourteam(a);
      setOpposteam(b);
      setShow(true);
@@ -448,6 +464,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     item.runs+=(playerrun+value)
     }
     return {...item}})
+    socket.emit("addtarget",{id:matchid,started:true,playerrun:0,computerrun:runs+value,playerwicket:0,computerwicket:wickets,overs:"",target:runs+value+1})
     setOppositionstats(updated);
      setOpposteam(a);
     setTurn("Player");
@@ -488,6 +505,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.wickets+=1;
     }
     return {...i}})
+    socket.emit("addtarget",{id:matchid,started:true,playerrun:0,computerrun:runs,playerwicket:0,computerwicket:wickets+1,overs:"",target:runs+1})
     setPlayerstats(up);
      setOppositionstats(updated);
      setYourteam(a);
@@ -510,6 +528,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
      else{
           if(i!=value){
      if(overs%6!=5){
+     socket.emit("play",{id:matchid,started:true,playerrun:0,computerrun:runs+value,playerwicket:0,computerwicket:wickets,overs:`${number}.${overs+1}`})
      setPlayerrun(playerrun+value)
      setRuns(runs+value);
      setPlayeroption(i)
@@ -517,6 +536,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
      setOvers(overs+1);
      }
      if(overs%6==5){
+     socket.emit("play",{id:matchid,started:true,playerrun:0,computerrun:runs+value,playerwicket:0,computerwicket:wickets,overs:`${number+1}.0`})
        setShow(true);
       setPlayerrun(playerrun+value)
       setRuns(runs+value);
@@ -550,6 +570,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.wickets+=1
     }
     return {...i}})
+    socket.emit("addtarget",{id:matchid,started:true,playerrun:0,computerrun:runs,playerwicket:0,computerwicket:wickets+1,overs:"",target:runs+1})
     setPlayerstats(updated);
      setOppositionstats(up);
      setYourteam(a);
@@ -593,6 +614,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.wickets+=1;
     }
     return {...i}})
+    socket.emit("play",{id:matchid,started:true,playerrun:0,computerrun:runs,playerwicket:0,computerwicket:wickets+1,overs:`${number}.${overs+1}`})
   setYourteam(a);
      setOpposteam(b);
      setIndex(index+1)
@@ -629,6 +651,7 @@ const ComputerFirst = ({players,oppositionplayers}) => {
     i.wickets+=1;
     }
     return {...i}})
+    socket.emit("play",{id:matchid,started:true,playerrun:0,computerrun:runs,playerwicket:0,computerwicket:wickets+1,overs:`${number+1}.0`})
   setYourteam(a);
      setOpposteam(b);
      setShow(true);
@@ -1017,7 +1040,7 @@ return (<>
   </>}
   {
     winner!='' && <>
-      <Winner winner={winner} yourteam={yourteam} opposteam={opposteam} />
+      <Winner winner={winner} yourteam={yourteam} opposteam={opposteam} matchid={matchid}/>
                 <div className="my-4 text-center text-xs" style={{ width: "100%", height: "500px" }} >
      <h2 className="text-slate-400 text-xs font-bold mb-4 text-center">Scattering Analysis</h2>
       <Line data={histdata} options={options} />

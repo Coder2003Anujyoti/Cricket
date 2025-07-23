@@ -1,4 +1,7 @@
 const express = require('express');
+const http = require('http');
+const { Server } = require('socket.io');
+const setupSockets = require('./sockets/index');
 const bodyParser = require('body-parser');
 const iplRoutes = require('./files/ipl.js');
 const loginRoutes= require('./files/registration.js')
@@ -8,16 +11,21 @@ const app = express();
 const  connectDB = require('./db/config.js');
 const dotenv = require('dotenv');
 dotenv.config();
-app.use(cors({
-  origin:"*"
-}));
 connectDB();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true}));
 app.use(iplRoutes);
 app.use(loginRoutes);
 app.use(adminRoutes);
-const PORT = 8000;
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: '*'
+  },
+  pingInterval: 25000,  
+  pingTimeout: 15000
+});
+setupSockets(io);
+server.listen(8000, () => {
+  console.log('Server running on port 8000');
 });
