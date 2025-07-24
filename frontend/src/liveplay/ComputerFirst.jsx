@@ -39,7 +39,7 @@ const ComputerFirst = ({matchid,players,oppositionplayers}) => {
   const [computerover,setComputerover]=useState([])
   const buttons=[1,2,3,4,5,6];
   useEffect(() => {
-  socket = io('http://localhost:8000/');
+  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
   },[])
   useEffect(()=>{
     const get_Player=players.map((i)=>{

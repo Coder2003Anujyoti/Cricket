@@ -65,6 +65,11 @@ router.get('/allusers',async(req,res)=>{
   const data=await UsersCollection.find()
   return res.json({user_data:data})
 })
+router.get('/specificuser',async(req,res)=>{
+  const {id}=req.query;
+  const users=await UsersCollection.find({"participation.id":id})
+  return res.json(users)
+})
 router.post('/addParticipation', async (req, res) => {
   const { username, participationEntry } = req.body;
   try {

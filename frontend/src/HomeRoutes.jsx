@@ -6,6 +6,8 @@ import Create from "./admin/Create.jsx"
 import AdminUser from "./admin/AdminUser.jsx"
 import UserUser from "./users/UserUser.jsx"
 import AdminPlay from "./liveplay/AdminPlay.jsx"
+import OnlineScore from "./score/OnlineScore.jsx"
+import LeaderBoard from "./score/LeaderBoard.jsx"
 import Protected from './protector/Protected.jsx'
 import UserMake from "./users/UserMake.jsx"
 import Warning from "./Warning.jsx";
@@ -19,6 +21,8 @@ const HomeRoutes = () => {
     <Route path="/useruser" element={<Warning><Protected><UserUser /></Protected></Warning>} />
    <Route path="/adminplay" element={<Warning><Protected><AdminPlay /></Protected></Warning>} />
       <Route path="/usermake" element={<Warning><Protected><UserMake /></Protected></Warning>} />
+   <Route path="/onlinescore" element={<Warning><Protected><OnlineScore /></Protected></Warning>} />
+      <Route path="/leaderboard" element={<Warning><Protected><LeaderBoard/></Protected></Warning>} />
     </Routes>
   )
 }

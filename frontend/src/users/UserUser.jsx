@@ -65,7 +65,23 @@ const [winner,setWinner]=useState("")
     });
   },[token])
   useEffect(() => {
-  socket = io('http://localhost:8000/');
+  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
+  const startedMatch = items.find((i) => i.hasStarted === true);
+if (startedMatch) {
+  socket.emit("late", { id: startedMatch.matchID });
+}
+ socket.on("storelate",(msg)=>{
+   setShow(msg.id)
+   setStart(msg.start)
+   setMessage(msg.msg)
+   setPlayerRun(msg.playerrun)
+    setPlayerWicket(msg.playerwicket)
+    setComputerRun(msg.computerrun)
+    setComputerWicket(msg.computerwicket)
+    setOvers(msg.overs)
+    setTarget(msg.target)
+    setWinner(msg.winner)
+ })
   socket.on("gamestart",(msg)=>{
     setShow(msg.id)
     setStart(msg.start)
@@ -251,7 +267,16 @@ This version focuses purely on the display of player names, ideal for an app whe
 <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Make Team</button>
   </HashLink>
 }
-{ ((show==t.matchID && winner!="") || t.winner!='') && <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Score</button>}
+{ ((show==t.matchID && winner!="") || t.winner!='') && 
+<HashLink smooth to={`/onlinescore?id=${t.matchID}`}>
+<button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Score</button>
+  </HashLink>
+}
+{ ((show==t.matchID && winner!="") || t.winner!='') &&
+<HashLink smooth to={`/leaderboard?id=${t.matchID}`}>
+<button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Leaderboard</button>
+  </HashLink>
+}
         </div>
       </div>
     ))}

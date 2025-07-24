@@ -14,7 +14,7 @@ const Winner = ({winner,yourteam,opposteam,matchid}) => {
 const computerdata= opposteam;
 const motm=array.sort((a,b)=>(b.runs+b.wickets)-(a.runs+a.wickets));
 useEffect(() => {
-  socket = io('http://localhost:8000/');
+  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
   socket.emit("adddata",{id:matchid,players:motm})
   },[])
 const playertotal=playerdata.reduce((total,i)=>{

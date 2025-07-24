@@ -22,7 +22,7 @@ const [selectteam,setSelectteam]=useState([])
   const cquery= searchParams.get("computer")
   const matchID=searchParams.get("id")
   useEffect(() => {
-  socket = io('http://localhost:8000/');
+  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
   socket.emit("start",{id:matchID,started:true})
   },[])
   const add_Players=(i)=>{
@@ -31,7 +31,7 @@ const [selectteam,setSelectteam]=useState([])
     setId([...id,i.name]);
   }
   const get_Toss=()=>{
-   let options=Math.floor(Math.random()*2);
+ let options=Math.floor(Math.random()*2);
     if(options==0){
       let computer_options=Math.floor(Math.random()*2);
       if(computer_options===0){

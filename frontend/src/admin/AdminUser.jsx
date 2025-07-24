@@ -165,7 +165,16 @@ This version focuses purely on the display of player names, ideal for an app whe
 <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md"> Play</button>
   </HashLink>
 }
-{ t.winner!="" && <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Score</button>}
+{ t.winner!="" &&
+<HashLink smooth to={`/onlinescore?id=${t.matchID}`}>
+<button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Score</button>
+  </HashLink>
+}
+  { t.winner!="" &&
+  <HashLink smooth to={`/leaderboard?id=${t.matchID}`}>
+  <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Leaderboard</button>
+    </HashLink>
+  }    
         </div>
       </div>
     ))}

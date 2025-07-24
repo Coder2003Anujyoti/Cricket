@@ -1,13 +1,29 @@
 const TournamentsCollection = require('../schemas/tournaments');
 const UsersCollection=require('../schemas/users');
 const adminSockets = new Map();
+let store={}
 module.exports = (io, socket) => {
+  socket.on("late",({id})=>{
+      io.emit("storelate",store[id])
+  })
 socket.on("start", async ({ id, started }) => {
 try { const tour = await TournamentsCollection.findOne({ matchID: id });
 if (!tour) return console.log("Tournament not found for matchID:", id);
 adminSockets.set(id, socket.id); 
 tour.hasStarted = started;
  await tour.save();
+ store[id]={
+   id:id,
+   start:true,
+   playerrun:0,
+   computerrun:0,
+   playerwicket:0,
+   computerwicket:0,
+   overs:"",
+   target:0,
+   winner:"",
+   msg:""
+ }
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gamestart", {
         id: tour.matchID,
@@ -23,6 +39,8 @@ if (!tour) return console.log("Tournament not found for matchID:", id);
 tour.hasStarted = started;
 tour.message=msg;
  await tour.save();
+ store[id].start=started
+ store[id].msg=msg
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gamebeforetoss", {
         id: tour.matchID,
@@ -43,6 +61,12 @@ tour.playerwicket=playerwicket
 tour.computerwicket=computerwicket
 tour.overs=overs
  await tour.save();
+ store[id].start=started
+ store[id].playerrun=playerrun
+ store[id].computerrun=computerrun
+store[id].playerwicket=playerwicket
+store[id].computerwicket=computerwicket
+store[id].overs=overs
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameplay", {
         id: tour.matchID,
@@ -68,6 +92,13 @@ tour.computerwicket=computerwicket
 tour.overs=overs
 tour.target=target
  await tour.save();
+ store[id].start=started
+ store[id].playerrun=playerrun
+ store[id].computerrun=computerrun
+store[id].playerwicket=playerwicket
+store[id].computerwicket=computerwicket
+store[id].overs=overs
+store[id].target=target
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameaddtarget", {
         id: tour.matchID,
@@ -91,6 +122,10 @@ tour.computerrun=computerrun
 tour.computerwicket=computerwicket
 tour.overs=overs
  await tour.save();
+ store[id].start=started
+ store[id].computerrun=computerrun
+store[id].computerwicket=computerwicket
+store[id].overs=overs
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameplaycomputer", {
         id: tour.matchID,
@@ -111,6 +146,10 @@ tour.playerrun=playerrun
 tour.playerwicket=playerwicket
 tour.overs=overs
  await tour.save();
+ store[id].start=started
+ store[id].playerrun=playerrun
+store[id].playerwicket=playerwicket
+store[id].overs=overs
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameplayplayer", {
         id: tour.matchID,
@@ -126,7 +165,6 @@ overs: tour.overs
 socket.on("result",async({id,started,playerrun,computerrun,playerwicket,computerwicket,overs,winner})=>{
   try { const tour = await TournamentsCollection.findOne({ matchID: id });
 if (!tour) return console.log("Tournament not found for matchID:", id);
-tour.hasStarted = started;
 tour.computerrun=computerrun
 tour.computerwicket=computerwicket
 tour.overs=overs
@@ -135,6 +173,13 @@ tour.message=""
 tour.hasStarted=false
 tour.target=0;
  await tour.save();
+ store[id].start=false
+ store[id].computerrun=computerrun
+store[id].computerwicket=computerwicket
+store[id].overs=overs
+store[id].winner=winner
+store[id].msg=""
+store[id].target=0
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameresult", {
         id: tour.matchID,
@@ -162,6 +207,13 @@ tour.message=""
 tour.hasStarted=false
 tour.target=0;
  await tour.save();
+ store[id].start=false
+ store[id].playerrun=playerrun
+store[id].playerwicket=playerwicket
+store[id].overs=overs
+store[id].winner=winner
+store[id].msg=""
+store[id].target=0
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gamecresult", {
         id: tour.matchID,
@@ -207,5 +259,6 @@ const score = players.reduce((acc, player, index) => {
   }))
   tour.players=players;
   await tour.save()
+  store={}
 })
 };

@@ -44,7 +44,7 @@ const pquery = searchParams.get("player");
     toast.dismiss(); // dismiss all toasts on route change
   }, [location]);
   useEffect(() => {
-  socket = io('http://localhost:8000/');
+  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
   socket.on("gamestart",(msg)=>{
     if(msg.id==id){
     navigate(-1)
