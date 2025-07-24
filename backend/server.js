@@ -12,6 +12,9 @@ const  connectDB = require('./db/config.js');
 const dotenv = require('dotenv');
 dotenv.config();
 connectDB();
+app.use(cors({
+  origin:'*'
+}))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended:true}));
 app.use(iplRoutes);
