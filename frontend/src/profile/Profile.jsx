@@ -1,5 +1,7 @@
 import React,{useEffect,useState} from "react";
 import { useSearchParams } from "react-router-dom";
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from "@fortawesome/free-solid-svg-icons";
 import { FaArrowUp } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,7 +11,8 @@ import {
   faTimes,
   faUserShield,
   faHouse,
-  faTrophy
+  faTrophy,
+  faHandPaper
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
@@ -22,18 +25,18 @@ const get_role=()=>{
 const Profile = () => {
     const token=get_data()
   const role=get_role()
+  const [showPassword, setShowPassword] = useState(false);
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
+
     const show_data=async()=>{
       try{
-       const response = await fetch("http://localhost:8000/allusers");
+       const response = await fetch(`http://localhost:8000/userprofile?username=${role}`);
       let data=await response.json()
-      let filtereddata=data.user_data.filter((i)=>i.username==role)
-      console.log(filtereddata)
       if(!data.error){
        setTimeout(()=>{
         setLoading(false)
-        setItems(filtereddata)
+        setItems([data])
       },2000)
       }
     }
@@ -43,11 +46,25 @@ const Profile = () => {
     }
    useEffect(()=>{
       show_data()
-       window.scrollTo({
+      window.scrollTo({
         top: 0,
         behavior: 'smooth',
       });
     },[token])
+const handle=async(icon)=>{
+  let response=await fetch("http://localhost:8000/adddetails",{
+          method:'POST',
+          headers:{ 'Content-Type' : "application/json" },
+          body: JSON.stringify({username:role,icon:`DP/DP${icon}.png`}),
+        })
+  let data=await response.json()
+  setItems([data])
+  setLoading(false)
+}
+  const show_image=(i)=>{
+  setLoading(true)
+    handle(i)
+    }
   return (
     <>
      {loading == true && <>
@@ -67,6 +84,50 @@ const Profile = () => {
     </div>
     </div>
   </>}
+  {
+    loading==false && <>
+        <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
+  <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
+  </div>
+  <div className="w-full flex mt-6 justify-center items-center">
+          { items[0].icon!= "" ?
+  <img className="w-36 h-36" src={items[0].icon} alt="Logo" /> :
+  <img className="w-36 h-36" src={`Icons/cricket.webp`} />}
+  </div>
+  <div className="w-full flex text-center justify-center items-center mt-3 gap-2">
+  <FontAwesomeIcon icon={faHandPaper} className="text-yellow-500 w-8 h-8" />
+  <p className="font-bold text-white text-lg">Hello {items[0].username}</p>
+  </div>
+  <div className="w-full flex flex-col text-center justify-start items-start mt-4">
+  <p className="font-bold ml-6 text-white text-lg">Username</p>
+  <div className="w-64 h-10 rounded-lg flex justify-start items-center bg-slate-800 text-white ml-6">
+    <p className="font-bold ml-4 text-white text-lg">{items[0].username}</p>
+  </div>
+    <p className="font-bold ml-6 text-white text-lg mt-4">Password</p>
+<div className="w-64 h-10 rounded-lg flex justify-between items-center bg-slate-800 text-white ml-6 px-4">
+      <p className="font-bold text-white text-lg">
+        {showPassword ? items[0].password : '*'.repeat(items[0].password.length)}
+      </p>
+      <button
+        onClick={() => setShowPassword(!showPassword)}
+        className="ml-2 focus:outline-none"
+      >
+        {showPassword ? <FontAwesomeIcon icon={faEyeSlash} />:  <FontAwesomeIcon icon={faEye} />}
+      </button>
+    </div>
+  </div>
+  <div className="flex w-full flex-col justify-start items-start mt-4">
+  <p className="font-bold ml-6 text-white text-lg">Choose Icons</p>
+  <div className="w-full flex flex-row flex-wrap justify-start items-center gap-4 mt-4 px-6 ">
+    {
+      new Array(5).fill(0).map((_, ind) => (
+        <img key={ind} src={`DP/DP${ind + 1}.png`} onClick={()=>show_image(ind+1)}className="w-10 h-10" alt={`DP${ind + 1}`} />
+      ))
+    }
+  </div>
+</div>
+    </>
+  }
     </>
   )
 }

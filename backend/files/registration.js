@@ -25,15 +25,11 @@ const UsersCollection= require('../schemas/users.js');
 //addDataToMongodb();
 //* Setup Different HTTPS methods
 router.post('/signup', async (req, res) => {
-  const { username, password,icon="",bio = "", gmail = "", contact = "", address = "", participation = [] } = req.body;
+  const { username, password,icon="", participation = [] } = req.body;
   const existing = await UsersCollection.findOne({ username });
   if (existing) return res.status(400).json({ error: 'User already exists' });
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new UsersCollection({ username, password, hasheduserpassword:hashedPassword, role: 'user', icon,
-    bio,
-    gmail,
-    contact,
-    address,
     participation}); 
   await user.save();
   return res.json({ message: 'User registered', user: { username: user.username, role: user.role } });
@@ -70,17 +66,18 @@ router.get('/specificuser',async(req,res)=>{
   const users=await UsersCollection.find({"participation.id":id})
   return res.json(users)
 })
+router.get('/userprofile',async(req,res)=>{
+  const {username}=req.query;
+  const users=await UsersCollection.findOne({username})
+  return res.json(users)
+})
 router.post('/adddetails',async(req,res)=>{
   try{
-  const {username,icon,bio,gmail,contact,address}=req.body;
+  const {username,icon}=req.body;
   const user=await UsersCollection.findOne({username})
   user.icon=icon;
-  user.bio=bio;
-  user.gmail=gmail;
-  user.contact=contact;
-  user.address=address;
   await user.save();
-   res.status(200).json({ message: "Details added", user });
+   res.status(200).json(user);
   }
   catch (error) {
     res.status(500).json({ error: error.message });
