@@ -13,8 +13,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
-import {io} from "socket.io-client";
-let socket;
+import { socket } from "../socket/socket"; 
 const get_data=()=>{
   return sessionStorage.getItem("token")
 }
@@ -39,6 +38,7 @@ const [playerrun, setPlayerRun] = useState(0);
 const [computerrun, setComputerRun] = useState(0);
 const [playerwicket, setPlayerWicket] = useState(0);
 const [computerwicket, setComputerWicket] = useState(0);
+const [count,setCount]=useState(0)
 const [target,setTarget]=useState(0)
 const [overs, setOvers] = useState("");
 const [winner,setWinner]=useState("")
@@ -65,81 +65,92 @@ const [winner,setWinner]=useState("")
     });
   },[token])
   useEffect(() => {
-  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
-  const startedMatch = items.find((i) => i.hasStarted === true);
-if (startedMatch) {
-  socket.emit("late", { id: startedMatch.matchID });
-}
- socket.on("storelate",(msg)=>{
-   setShow(msg.id)
-   setStart(msg.start)
-   setMessage(msg.msg)
-   setPlayerRun(msg.playerrun)
-    setPlayerWicket(msg.playerwicket)
-    setComputerRun(msg.computerrun)
-    setComputerWicket(msg.computerwicket)
-    setOvers(msg.overs)
-    setTarget(msg.target)
-    setWinner(msg.winner)
- })
-  socket.on("gamestart",(msg)=>{
-    setShow(msg.id)
-    setStart(msg.start)
-  })
-  socket.on("gamebeforetoss",(msg)=>{
-    setShow(msg.id)
-    setMessage(msg.msg)
-  })
-  socket.on("gameplay",(msg)=>{
-    setShow(msg.id)
-    setPlayerRun(msg.playerrun)
-    setPlayerWicket(msg.playerwicket)
-    setComputerRun(msg.computerrun)
-    setComputerWicket(msg.computerwicket)
-    setOvers(msg.overs)
-  })
-  socket.on("gameaddtarget",(msg)=>{
-    setShow(msg.id)
-    setPlayerRun(msg.playerrun)
-    setPlayerWicket(msg.playerwicket)
-    setComputerRun(msg.computerrun)
-    setComputerWicket(msg.computerwicket)
-    setOvers(msg.overs)
-    setTarget(msg.target)
-  })
-  socket.on("gameplaycomputer",(msg)=>{
-    setShow(msg.id)
-    setComputerRun(msg.computerrun)
-    setComputerWicket(msg.computerwicket)
-    setOvers(msg.overs)
-  })
-  socket.on("gameresult",(msg)=>{
-    setShow(msg.id)
-    setComputerRun(msg.computerrun)
-    setComputerWicket(msg.computerwicket)
-    setOvers(msg.overs)
-    setWinner(msg.winner)
-    setMessage(msg.msg)
-    setTarget(msg.target)
-    setStart(msg.start)
-  })
-  socket.on("gamecresult",(msg)=>{
-    setShow(msg.id)
-    setPlayerRun(msg.playerrun)
-    setPlayerWicket(msg.playerwicket)
-    setOvers(msg.overs)
-    setWinner(msg.winner)
-    setMessage(msg.msg)
-    setTarget(msg.target)
-    setStart(msg.start)
-  })
-  socket.on("gameplayplayer",(msg)=>{
-    setShow(msg.id)
-    setPlayerRun(msg.playerrun)
-    setPlayerWicket(msg.playerwicket)
-    setOvers(msg.overs)
-  })
-  },[])
+  // Request current game state immediately after connecting
+  socket.emit("latejoin");  // 🔁 This triggers backend to send store[0]
+
+  socket.on("gamestart", (msg) => {
+    setShow(msg.id);
+    setStart(msg.start);
+  });
+
+  socket.on("gamebeforetoss", (msg) => {
+    setShow(msg.id);
+    setMessage(msg.msg);
+  });
+
+  socket.on("gameplay", (msg) => {
+    setShow(msg.id);
+    setPlayerRun(msg.playerrun);
+    setPlayerWicket(msg.playerwicket);
+    setComputerRun(msg.computerrun);
+    setComputerWicket(msg.computerwicket);
+    setOvers(msg.overs);
+  });
+
+  socket.on("gameaddtarget", (msg) => {
+    setShow(msg.id);
+    setPlayerRun(msg.playerrun);
+    setPlayerWicket(msg.playerwicket);
+    setComputerRun(msg.computerrun);
+    setComputerWicket(msg.computerwicket);
+    setOvers(msg.overs);
+    setTarget(msg.target);
+  });
+
+  socket.on("gameplaycomputer", (msg) => {
+    setShow(msg.id);
+    setComputerRun(msg.computerrun);
+    setComputerWicket(msg.computerwicket);
+    setOvers(msg.overs);
+  });
+
+  socket.on("gameresult", (msg) => {
+    setShow(msg.id);
+    setComputerRun(msg.computerrun);
+    setComputerWicket(msg.computerwicket);
+    setOvers(msg.overs);
+    setWinner(msg.winner);
+    setMessage(msg.msg);
+    setTarget(msg.target);
+    setStart(msg.start);
+  });
+
+  socket.on("gamecresult", (msg) => {
+    setShow(msg.id);
+    setPlayerRun(msg.playerrun);
+    setPlayerWicket(msg.playerwicket);
+    setOvers(msg.overs);
+    setWinner(msg.winner);
+    setMessage(msg.msg);
+    setTarget(msg.target);
+    setStart(msg.start);
+  });
+
+  socket.on("gameplayplayer", (msg) => {
+    setShow(msg.id);
+    setPlayerRun(msg.playerrun);
+    setPlayerWicket(msg.playerwicket);
+    setOvers(msg.overs);
+  });
+
+  // 🔁 Real-time sync for late joiners
+  socket.on("storelate", (msg) => {
+    console.log("Late joiner received store data:", msg);
+    setShow(msg.id);
+    setStart(msg.start);
+    setMessage(msg.msg);
+    setPlayerRun(msg.playerrun);
+    setPlayerWicket(msg.playerwicket);
+    setComputerRun(msg.computerrun);
+    setComputerWicket(msg.computerwicket);
+    setOvers(msg.overs);
+    setTarget(msg.target);
+    setWinner(msg.winner);
+  });
+
+  
+}, []);
+  
   return (
   <>
     {loading == true && <>

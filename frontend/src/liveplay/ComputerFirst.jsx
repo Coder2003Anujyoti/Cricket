@@ -3,8 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Winner from "./Winner.jsx"
 import { Line,Bar } from "react-chartjs-2";
 import { Chart as ChartJS, ArcElement, CategoryScale, LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend } from "chart.js";
-import {io} from "socket.io-client";
-let socket;
+import { socket } from "../socket/socket"; //
 // Register required Chart.js components
 ChartJS.register(CategoryScale,LinearScale, PointElement, BarElement, LineElement, Title, Tooltip, Legend,ArcElement);
 var bar=0;
@@ -38,9 +37,6 @@ const ComputerFirst = ({matchid,players,oppositionplayers}) => {
   const [playerover,setPlayerover]=useState([])
   const [computerover,setComputerover]=useState([])
   const buttons=[1,2,3,4,5,6];
-  useEffect(() => {
-  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
-  },[])
   useEffect(()=>{
     const get_Player=players.map((i)=>{
       i.runs=0;

@@ -1,33 +1,25 @@
 const TournamentsCollection = require('../schemas/tournaments');
 const UsersCollection=require('../schemas/users');
+const store=require('../store/store.js')
 const adminSockets = new Map();
-let store={}
+let gamestarted=false
 module.exports = (io, socket) => {
-  socket.on("late",({id})=>{
-      io.emit("storelate",store[id])
-  })
+  socket.on("latejoin", () => {
+  socket.emit("storelate", store[0]); // send latest snapshot
+});
 socket.on("start", async ({ id, started }) => {
 try { const tour = await TournamentsCollection.findOne({ matchID: id });
 if (!tour) return console.log("Tournament not found for matchID:", id);
+gamestarted=true
 adminSockets.set(id, socket.id); 
 tour.hasStarted = started;
  await tour.save();
- store[id]={
-   id:id,
-   start:true,
-   playerrun:0,
-   computerrun:0,
-   playerwicket:0,
-   computerwicket:0,
-   overs:"",
-   target:0,
-   winner:"",
-   msg:""
- }
+ store[0].id=id;
+ store[0].start=started
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gamestart", {
-        id: tour.matchID,
-        start: tour.hasStarted,
+        id: store[0].id,
+        start:store[0].start,
       });
     } catch (error) {
       console.error("Error starting tournament:", error.message);
@@ -39,8 +31,8 @@ if (!tour) return console.log("Tournament not found for matchID:", id);
 tour.hasStarted = started;
 tour.message=msg;
  await tour.save();
- store[id].start=started
- store[id].msg=msg
+ store[0].start=started
+ store[0].msg=msg
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gamebeforetoss", {
         id: tour.matchID,
@@ -61,12 +53,12 @@ tour.playerwicket=playerwicket
 tour.computerwicket=computerwicket
 tour.overs=overs
  await tour.save();
- store[id].start=started
- store[id].playerrun=playerrun
- store[id].computerrun=computerrun
-store[id].playerwicket=playerwicket
-store[id].computerwicket=computerwicket
-store[id].overs=overs
+ store[0].start=started
+ store[0].playerrun=playerrun
+ store[0].computerrun=computerrun
+store[0].playerwicket=playerwicket
+store[0].computerwicket=computerwicket
+store[0].overs=overs
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameplay", {
         id: tour.matchID,
@@ -92,13 +84,13 @@ tour.computerwicket=computerwicket
 tour.overs=overs
 tour.target=target
  await tour.save();
- store[id].start=started
- store[id].playerrun=playerrun
- store[id].computerrun=computerrun
-store[id].playerwicket=playerwicket
-store[id].computerwicket=computerwicket
-store[id].overs=overs
-store[id].target=target
+ store[0].start=started
+ store[0].playerrun=playerrun
+ store[0].computerrun=computerrun
+store[0].playerwicket=playerwicket
+store[0].computerwicket=computerwicket
+store[0].overs=overs
+store[0].target=target
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameaddtarget", {
         id: tour.matchID,
@@ -122,10 +114,10 @@ tour.computerrun=computerrun
 tour.computerwicket=computerwicket
 tour.overs=overs
  await tour.save();
- store[id].start=started
- store[id].computerrun=computerrun
-store[id].computerwicket=computerwicket
-store[id].overs=overs
+ store[0].start=started
+ store[0].computerrun=computerrun
+store[0].computerwicket=computerwicket
+store[0].overs=overs
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameplaycomputer", {
         id: tour.matchID,
@@ -146,10 +138,10 @@ tour.playerrun=playerrun
 tour.playerwicket=playerwicket
 tour.overs=overs
  await tour.save();
- store[id].start=started
- store[id].playerrun=playerrun
-store[id].playerwicket=playerwicket
-store[id].overs=overs
+ store[0].start=started
+ store[0].playerrun=playerrun
+store[0].playerwicket=playerwicket
+store[0].overs=overs
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameplayplayer", {
         id: tour.matchID,
@@ -173,13 +165,13 @@ tour.message=""
 tour.hasStarted=false
 tour.target=0;
  await tour.save();
- store[id].start=false
- store[id].computerrun=computerrun
-store[id].computerwicket=computerwicket
-store[id].overs=overs
-store[id].winner=winner
-store[id].msg=""
-store[id].target=0
+ store[0].start=!started
+ store[0].computerrun=computerrun
+store[0].computerwicket=computerwicket
+store[0].overs=overs
+store[0].winner=winner
+store[0].msg=""
+store[0].target=0
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gameresult", {
         id: tour.matchID,
@@ -207,13 +199,13 @@ tour.message=""
 tour.hasStarted=false
 tour.target=0;
  await tour.save();
- store[id].start=false
- store[id].playerrun=playerrun
-store[id].playerwicket=playerwicket
-store[id].overs=overs
-store[id].winner=winner
-store[id].msg=""
-store[id].target=0
+ store[0].start=false
+ store[0].playerrun=playerrun
+store[0].playerwicket=playerwicket
+store[0].overs=overs
+store[0].winner=winner
+store[0].msg=""
+store[0].target=0
 console.log(`Tournament ${id} started status: ${started}`);
 io.emit("gamecresult", {
         id: tour.matchID,
@@ -260,5 +252,6 @@ const score = players.reduce((acc, player, index) => {
   tour.players=players;
   await tour.save()
   store={}
+  gamestarted=false
 })
 };

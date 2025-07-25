@@ -3,8 +3,7 @@ import Fire from './Fire';
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
-import {io} from "socket.io-client";
-let socket;
+import { socket } from "../socket/socket";
 const Winner = ({winner,yourteam,opposteam,matchid}) => {
   const [histruns,setHistruns]=useState({});
   const [histwickets,setHistwickets]=useState({});
@@ -14,7 +13,6 @@ const Winner = ({winner,yourteam,opposteam,matchid}) => {
 const computerdata= opposteam;
 const motm=array.sort((a,b)=>(b.runs+b.wickets)-(a.runs+a.wickets));
 useEffect(() => {
-  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
   socket.emit("adddata",{id:matchid,players:motm})
   },[])
 const playertotal=playerdata.reduce((total,i)=>{

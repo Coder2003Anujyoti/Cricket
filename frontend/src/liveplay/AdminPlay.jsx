@@ -3,8 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { motion } from "framer-motion";
 import PlayerFirst from './PlayerFirst.jsx';
 import ComputerFirst from './ComputerFirst.jsx';
-import {io} from "socket.io-client";
-let socket;
+import { socket } from "../socket/socket"; // just import once
 const AdminPlay = () => {
 const [searchParams] = useSearchParams();
 const [loading,setLoading]=useState(true)
@@ -22,7 +21,6 @@ const [selectteam,setSelectteam]=useState([])
   const cquery= searchParams.get("computer")
   const matchID=searchParams.get("id")
   useEffect(() => {
-  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
   socket.emit("start",{id:matchID,started:true})
   },[])
   const add_Players=(i)=>{
