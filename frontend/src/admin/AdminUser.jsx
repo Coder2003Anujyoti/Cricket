@@ -8,7 +8,8 @@ import {
   faTimes,
   faUserShield,
   faHouse,
-  faTrophy
+  faTrophy,
+  faRotateRight
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
@@ -104,6 +105,13 @@ tomorrow.setDate(today.getDate() + 1);
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>
         </Link>
+        <button
+                  onClick={() => window.location.reload()}
+                  className="flex items-center space-x-3 text-white font-medium hover:text-indigo-600"
+                >
+                  <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-indigo-500" />
+                  <span>Reload</span>
+                </button>
       </div>
     </div>
   )}
@@ -125,7 +133,7 @@ This version focuses purely on the display of player names, ideal for an app whe
      <h3 className="text-lg text-slate-400 font-bold">Services</h3>
  <div className="w-full py-4 flex flex-wrap gap-x-6 gap-y-4 items-center justify-center    flex-col">
   <div className="flex w-full justify-center gap-x-6 flex-row flex-wrap">
-   <HashLink to='/auction'>
+   <HashLink to='/loginprofile'>
    <div className="text-center rounded-lg  bg-slate-800 p-4 flex w-36 h-36 flex flex-col justify-center text-center gap-y-2 ">
    <div className="w-full p-2 flex justify-center"><img src="Icons/cricket.webp" className="w-16 h-16"></img></div>
     <h4 className="text-lg text-slate-400 font-bold">Profile</h4>

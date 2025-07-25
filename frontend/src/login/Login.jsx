@@ -14,6 +14,7 @@ export default function Login() {
    useEffect(()=>{
   sessionStorage.removeItem("token")
   sessionStorage.removeItem("username")
+  sessionStorage.removeItem("user")
   sessionStorage.removeItem("role")
   },[])
   const handSubmit = async () => {

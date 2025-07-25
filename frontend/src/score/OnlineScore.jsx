@@ -72,21 +72,6 @@ const [items,setItems]=useState([])
   {/* //& Navbar for mobile */}
     <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
-    <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
-    <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="w-8 h-8" />
-  </button>
-
-  {/* Mobile Nav Links - Dropdown */}
-  {isOpen && (
-    <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
-      <div className="flex flex-col space-y-4">
-        <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
-          <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
-          <span>Sign Out</span>
-        </Link>
-      </div>
-    </div>
-  )}
 </div>
     {items[0].winner.split(" ")[0]!=='Draw' &&
   <>

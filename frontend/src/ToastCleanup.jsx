@@ -12,3 +12,4 @@ const ToastCleanup = () => {
 
   return null; // No UI, just logic
 };
+export default ToastCleanup;

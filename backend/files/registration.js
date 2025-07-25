@@ -70,6 +70,23 @@ router.get('/specificuser',async(req,res)=>{
   const users=await UsersCollection.find({"participation.id":id})
   return res.json(users)
 })
+router.post('/adddetails',async(req,res)=>{
+  try{
+  const {username,icon,bio,gmail,contact,address}=req.body;
+  const user=await UsersCollection.findOne({username})
+  user.icon=icon;
+  user.bio=bio;
+  user.gmail=gmail;
+  user.contact=contact;
+  user.address=address;
+  await user.save();
+   res.status(200).json({ message: "Details added", user });
+  }
+  catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+
+})
 router.post('/addParticipation', async (req, res) => {
   const { username, participationEntry } = req.body;
   try {

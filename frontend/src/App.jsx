@@ -32,11 +32,7 @@ import Protected from './protector/Protected.jsx'
 import ToastCleanup from "./ToastCleanup.jsx"
 const App = () => {
   const [blocked, setBlocked] = useState(false);
-    useEffect(()=>{
-    sessionStorage.removeItem("token")
-    sessionStorage.removeItem("username")
-    sessionStorage.removeItem("role")
-    },[])
+   
 
   useEffect(() => {
     const handleResize = () => {
@@ -76,6 +72,7 @@ const App = () => {
     <>
      <AuthProvider>
     <Router>
+      <ToastCleanup />
       <Routes>
         <Route path="/" element={<TeamList />} />
         <Route path="/details" element={<TeamDetails />} />

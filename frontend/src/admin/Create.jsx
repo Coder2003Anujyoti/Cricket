@@ -8,7 +8,8 @@ import {
   faTimes,
   faUserShield,
   faHouse,
-  faTrophy
+  faTrophy,
+  faRotateRight
 } from '@fortawesome/free-solid-svg-icons';
 import { toast, Toaster } from 'react-hot-toast';
 import { Link,useLocation } from "react-router-dom";
@@ -135,6 +136,13 @@ const Create = () => {
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>
         </Link>
+        <button
+                  onClick={() => window.location.reload()}
+                  className="flex items-center space-x-3 text-white font-medium hover:text-indigo-600"
+                >
+                  <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-indigo-500" />
+                  <span>Reload</span>
+                </button>
       </div>
     </div>
   )}
