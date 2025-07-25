@@ -141,7 +141,7 @@ let value=Math.floor(Math.random()*6)+1;
     item.runs+=(playerrun+i)
     }
     return {...item}})
-    socket.emit("addtarget",{id:matchid,started:true,playerrun:runs+i,computerrun:0,playerwicket:wickets,computerwicket:0,overs:"",target:runs+i+1})
+    socket.emit("addtarget",{id:matchid,started:true,playerrun:runs+i,computerrun:0,playerwicket:wickets,computerwicket:0,overs:"0.0",target:runs+i+1})
     setPlayerstats(updated);
      setYourteam(a);
     setTurn("Computer");
@@ -182,7 +182,7 @@ let value=Math.floor(Math.random()*6)+1;
     i.runs+=playerrun
     }
     return {...i}})
-    socket.emit("addtarget",{id:matchid,started:true,playerrun:runs,computerrun:0,playerwicket:wickets,computerwicket:0,overs:"",target:runs+1})
+    socket.emit("addtarget",{id:matchid,started:true,playerrun:runs,computerrun:0,playerwicket:wickets,computerwicket:0,overs:"0.0",target:runs+1})
     setPlayerstats(updated);
      setOppositionstats(up);
      setYourteam(a);
@@ -247,7 +247,7 @@ let value=Math.floor(Math.random()*6)+1;
     i.runs+=playerrun
     }
     return {...i}})
-    socket.emit("addtarget",{id:matchid,started:true,playerrun:runs,computerrun:0,playerwicket:wickets+1,computerwicket:0,overs:"",target:runs+1})
+    socket.emit("addtarget",{id:matchid,started:true,playerrun:runs,computerrun:0,playerwicket:wickets+1,computerwicket:0,overs:"0.0",target:runs+1})
     setPlayerstats(updated);
      setOppositionstats(up);
      setYourteam(a);

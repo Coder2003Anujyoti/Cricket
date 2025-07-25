@@ -1,7 +1,20 @@
 const TournamentsCollection = require('../schemas/tournaments');
 const UsersCollection=require('../schemas/users');
-const store=require('../store/store.js')
 const adminSockets = new Map();
+let  store = [
+  {
+    id: "",
+    start: false,
+    playerrun: 0,
+    computerrun: 0,
+    playerwicket: 0,
+    computerwicket: 0,
+    overs: "",
+    target: 0,
+    winner: "",
+    msg: ""
+  }
+];
 let gamestarted=false
 module.exports = (io, socket) => {
   socket.on("latejoin", () => {
@@ -251,7 +264,20 @@ const score = players.reduce((acc, player, index) => {
   }))
   tour.players=players;
   await tour.save()
-  store={}
+store = [
+  {
+    id: "",
+    start: false,
+    playerrun: 0,
+    computerrun: 0,
+    playerwicket: 0,
+    computerwicket: 0,
+    overs: "",
+    target: 0,
+    winner: "",
+    msg: ""
+  }
+];
   gamestarted=false
 })
 };

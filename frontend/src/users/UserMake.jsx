@@ -17,8 +17,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
-import {io} from "socket.io-client";
-let socket;
+import { socket } from "../socket/socket"; 
 const get_name=()=>{
   return JSON.parse(sessionStorage.getItem("username"))
 }
@@ -41,10 +40,6 @@ const pquery = searchParams.get("player");
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
-    toast.dismiss(); // dismiss all toasts on route change
-  }, [location]);
-  useEffect(() => {
-  socket = io('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/');
   socket.on("gamestart",(msg)=>{
     if(msg.id==id){
     navigate(-1)
@@ -53,9 +48,6 @@ const pquery = searchParams.get("player");
     else
     setShow(true)
   })
-  return ()=>{
-    socket.off("gamestart")
-  }
   },[])
  const adds=(i)=>{
    setSelect([...select,i.name])

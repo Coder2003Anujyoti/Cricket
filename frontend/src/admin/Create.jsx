@@ -45,10 +45,6 @@ const Create = () => {
   const [computerDropdownOpen, setComputerDropdownOpen] = useState(false);
    const [lock,setLock]=useState(false)
    const location = useLocation();
-
-  useEffect(() => {
-    toast.dismiss(); 
-  }, [location]);
    const handSubmit = async() => {
     if (tournamentName && matchID && userTeam && computerTeam) {
       //alert(`Tournament: ${tournamentName}\nMatch ID: ${matchID}\nUser Team: ${userTeam.name}\nComputer Team: ${computerTeam.name}`);

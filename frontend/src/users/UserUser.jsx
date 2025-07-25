@@ -64,9 +64,25 @@ const [winner,setWinner]=useState("")
       behavior: 'smooth',
     });
   },[token])
+  useEffect(()=>{
+    socket.emit("latejoin"); 
+    socket.on("storelate", (msg) => {
+    console.log("Late joiner received store data:", msg);
+    setShow(msg.id);
+    setStart(msg.start);
+    setMessage(msg.msg);
+    setPlayerRun(msg.playerrun);
+    setPlayerWicket(msg.playerwicket);
+    setComputerRun(msg.computerrun);
+    setComputerWicket(msg.computerwicket);
+    setOvers(msg.overs);
+    setTarget(msg.target);
+    setWinner(msg.winner);
+  });
+  },[overs])
   useEffect(() => {
   // Request current game state immediately after connecting
-  socket.emit("latejoin");  // 🔁 This triggers backend to send store[0]
+ // 🔁 This triggers backend to send store[0]
 
   socket.on("gamestart", (msg) => {
     setShow(msg.id);
@@ -134,20 +150,7 @@ const [winner,setWinner]=useState("")
   });
 
   // 🔁 Real-time sync for late joiners
-  socket.on("storelate", (msg) => {
-    console.log("Late joiner received store data:", msg);
-    setShow(msg.id);
-    setStart(msg.start);
-    setMessage(msg.msg);
-    setPlayerRun(msg.playerrun);
-    setPlayerWicket(msg.playerwicket);
-    setComputerRun(msg.computerrun);
-    setComputerWicket(msg.computerwicket);
-    setOvers(msg.overs);
-    setTarget(msg.target);
-    setWinner(msg.winner);
-  });
-
+  
   
 }, []);
   
@@ -227,10 +230,13 @@ This version focuses purely on the display of player names, ideal for an app whe
   <div className="flex gap-4">
     {items.sort((a,b)=>b.hasStarted-a.hasStarted).map((t, idx) => (
   <div key={idx} className="min-w-[300px] max-w-[300px] bg-slate-800 text-white p-5 rounded-xl shadow-lg flex-shrink-0">
+{ ((winner=="" && show==t.matchID) && t.winner=="") && <>
 { ((show==t.matchID && start==true)|| t.hasStarted==true) &&  <>
   <span className="text-red-600 text-xl"><FaBroadcastTower /></span>
   <p className="text-white font-bold">Live</p>
   </>}
+  </>
+  }
 <div className="flex items-center justify-between gap-4">
 <div className="flex flex-col items-center">
 <img src={`Logos/${t.playerteam}.webp`} alt={t.playerteam} className="w-24 h-24"/>
@@ -238,7 +244,9 @@ This version focuses purely on the display of player names, ideal for an app whe
 {((playerrun > 0 && t.matchID === show) || t.playerrun > 0) && 
 <>
   <p className="text-base font-bold">
-    {t.playerrun > 0 ? `${t.playerrun}/${t.playerwicket}` : `${playerrun}/${playerwicket}`}
+{t.matchID === show && playerrun > 0
+      ? `${playerrun}/${playerwicket}`
+      : `${t.playerrun}/${t.playerwicket}`}
   </p>
   </>
 }
@@ -252,20 +260,24 @@ This version focuses purely on the display of player names, ideal for an app whe
 {((computerrun > 0 && t.matchID === show) || t.computerrun > 0) && 
 <>
   <p className="text-base font-bold">
-    {t.computerrun > 0 ? `${t.computerrun}/${t.computerwicket}` : `${computerrun}/${computerwicket}`}
+{t.matchID === show && computerrun > 0
+      ? `${computerrun}/${computerwicket}`
+      : `${t.computerrun}/${t.computerwicket}`}
   </p>
   </>
 }
 </div></div>
 <div className="flex justify-center items-center flex-col gap-4">
 <div className="text-center flex flex-col gap-1">
+{ ((winner=="" && show==t.matchID) && t.winner=="") && <>
 { ((show==t.matchID && message!="") || t.message!="") && 
-<h2 className="text-base my-2 font-bold">{t.message=="" ? message : t.message}</h2>}
-{(((overs !== "" && show === t.matchID) || t.overs !== "") && (
-  <h2 className="text-base font-bold">Overs: {t.overs !== "" ? t.overs : overs}</h2>
-))}
-{ ((target!=0 && show==t.matchID) || t.target!=0 ) &&  <h2 className="text-base font-bold">Target-: {t.target!=0 ? t.target : target}</h2>}
-{ ((winner!="" && show==t.matchID) || t.winner!="")  && <h2 className="text-base font-bold">{t.winner!="" ? t.winner : winner}</h2>}
+<h2 className="text-base my-2 font-bold">{ (show==t.matchID && message!="") ? message : t.message}</h2>}
+{( (show === t.matchID && overs!="" ) || t.overs !== "") && 
+  <h2 className="text-base font-bold">Overs: {(show==t.matchID && overs!="") ? overs : t.overs}</h2>}
+{ (show==t.matchID && ( t.target!=0 || target!=0)) &&  <h2 className="text-base font-bold">Target-: {(target!=0 && show==t.matchID) ? target : t.target}</h2>}
+</>
+}
+{ ((winner!="" && show==t.matchID) || t.winner!="")  && <h2 className="text-base font-bold">{ (winner!="" && show==t.matchID) ? winner : t.winner}</h2>}
 </div>
 <div className="text-center flex flex-col">
 <h2 className="text-base font-bold">{t.name}</h2>

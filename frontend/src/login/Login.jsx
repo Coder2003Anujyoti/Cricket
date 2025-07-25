@@ -83,7 +83,6 @@ export default function Login() {
       //console.log('Form submitted:', { username, password });
     if (mode === "login" && response.ok) {
   login({ username: data.username });
-  toast.dismiss()
   if(data.role=="admin"){
   navigate('/admin', { replace: true })
   }

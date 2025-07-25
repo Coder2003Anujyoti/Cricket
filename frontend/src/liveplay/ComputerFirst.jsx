@@ -460,7 +460,7 @@ const ComputerFirst = ({matchid,players,oppositionplayers}) => {
     item.runs+=(playerrun+value)
     }
     return {...item}})
-    socket.emit("addtarget",{id:matchid,started:true,playerrun:0,computerrun:runs+value,playerwicket:0,computerwicket:wickets,overs:"",target:runs+value+1})
+    socket.emit("addtarget",{id:matchid,started:true,playerrun:0,computerrun:runs+value,playerwicket:0,computerwicket:wickets,overs:"0.0",target:runs+value+1})
     setOppositionstats(updated);
      setOpposteam(a);
     setTurn("Player");
@@ -501,7 +501,7 @@ const ComputerFirst = ({matchid,players,oppositionplayers}) => {
     i.wickets+=1;
     }
     return {...i}})
-    socket.emit("addtarget",{id:matchid,started:true,playerrun:0,computerrun:runs,playerwicket:0,computerwicket:wickets+1,overs:"",target:runs+1})
+    socket.emit("addtarget",{id:matchid,started:true,playerrun:0,computerrun:runs,playerwicket:0,computerwicket:wickets+1,overs:"0.0",target:runs+1})
     setPlayerstats(up);
      setOppositionstats(updated);
      setYourteam(a);
@@ -566,7 +566,7 @@ const ComputerFirst = ({matchid,players,oppositionplayers}) => {
     i.wickets+=1
     }
     return {...i}})
-    socket.emit("addtarget",{id:matchid,started:true,playerrun:0,computerrun:runs,playerwicket:0,computerwicket:wickets+1,overs:"",target:runs+1})
+    socket.emit("addtarget",{id:matchid,started:true,playerrun:0,computerrun:runs,playerwicket:0,computerwicket:wickets+1,overs:"0.0",target:runs+1})
     setPlayerstats(updated);
      setOppositionstats(up);
      setYourteam(a);

@@ -29,6 +29,7 @@ import Warning from "./Warning.jsx";
 import HomeRoutes from "./HomeRoutes.jsx"
 import { AuthProvider  } from './protector/useAuth.jsx'
 import Protected from './protector/Protected.jsx'
+import ToastCleanup from "./ToastCleanup.jsx"
 const App = () => {
   const [blocked, setBlocked] = useState(false);
     useEffect(()=>{
