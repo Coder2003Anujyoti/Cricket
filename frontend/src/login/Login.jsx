@@ -25,7 +25,6 @@ export default function Login() {
     if (username.trim()=="" || password.trim()=="") {
       toast.error("Invalid input");
       valid = false;
-      
     }
 
     if (!valid) return;

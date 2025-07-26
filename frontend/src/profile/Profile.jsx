@@ -22,21 +22,33 @@ const get_data=()=>{
 const get_role=()=>{
   return JSON.parse(sessionStorage.getItem("username"))
 }
+const get_raul=()=>{
+  return JSON.parse(sessionStorage.getItem("role"))
+}
 const Profile = () => {
     const token=get_data()
   const role=get_role()
+  const raul=get_raul()
   const [showPassword, setShowPassword] = useState(false);
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
-
+  const [score,setScore]=useState(0)
     const show_data=async()=>{
       try{
-       const response = await fetch(`http://localhost:8000/userprofile?username=${role}`);
+       const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/userprofile?username=${role}`);
       let data=await response.json()
+      let sc=-1
+      if(data.participation.length==0){
+        sc=0
+      }
+      else{
+        sc=data.participation.reduce((acc,i)=>acc+=Number(i.score),0)
+      }
       if(!data.error){
        setTimeout(()=>{
         setLoading(false)
         setItems([data])
+        setScore(sc)
       },2000)
       }
     }
@@ -52,13 +64,21 @@ const Profile = () => {
       });
     },[token])
 const handle=async(icon)=>{
-  let response=await fetch("http://localhost:8000/adddetails",{
+  let response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/adddetails",{
           method:'POST',
           headers:{ 'Content-Type' : "application/json" },
           body: JSON.stringify({username:role,icon:`DP/DP${icon}.png`}),
         })
   let data=await response.json()
+        let sc=-1
+      if(data.participation.length==0){
+        sc=0
+      }
+      else{
+        sc=data.participation.reduce((acc,i)=>acc+=Number(i.score),0)
+      }
   setItems([data])
+  setScore(sc)
   setLoading(false)
 }
   const show_image=(i)=>{
@@ -91,6 +111,13 @@ const handle=async(icon)=>{
         <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
   </div>
+  { raul!="admin" && <>
+  <div className="w-full flex justify-end items-center gap-2">
+  <img src="Icons/speedometer.png" className="w-8 h-8" />
+  <h1 className="font-bold text-white mr-2 text-base">{score}</h1>
+  </div>
+  </>
+  }
   <div className="w-full flex mt-6 justify-center items-center">
           { items[0].icon!= "" ?
   <img className="w-36 h-36" src={items[0].icon} alt="Logo" /> :

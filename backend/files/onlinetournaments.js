@@ -15,7 +15,8 @@ const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware
 }
 //addDataToMongodb();
 router.get('/gettournaments',async(req,res)=>{
-  const data=await TournamentsCollection.find()
+  const datas=await TournamentsCollection.find()
+  const data=datas.reverse()
   return res.json({tournaments_data:data})
 })
 router.get('/specifictournament',async(req,res)=>{

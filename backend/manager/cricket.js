@@ -41,24 +41,18 @@ module.exports=(io,socket)=>{
   })
   socket.on('showteam', async ({ name, team }) => {
   const assignedRoom = socket.roomId;
-
-  // ✅ Guard: check if room exists
   if (!rooms[assignedRoom]) {
     console.error(`Room ${assignedRoom} not found`);
     return;
   }
-
   const captains = await GFGCollection.find({ team: team, captain: true });
-
   const plyer = rooms[assignedRoom].find(p => p.id === socket.id);
   if (!plyer) {
     console.error(`Player with id ${socket.id} not found in room ${assignedRoom}`);
     return;
   }
-
   plyer.team = team;
   plyer.player = captains[0].image;
-
   if (rooms[assignedRoom].find(p => p.team === "") == undefined) {
     const players = rooms[assignedRoom];
     
@@ -125,8 +119,10 @@ delete rooms[roomId]
   io.in(roomId).socketsLeave(roomId);
 }
   players.forEach((c)=>c.choice=0)
+  if(game[roomId] && game[roomId].result==""){
     io.to(players[turn[roomId]].id).emit('choiceturn',"Your Turn")
      io.to(players[(turn[roomId]+1)%2].id).emit('choiceturn',"Opposition Turn")
+  }
   }
   else{
     if(game[roomId].innings===1){
@@ -163,8 +159,10 @@ else{
   delete game[roomId]
   io.in(roomId).socketsLeave(roomId);
 }
+     if(game[roomId] && game[roomId].result==""){
           io.to(players[turn[roomId]].id).emit('choiceturn',"Your Turn")
      io.to(players[(turn[roomId]+1)%2].id).emit('choiceturn',"Opposition Turn")
+     }
   }
 }
 else{

@@ -151,7 +151,7 @@ This version focuses purely on the display of player names, ideal for an app whe
      <h1 className="text-green-400 text-lg font-bold shadow-green-400">Ongoing Tournaments</h1>
     <div className="overflow-x-auto scroll-smooth px-3 py-4">
   <div className="flex gap-4">
-    {items.map((t, idx) => (
+    {items.filter((i,index)=> index < 5).sort((a,b)=>b.hasStarted-a.hasStarted).map((t, idx) => (
   <div key={idx} className="min-w-[300px] max-w-[300px] bg-slate-800 text-white p-5 rounded-xl shadow-lg flex-shrink-0">
 <div className="flex items-center justify-between gap-4">
 <div className="flex flex-col items-center">
