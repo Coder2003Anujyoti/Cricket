@@ -48,12 +48,12 @@ const countdownInterval = useRef(null);
       socket.disconnect();
     }
   }, [timer]);
-  const optio=(i)=>{
-  socket.emit('gomove',i)
-   setTimer(20)
-  setOpt(i)
- clearInterval(countdownInterval.current);
-  }
+  const optio = (i) => {
+  socket.emit('gomove', i);
+  setOpt(i);
+    clearInterval(countdownInterval.current);
+  setTimer(20); // ← stop timer after move
+};
   useEffect(() => {
     socket.on("wait", (mseg) => {
       setMsg(mseg);
@@ -96,6 +96,11 @@ const countdownInterval = useRef(null);
     return () => {
   socket.off("Left");
   socket.off("wait");
+  socket.off("subwait")
+  socket.off("selectteam")
+  socket.off("startgame")
+  socket.off("makescore")
+  socket.off("choiceturn")
   socket.disconnect();
   clearInterval(countdownInterval.current);
 };
