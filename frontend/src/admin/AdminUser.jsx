@@ -139,7 +139,7 @@ This version focuses purely on the display of player names, ideal for an app whe
     <h4 className="text-lg text-slate-400 font-bold">Profile</h4>
     </div>
     </HashLink>
-       <HashLink to='/bid'>
+       <HashLink to='/online'>
    <div className="text-center rounded-lg  bg-slate-800 p-4 flex w-36 h-36 flex flex-col justify-center text-center gap-y-2 ">
    <div className="w-full p-2 flex justify-center"><img src="Icons/online.png" className="w-16 h-16"></img></div>
     <h4 className="text-lg text-slate-400 font-bold">Online Game</h4>

@@ -11,6 +11,7 @@ import LeaderBoard from "./score/LeaderBoard.jsx"
 import Protected from './protector/Protected.jsx'
 import UserMake from "./users/UserMake.jsx"
 import Profile from "./profile/Profile.jsx"
+import Online from "./online/Online.jsx"
 import Warning from "./Warning.jsx";
 const HomeRoutes = () => {
   return (
@@ -25,6 +26,7 @@ const HomeRoutes = () => {
    <Route path="/onlinescore" element={<Warning><Protected><OnlineScore /></Protected></Warning>} />
       <Route path="/leaderboard" element={<Warning><Protected><LeaderBoard/></Protected></Warning>} />
       <Route path="/loginprofile" element={<Warning><Protected><Profile/></Protected></Warning>} />
+          <Route path="/online" element={<Warning><Protected><Online /></Protected></Warning>} />
     </Routes>
   )
 }

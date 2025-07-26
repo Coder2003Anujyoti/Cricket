@@ -77,7 +77,14 @@ const Create = () => {
      toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
       }
       finally {
-      setLock(false); // Re-enable submit button
+      setLock(false);
+      setTournamentName("")
+      setUserTeam(null)
+      setComputerTeam(null)
+      setUserDropdownOpen(false)
+      setComputerDropdownOpen(false)
+      setMatchID("")
+      // Re-enable submit button
     }
 
     

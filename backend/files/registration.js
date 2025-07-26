@@ -8,6 +8,7 @@ const bodyParser=require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const TournamentsCollection= require('../schemas/tournaments');
 const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware.js")
 app.use(express.json());
 const UsersCollection= require('../schemas/users.js');
@@ -88,7 +89,11 @@ router.post('/addParticipation', async (req, res) => {
   const { username, participationEntry } = req.body;
   try {
     const user = await UsersCollection.findOne({ username });
+    const tour=await TournamentsCollection.findOne({matchID:participationEntry.id})
     if (!user) return res.status(404).json({ message: "User not found" });
+    if(tour.hasStarted==true || tour.winner!=""){
+      return res.status(404).json({ message: "Tournament already started" })
+    }
     user.participation.push(participationEntry);
     await user.save();
     res.status(200).json({ message: "Participation added", user });

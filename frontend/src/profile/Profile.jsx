@@ -62,8 +62,10 @@ const handle=async(icon)=>{
   setLoading(false)
 }
   const show_image=(i)=>{
+  if(`DP/DP${i}.png`!=items[0].icon){
   setLoading(true)
     handle(i)
+    }
     }
   return (
     <>

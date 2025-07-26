@@ -116,6 +116,9 @@ const res = data.map((i) => {
   className="flex items-center justify-center  px-6 py-4 mt-1 w-full bg-slate-800"
 >
 <div className="flex justify-center items-center">
+          { it.icon!= "" ?
+  <img className="w-10 h-10" src={it.icon} alt="Logo" /> :
+  <img className="w-10 h-10" src={`Icons/cricket.webp`} />}
   <h1 className="text-xl ml-2 font-bold text-white">
 {it.username}
   </h1>
