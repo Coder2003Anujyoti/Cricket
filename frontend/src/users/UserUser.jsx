@@ -80,9 +80,6 @@ const [winner,setWinner]=useState("")
     setTarget(msg.target);
     setWinner(msg.winner);
   });
-  return ()=>{
-    socket.off("storelate")
-  }
   },[overs])
   useEffect(() => {
   // Request current game state immediately after connecting
@@ -152,18 +149,6 @@ const [winner,setWinner]=useState("")
     setPlayerWicket(msg.playerwicket);
     setOvers(msg.overs);
   });
-
-  // 🔁 Real-time sync for late joiners
-  return ()=>{
-   socket.off("gamestart");
-    socket.off("gamebeforetoss");
-    socket.off("gameplay");
-    socket.off("gameaddtarget");
-    socket.off("gameplaycomputer");
-    socket.off("gameresult");
-    socket.off("gamecresult");
-    socket.off("gameplayplayer");
-  };
 }, []);
   
   return (
