@@ -50,9 +50,8 @@ const countdownInterval = useRef(null);
   }, [timer]);
   const optio = (i) => {
   socket.emit('gomove', i);
-  setOpt(i);
     clearInterval(countdownInterval.current);
-  setTimer(20); // ← stop timer after move
+  //setTimer(20); // ← stop timer after move
 };
   useEffect(() => {
     socket.on("wait", (mseg) => {
@@ -91,16 +90,12 @@ const countdownInterval = useRef(null);
     }
 });
     socket.on('Left',(mseg)=>{
+    clearInterval(countdownInterval.current);
     setImp(mseg)
   })
     return () => {
   socket.off("Left");
   socket.off("wait");
-  socket.off("subwait")
-  socket.off("selectteam")
-  socket.off("startgame")
-  socket.off("makescore")
-  socket.off("choiceturn")
   socket.disconnect();
   clearInterval(countdownInterval.current);
 };
@@ -165,8 +160,8 @@ className="text-center rounded-lg  bg-slate-800" key={i}>
 <p className="text-red-400 text-center font-bold mt-2">Time left: {timer}s</p>
 <div className="flex flex-row flex-wrap justify-center py-6 gap-4">
 {buttons.map((i) => {return (
-<div className="px-4 py-4 rounded-full bg-slate-800" key={i} >
-<button onClick={()=>optio(i)} className="text-xl text-slate-400 font-bold"> {i}</button></div>)})}</div></>
+<div className="px-4 py-4 rounded-full bg-slate-800" key={i} onClick={()=>optio(i)} >
+<button  className="text-xl text-slate-400 font-bold"> {i}</button></div>)})}</div></>
 )}
 {choice != "Your Turn" && (<h1 className="font-bold mt-12 py-4 text-white text-center">Waiting for opposition...</h1>
 )}
