@@ -48,12 +48,9 @@ const countdownInterval = useRef(null);
       socket.disconnect();
     }
   }, [timer]);
-  useEffect(()=>{
-    setTimer(20)
-  },[count])
   const optio=(i)=>{
   socket.emit('gomove',i)
- //setTimer(20)
+   setTimer(20)
   setOpt(i)
  clearInterval(countdownInterval.current);
   }
