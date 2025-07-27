@@ -131,7 +131,7 @@ This version focuses purely on the display of player names, ideal for an app whe
 </div>
 <div id="adminservices" className="w-full mt-2 flex justify-center flex-col md:hidden text-center border-b border-b-slate-600">
      <h3 className="text-lg text-slate-400 font-bold">Services</h3>
- <div className="w-full py-4 flex flex-wrap gap-x-6 gap-y-4 items-center justify-center    flex-col">
+ <div className="w-full py-4 flex flex-wrap gap-x-6 gap-y-6 items-center justify-center    flex-col">
   <div className="flex w-full justify-center gap-x-6 flex-row flex-wrap">
    <HashLink to='/loginprofile'>
    <div className="text-center rounded-lg  bg-slate-800 p-4 flex w-36 h-36 flex flex-col justify-center text-center gap-y-2 ">
@@ -145,10 +145,18 @@ This version focuses purely on the display of player names, ideal for an app whe
     <h4 className="text-lg text-slate-400 font-bold">Online Game</h4>
     </div>
     </HashLink>
+    </div>
+      <div className="flex w-full justify-center gap-x-6 flex-row flex-wrap">
  <HashLink to='/allleaderboard'>
    <div className="text-center rounded-lg  bg-slate-800 p-4 flex w-36 h-36 flex flex-col justify-center text-center gap-y-2 ">
    <div className="w-full p-2 flex justify-center"><img src="Icons/c1.png" className="w-16 h-16"></img></div>
     <h4 className="text-lg text-slate-400 font-bold">LeaderBoard</h4>
+    </div>
+    </HashLink>
+     <HashLink to='/alltournaments'>
+   <div className="text-center rounded-lg  bg-slate-800 p-4 flex w-36 h-36 flex flex-col justify-center text-center gap-y-2 ">
+   <div className="w-full p-2 flex justify-center"><img src="Icons/c2.png" className="w-16 h-16"></img></div>
+    <h4 className="text-lg text-slate-400 font-bold">Tournaments</h4>
     </div>
     </HashLink>
     </div>
