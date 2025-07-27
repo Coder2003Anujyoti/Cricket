@@ -127,9 +127,7 @@ const AllTournaments = () => {
                       </div>
                     );
                   } else {
-                    return (<>
-                                  <h1 className="text-center text-base my-44 font-bold text-white">No Tournaments</h1>
-                    </>)
+                    return null
                   }
                 })
             ) : (
