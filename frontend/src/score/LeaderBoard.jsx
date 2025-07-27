@@ -95,10 +95,14 @@ const res = data.map((i) => {
   key={it._id || it.username}
   className="flex items-center justify-center gap-4 px-6 py-4 mt-2 "
 >
-  <h1 className="text-xl font-bold text-white">
-    🎉 Congratulations, <span className="text-white">{it.username}</span>!
-    Your Score is <span className="text-white">{it.participation[0].score}</span>
-  </h1>
+  <h1 className="text-xl font-bold text-white flex items-center justify-center gap-2 flex-wrap">
+  🎉 Congratulations, <span className="text-white">{it.username}</span>!
+  <span className="flex items-center gap-1">
+    Your Score is
+    <img src="Icons/coin.png" alt="coin" className="w-6 h-6 inline-block" />
+    <span className="text-white">{it.participation[0].score}</span>
+  </span>
+</h1>
 </div>
             ))
         }

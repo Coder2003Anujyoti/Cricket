@@ -113,7 +113,7 @@ const handle=async(icon)=>{
   </div>
   { raul!="admin" && <>
   <div className="w-full flex justify-end items-center gap-2">
-  <img src="Icons/speedometer.png" className="w-8 h-8" />
+  <img src="Icons/coin.png" className="w-8 h-8" />
   <h1 className="font-bold text-white mr-2 text-base">{score}</h1>
   </div>
   </>

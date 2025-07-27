@@ -8,6 +8,8 @@ import UserUser from "./users/UserUser.jsx"
 import AdminPlay from "./liveplay/AdminPlay.jsx"
 import OnlineScore from "./score/OnlineScore.jsx"
 import LeaderBoard from "./score/LeaderBoard.jsx"
+import AllLeaderBoard from "./score/AllLeaderBoard.jsx"
+import AllTournaments from "./score/AllTournaments.jsx"
 import Protected from './protector/Protected.jsx'
 import UserMake from "./users/UserMake.jsx"
 import Profile from "./profile/Profile.jsx"
@@ -26,7 +28,9 @@ const HomeRoutes = () => {
    <Route path="/onlinescore" element={<Warning><Protected><OnlineScore /></Protected></Warning>} />
       <Route path="/leaderboard" element={<Warning><Protected><LeaderBoard/></Protected></Warning>} />
       <Route path="/loginprofile" element={<Warning><Protected><Profile/></Protected></Warning>} />
-          <Route path="/online" element={<Warning><Protected><Online /></Protected></Warning>} />
+ <Route path="/online" element={<Warning><Protected><Online /></Protected></Warning>} />
+<Route path="/allleaderboard" element={<Warning><Protected><AllLeaderBoard /></Protected></Warning>} />
+<Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />
     </Routes>
   )
 }
