@@ -26,7 +26,11 @@ export default function Login() {
       toast.error("Invalid input");
       valid = false;
     }
-
+  if (username.trim().length>10) {
+      toast.error("Invalid Username");
+      valid = false;
+    }
+  
     if (!valid) return;
 
       if (valid) {
@@ -133,7 +137,7 @@ const handleSubmit = (e) => {
         <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
           <input
             type="text"
-            placeholder="Username"
+            placeholder="Username (Max 10 chars)"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none md:focus:ring-2 md:focus:ring-indigo-400"

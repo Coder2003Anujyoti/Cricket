@@ -1,7 +1,9 @@
 import React,{useEffect,useState} from "react";
+import Fire from './Fire';
 import { useSearchParams } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFaceGrinStars } from "@fortawesome/free-solid-svg-icons"; // Face celebration icon
 import {
   faMagnifyingGlass,
   faSignOutAlt,
@@ -152,7 +154,8 @@ const [items,setItems]=useState([])
        })
      }
      </div>
-</>
+<Fire show={true} />
+  </>
 }
  </>
   );
