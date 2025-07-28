@@ -182,6 +182,16 @@ const [winner,setWinner]=useState("")
   {isOpen && (
     <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
       <div className="flex flex-col space-y-4">
+              <Link to="/useruser" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-500">
+          <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-indigo-500" />
+          <span>Home</span>
+        </Link>
+      <Link to="/playersearch" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+          <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 h-5 text-green-500" />
+          <span>Search</span>
+        </Link>
+         
+
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>
