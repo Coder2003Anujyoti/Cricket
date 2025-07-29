@@ -270,13 +270,13 @@ This version focuses purely on the display of player names, ideal for an app whe
 <div className="flex flex-col items-center">
 <img src={`Logos/${t.playerteam}.webp`} alt={t.playerteam} className="w-24 h-24"/>
 <p className=" text-base font-bold">{t.playerteam.toUpperCase()}</p>
-{((playerrun > 0 && t.matchID === show) || t.playerrun > 0) && 
-<>
-  <p className="text-base font-bold">
-{t.matchID === show && playerrun > 0
-      ? `${playerrun}/${playerwicket}`
-      : `${t.playerrun}/${t.playerwicket}`}
-  </p>
+{((t.matchID === show && (playerrun > 0 || playerwicket > 0)) || (t.playerrun > 0 || t.playerwicket > 0)) && 
+  <>
+    <p className="text-base font-bold">
+      {t.matchID === show
+        ? `${playerrun}/${playerwicket}`
+        : `${t.playerrun}/${t.playerwicket}`}
+    </p>
   </>
 }
 </div>
@@ -286,14 +286,14 @@ This version focuses purely on the display of player names, ideal for an app whe
 <div className="flex flex-col items-center">
 <img src={`Logos/${t.computerteam}.webp`} alt={t.computerteam} className="w-24 h-24"/>
 <p className="text-base font-bold">{t.computerteam.toUpperCase()}</p>
-{((computerrun > 0 && t.matchID === show) || t.computerrun > 0) && 
-<>
-  <p className="text-base font-bold">
-{t.matchID === show && computerrun > 0
-      ? `${computerrun}/${computerwicket}`
-      : `${t.computerrun}/${t.computerwicket}`}
-  </p>
-  </>
+{((t.matchID === show && (computerrun > 0 || computerwicket > 0)) || (t.computerrun > 0 || t.computerwicket > 0)) &&   
+  <>  
+    <p className="text-base font-bold">  
+      {t.matchID === show
+        ? `${computerrun}/${computerwicket}`  
+        : `${t.computerrun}/${t.computerwicket}`}  
+    </p>  
+  </>  
 }
 </div></div>
 <div className="flex justify-center items-center flex-col gap-4">
