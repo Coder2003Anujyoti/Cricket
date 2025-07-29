@@ -102,7 +102,7 @@ const AllTournaments = () => {
                     return (
                       <div
                         key={idx}
-                        className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 mt-4 w-full bg-slate-800 shadow-md hover:scale-[1.01] transition-transform duration-200"
+                        className="flex flex-col sm:flex-row items-center justify-between px-6 py-4 mt-2 w-full bg-slate-800 shadow-md hover:scale-[1.01] transition-transform duration-200"
                       >
                         {/* Team Logos and VS */}
                         <div className="flex justify-center sm:justify-start items-center gap-4 w-full sm:w-1/2 mb-4 sm:mb-0">
