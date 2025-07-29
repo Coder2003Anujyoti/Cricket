@@ -83,14 +83,19 @@ export default function Login() {
       //console.log('Form submitted:', { username, password });
     if (mode === "login" && response.ok) {
   login({ username: data.username });
-  navigate('/', { replace: true })
+  if(role=="admin"){
+    navigate("/admin",{ replace: true })
+  }
+  else{
+  navigate('/useruser', { replace: true })
+  }
   sessionStorage.setItem("token",data.token)
   sessionStorage.setItem("username",JSON.stringify(data.username))
   sessionStorage.setItem("role",JSON.stringify(data.role))
 }
       }
     catch(err){
-      console.log(err)
+    console.log(err)
    toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
     }
     finally {
@@ -107,11 +112,11 @@ const handleSubmit = (e) => {
   }
 };
   return (
-    <div className="fixed inset-0 flex items-center justify-center">
+    <div className="flex items-center justify-center">
       <Toaster position="top-center" toastOptions={{
           className: 'font-bold', // Tailwind class applied to all toasts
         }}/>
-      <div className="w-full max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-2xl p-8 flex flex-col items-center m-4">
+      <div className="w-full my-28 md:my-48 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
         <video
           src="Icons/movable.mp4"
           autoPlay
