@@ -1,5 +1,6 @@
 const TournamentsCollection = require('../schemas/tournaments');
 const UsersCollection=require('../schemas/users');
+const NewsCollection=require("../schemas/news")
 const adminSockets = new Map();
 let  store = [
   {
@@ -263,6 +264,17 @@ const score = players.reduce((acc, player, index) => {
     }
   }))
   tour.players=players;
+  const text=[`What a thriller between ${tour.playerteam} and ${tour.computerteam}!`,
+    `A match-winning knock from ${players[0].name}, truly deserving the MoTM!`,
+  `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`]
+  const random_text=text[Math.floor(Math.random()*text.length)];
+  await NewsCollection.create({
+    newsID:tour.matchID,
+    playerteam:tour.playerteam,
+    computerteam:tour.computerteam,
+    image:players[0].image,
+    content:random_text
+  })
   await tour.save()
 store = [
   {
