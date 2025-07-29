@@ -74,30 +74,30 @@ const App = () => {
     <Router>
       <ToastCleanup />
       <Routes>
-        <Route path="/" element={<TeamList />} />
-        <Route path="/details" element={<TeamDetails />} />
-        <Route path="/players" element={<Warning><Players /></Warning>} />
-        <Route path="/stats" element={<Warning><Stats /></Warning>} />
-        <Route path="/play" element={<Warning><Play /></Warning>} />
-        <Route path="/history" element={<Warning><History /></Warning>} />
-        <Route path="/standings" element={<Warning><Standings /></Warning>} />
-        <Route path="/results" element={<Warning><Results /></Warning>} />
-        <Route path="/profile" element={<Warning><Card /></Warning>} />
-        <Route path="/auction" element={<Warning><Auction /></Warning>} />
-        <Route path="/playgame" element={<Warning><Playgame /></Warning>} />
-        <Route path="/analysis" element={<Warning><Analysis /></Warning>} />
-        <Route path="/tourstats" element={<Warning><Tourstats /></Warning>} />
-        <Route path="/matchfixtures" element={<Warning><Matchfixtures /></Warning>} />
-        <Route path="/bid" element={<Warning><Bid /></Warning>} />
-        <Route path="/game" element={<Warning><Game /></Warning>} />
-        <Route path="/team" element={<Warning><Team /></Warning>} />
-        <Route path="/fixtures" element={<Warning><Fixtures /></Warning>} />
-        <Route path="/playerstats" element={<Warning><Playerstats /></Warning>} />
-        <Route path="/iplsite" element={<Warning><Iplsite /></Warning>} />
-        <Route path="/iplgame" element={<Warning><Iplgame /></Warning>} />
-        <Route path="/iplteam" element={<Warning><Iplteam /></Warning>} />
-        <Route path="/iplfixtures" element={<Warning><Iplfixtures /></Warning>} />
-        <Route path="/iplplayerstats" element={<Warning><Iplplayerstats /></Warning>} />
+  <Route path="/" element={<Protected><TeamList /></Protected>} />
+<Route path="/details" element={<Protected><TeamDetails /></Protected>} />  {/* Public */}
+<Route path="/players" element={<Protected><Warning><Players /></Warning></Protected>} />
+<Route path="/stats" element={<Protected><Warning><Stats /></Warning></Protected>} />
+<Route path="/play" element={<Protected><Warning><Play /></Warning></Protected>} />
+<Route path="/history" element={<Protected><Warning><History /></Warning></Protected>} />
+<Route path="/standings" element={<Protected><Warning><Standings /></Warning></Protected>} />
+<Route path="/results" element={<Protected><Warning><Results /></Warning></Protected>} />
+<Route path="/profile" element={<Protected><Warning><Card /></Warning></Protected>} />
+<Route path="/auction" element={<Protected><Warning><Auction /></Warning></Protected>} />
+<Route path="/playgame" element={<Protected><Warning><Playgame /></Warning></Protected>} />
+<Route path="/analysis" element={<Protected><Warning><Analysis /></Warning></Protected>} />
+<Route path="/tourstats" element={<Protected><Warning><Tourstats /></Warning></Protected>} />
+<Route path="/matchfixtures" element={<Protected><Warning><Matchfixtures /></Warning></Protected>} />
+<Route path="/bid" element={<Protected><Warning><Bid /></Warning></Protected>} />
+<Route path="/game" element={<Protected><Warning><Game /></Warning></Protected>} />
+<Route path="/team" element={<Protected><Warning><Team /></Warning></Protected>} />
+<Route path="/fixtures" element={<Protected><Warning><Fixtures /></Warning></Protected>} />
+<Route path="/playerstats" element={<Protected><Warning><Playerstats /></Warning></Protected>} />
+<Route path="/iplsite" element={<Protected><Warning><Iplsite /></Warning></Protected>} />
+<Route path="/iplgame" element={<Protected><Warning><Iplgame /></Warning></Protected>} />
+<Route path="/iplteam" element={<Protected><Warning><Iplteam /></Warning></Protected>} />
+<Route path="/iplfixtures" element={<Protected><Warning><Iplfixtures /></Warning></Protected>} />
+<Route path="/iplplayerstats" element={<Protected><Warning><Iplplayerstats /></Warning></Protected>} />
       </Routes>
      <HomeRoutes />
     </Router>
