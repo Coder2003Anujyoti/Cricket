@@ -2,32 +2,12 @@ import React,{useState,useEffect,useRef} from "react";
 import { FaChevronLeft, FaChevronRight,FaArrowUp } from "react-icons/fa";
 import {Link} from 'react-router-dom'
 import {HashLink} from 'react-router-hash-link'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faMagnifyingGlass,
-  faSignOutAlt,
-  faBars,
-  faTimes,
-  faUserShield,
-  faHouse,
-  faTrophy,
-  faRotateRight
-} from '@fortawesome/free-solid-svg-icons';
-const get_data2=()=>{
-  return sessionStorage.getItem("token")
-}
-const get_role=()=>{
-  return JSON.parse(sessionStorage.getItem("role"))
-}
 const TeamList = () => {
-const token=get_data2()
-  const role=get_role()
   const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
   const [load,setLoad]=useState(true);
  const [value,setValue]=useState([]);
  const [logos,setLogos]=useState([])
  const [toggle,setToggle]=useState(false);
- const [isOpen, setIsOpen] = useState(false);
  const scrollRef = useRef(null);
  const imageRef=useRef(null)
 const get_data=async()=>{

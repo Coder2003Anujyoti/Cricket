@@ -19,7 +19,7 @@ import Warning from "./Warning.jsx";
 const HomeRoutes = () => {
   return (
     <Routes>
-    <Route path="/login" element={<Login />} />
+    <Route path="/login" element={<Warning><Login /></Warning>} />
     <Route path="/admin" element={<Warning><Protected><Admin /></Protected></Warning>} />
     <Route path="/create" element={<Warning><Protected><Create /></Protected></Warning>} />
     <Route path="/adminuser" element={<Warning><Protected><AdminUser /></Protected></Warning>} />
