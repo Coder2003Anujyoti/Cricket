@@ -9,7 +9,8 @@ import {
   faUserShield,
   faHouse,
   faTrophy,
-  faRotateRight
+  faRotateRight,
+  faGamepad
 } from '@fortawesome/free-solid-svg-icons';
 import { toast, Toaster } from 'react-hot-toast';
 import { Link,useLocation } from "react-router-dom";
@@ -99,7 +100,10 @@ const Create = () => {
     handSubmit();
   }
 };
-
+useEffect(()=>{
+window.scrollTo({ top: 0, behavior: "smooth" });
+  toast.dismiss();
+},[])
 
   const filteredComputerTeams = userTeam
     ? teams.filter((team) => team.name !== userTeam.name)
@@ -122,11 +126,14 @@ const Create = () => {
   {isOpen && (
     <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
       <div className="flex flex-col space-y-4">
-        <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
+        <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
           <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-blue-500" />
           <span>Home</span>
         </Link>
-
+        <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+          <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+          <span>About</span>
+        </Link>
         {role === "admin" && (
           <Link to="/create" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
             <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />

@@ -2,10 +2,32 @@ import React,{useState,useEffect,useRef} from "react";
 import { FaChevronLeft, FaChevronRight,FaArrowUp } from "react-icons/fa";
 import {Link} from 'react-router-dom'
 import {HashLink} from 'react-router-hash-link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import {
+  faMagnifyingGlass,
+  faSignOutAlt,
+  faBars,
+  faTimes,
+  faUserShield,
+  faHouse,
+  faTrophy,
+  faRotateRight,
+  faNewspaper,
+  faGamepad
+} from '@fortawesome/free-solid-svg-icons';
+const get_data2=()=>{
+  return sessionStorage.getItem("token")
+}
+const get_role=()=>{
+  return JSON.parse(sessionStorage.getItem("role"))
+}
 const TeamList = () => {
+const token=get_data2()
+  const role=get_role()
   const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
   const [load,setLoad]=useState(true);
  const [value,setValue]=useState([]);
+ const [isOpen, setIsOpen] = useState(false);
  const [logos,setLogos]=useState([])
  const [toggle,setToggle]=useState(false);
  const scrollRef = useRef(null);
@@ -63,11 +85,89 @@ const get_data=async()=>{
   </>}
 { load===false && <>
 {/* //& Navbar for mobile */}
-  <div className="w-full bg-slate-800 flex p-1 md:hidden ">
+  <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50 md:hidden">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} />
-  <div className="w-full bg-slate-800 flex p-1  justify-end items-center md:hidden ">
-  <HashLink smooth to="/login"><img className="w-12 h-12" src={`Icons/cricket.webp`} /></HashLink>
-  </div>
+    <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
+    <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="w-8 h-8" />
+  </button>
+  { role=="admin" ? <>
+  {/* Mobile Nav Links - Dropdown */}
+  {isOpen && (
+    <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
+      <div className="flex flex-col space-y-4">
+        <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
+          <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-blue-500" />
+          <span>Home</span>
+        </Link>
+                <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+          <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+          <span>About</span>
+        </Link>
+
+        {role === "admin" && (
+          <Link to="/create" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+            <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />
+            <span>Admin</span>
+          </Link>
+        )}
+
+        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+          <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
+          <span>User</span>
+        </Link>
+
+        <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
+          <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
+          <span>Sign Out</span>
+        </Link>
+         <button
+          onClick={() => window.location.reload()}
+          className="flex items-center space-x-3 text-white font-medium hover:text-indigo-600"
+        >
+          <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-indigo-500" />
+          <span>Reload</span>
+        </button>
+      </div>
+    </div>
+  )}
+  </> : <>
+    {isOpen && (
+    <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
+      <div className="flex flex-col space-y-4">
+              <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-500">
+          <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-indigo-500" />
+          <span>Home</span>
+        </Link>
+        <Link to="/useruser" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+          <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+          <span>About</span>
+        </Link>
+      <Link to="/playersearch" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+          <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 h-5 text-green-500" />
+          <span>Search</span>
+        </Link>
+          <Link to="/news" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+          <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
+          <span>News</span>
+        </Link>     
+
+        <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
+          <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
+          <span>Sign Out</span>
+        </Link>
+        <button
+  onClick={() => window.location.reload()}
+  className="flex items-center space-x-3 text-white font-medium hover:text-sky-600"
+>
+  <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-sky-500" />
+  <span>Reload</span>
+</button>
+
+      </div>
+    </div>
+  )}
+  </>
+  }
 </div>
 {/* //* Navbar for big screens */}
    <nav className="bg-slate-800 hidden md:block text-white backdrop-blur-md shadow-md">

@@ -12,7 +12,8 @@ import {
   faUserShield,
   faHouse,
   faTrophy,
-  faNewspaper
+  faNewspaper,
+  faGamepad
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
@@ -79,9 +80,13 @@ const show_data = async () => {
   {isOpen && (
     <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
       <div className="flex flex-col space-y-4">
-              <Link to="/useruser" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-500">
+              <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-500">
           <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-indigo-500" />
           <span>Home</span>
+        </Link>
+          <Link to="/useruser" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+          <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+          <span>About</span>
         </Link>
       <Link to="/playersearch" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
           <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 h-5 text-green-500" />
@@ -119,6 +124,7 @@ const show_data = async () => {
   <div className="flex flex-col ml-2 mr-2 gap-4 my-4">
  {items.map((i)=>{
     return(<>
+<HashLink smooth to={`/onlinescore?id=${i.newsID}`}>
     <div className="w-full bg-slate-800 flex flex-row rounded-md flex-wrap">
    <div className="w-1/2 flex flex-col justify-center items-center">
   <div className="flex flex-row gap-2">
@@ -127,13 +133,14 @@ const show_data = async () => {
 <img src={`Logos/${i.computerteam}.webp`} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-contain" />
   </div>
 <div className="w-full flex flex-row flex-wrap justify-center items-center mt-2">
-<h1 className="text-white text-center font-bold text-sm">{i.content}</h1>
+<h1 className="text-white text-center font-bold text-sm ml-2 mr-2">{i.content}</h1>
 </div>
    </div>
   <div className="w-1/2 flex justify-center items-center">
   <img src={i.image} className="w-auto h-auto" />
   </div>
     </div>
+    </HashLink>
     </>)
   })}
   </div>

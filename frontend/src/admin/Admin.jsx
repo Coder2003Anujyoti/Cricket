@@ -9,8 +9,10 @@ import {
   faUserShield,
   faHouse,
   faTrophy,
-  faRotateRight
+  faRotateRight,
+  faGamepad
 } from '@fortawesome/free-solid-svg-icons';
+import { faLock, faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
 const get_data=()=>{
@@ -22,6 +24,7 @@ const get_role=()=>{
 const Admin = () => {
   const token=get_data()
   const role=get_role()
+  const [showPassword, setShowPassword] = useState({});
   const [loading,setLoading]=useState(true)
   const [isOpen, setIsOpen] = useState(false);
   const [user,setUser]=useState([])
@@ -53,6 +56,12 @@ const Admin = () => {
       behavior: 'smooth',
     });
   },[token])
+  const togglePassword = (idx) => {
+  setShowPassword((prev) => ({
+    ...prev,
+    [idx]: !prev[idx],
+  }));
+};
   return (
     <>
     {loading == true && <>
@@ -85,11 +94,14 @@ const Admin = () => {
   {isOpen && (
     <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
       <div className="flex flex-col space-y-4">
-        <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
+        <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
           <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-blue-500" />
           <span>Home</span>
         </Link>
-
+        <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+          <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+          <span>About</span>
+        </Link>
         {role === "admin" && (
           <Link to="/create" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
             <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />
@@ -161,12 +173,18 @@ const Admin = () => {
         <tr key={idx} className={`${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b`}>
           <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">{user.username}</td>
 
-          <td className="px-6 py-4 whitespace-nowrap w-1/3 flex items-center space-x-2 font-semibold">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 text-gray-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M5 9V7a5 5 0 1110 0v2h1a1 1 0 011 1v7a1 1 0 01-1 1H4a1 1 0 01-1-1v-7a1 1 0 011-1h1zm2-2a3 3 0 116 0v2H7V7z" clipRule="evenodd" />
-            </svg>
-            <span>{user.password}</span>
-          </td>
+<td className="px-6 py-4 whitespace-nowrap w-1/3 flex items-center space-x-3 font-semibold">
+  <FontAwesomeIcon
+    icon={showPassword[idx] ? faUnlock : faLock}
+    className="text-gray-500 cursor-pointer"
+    onClick={() => togglePassword(idx)}
+  />
+  <span>
+    {showPassword[idx]
+      ? user.password
+      : "*".repeat(user.password.length)}
+  </span>
+</td>
 
           <td className="px-6 py-4 whitespace-nowrap w-1/3">
             <span className={`px-3 py-1 rounded-full text-xs font-medium ${

@@ -83,12 +83,7 @@ export default function Login() {
       //console.log('Form submitted:', { username, password });
     if (mode === "login" && response.ok) {
   login({ username: data.username });
-  if(data.role=="admin"){
-    navigate("/admin",{ replace: true })
-  }
-  else{
-  navigate('/useruser', { replace: true })
-  }
+    navigate("/",{ replace: true })
   sessionStorage.setItem("token",data.token)
   sessionStorage.setItem("username",JSON.stringify(data.username))
   sessionStorage.setItem("role",JSON.stringify(data.role))
@@ -111,6 +106,10 @@ const handleSubmit = (e) => {
     handSubmit();
   }
 };
+useEffect(()=>{
+window.scrollTo({ top: 0, behavior: "smooth" });
+  toast.dismiss();
+},[])
   return (
     <div className="flex items-center justify-center">
       <Toaster position="top-center" toastOptions={{

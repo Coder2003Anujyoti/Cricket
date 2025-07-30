@@ -74,30 +74,30 @@ const App = () => {
     <Router>
       <ToastCleanup />
       <Routes>
-    <Route path="/" element={<TeamList />} />
-    <Route path="/details" element={<TeamDetails />} />  
-    <Route path="/players" element={<Warning><Players /></Warning>} />  
-    <Route path="/stats" element={<Warning><Stats /></Warning>} />  
-    <Route path="/play" element={<Warning><Play /></Warning>} />  
-    <Route path="/history" element={<Warning><History /></Warning>} />  
-    <Route path="/standings" element={<Warning><Standings /></Warning>} />  
-    <Route path="/results" element={<Warning><Results /></Warning>} />  
-    <Route path="/profile" element={<Warning><Card /></Warning>} />  
-    <Route path="/auction" element={<Warning><Auction /></Warning>} />  
-    <Route path="/playgame" element={<Warning><Playgame /></Warning>} />  
-    <Route path="/analysis" element={<Warning><Analysis /></Warning>} />  
-    <Route path="/tourstats" element={<Warning><Tourstats /></Warning>} />  
-    <Route path="/matchfixtures" element={<Warning><Matchfixtures /></Warning>} />  
-    <Route path="/bid" element={<Warning><Bid /></Warning>} />  
-    <Route path="/game" element={<Warning><Game /></Warning>} />  
-    <Route path="/team" element={<Warning><Team /></Warning>} />  
-    <Route path="/fixtures" element={<Warning><Fixtures /></Warning>} />  
-    <Route path="/playerstats" element={<Warning><Playerstats /></Warning>} />  
-    <Route path="/iplsite" element={<Warning><Iplsite /></Warning>} />  
-    <Route path="/iplgame" element={<Warning><Iplgame /></Warning>} />  
-    <Route path="/iplteam" element={<Warning><Iplteam /></Warning>} />  
-    <Route path="/iplfixtures" element={<Warning><Iplfixtures /></Warning>} />  
-    <Route path="/iplplayerstats" element={<Warning><Iplplayerstats /></Warning>} />
+   <Route path="/" element={<Protected><TeamList /></Protected>} />
+<Route path="/details" element={<Protected><TeamDetails /></Protected>} />
+<Route path="/players" element={<Warning><Protected><Players /></Protected></Warning>} />
+<Route path="/stats" element={<Warning><Protected><Stats /></Protected></Warning>} />
+<Route path="/play" element={<Warning><Protected><Play /></Protected></Warning>} />
+<Route path="/history" element={<Warning><Protected><History /></Protected></Warning>} />
+<Route path="/standings" element={<Warning><Protected><Standings /></Protected></Warning>} />
+<Route path="/results" element={<Warning><Protected><Results /></Protected></Warning>} />
+<Route path="/profile" element={<Warning><Protected><Card /></Protected></Warning>} />
+<Route path="/auction" element={<Warning><Protected><Auction /></Protected></Warning>} />
+<Route path="/playgame" element={<Warning><Protected><Playgame /></Protected></Warning>} />
+<Route path="/analysis" element={<Warning><Protected><Analysis /></Protected></Warning>} />
+<Route path="/tourstats" element={<Warning><Protected><Tourstats /></Protected></Warning>} />
+<Route path="/matchfixtures" element={<Warning><Protected><Matchfixtures /></Protected></Warning>} />
+<Route path="/bid" element={<Warning><Protected><Bid /></Protected></Warning>} />
+<Route path="/game" element={<Warning><Protected><Game /></Protected></Warning>} />
+<Route path="/team" element={<Warning><Protected><Team /></Protected></Warning>} />
+<Route path="/fixtures" element={<Warning><Protected><Fixtures /></Protected></Warning>} />
+<Route path="/playerstats" element={<Warning><Protected><Playerstats /></Protected></Warning>} />
+<Route path="/iplsite" element={<Warning><Protected><Iplsite /></Protected></Warning>} />
+<Route path="/iplgame" element={<Warning><Protected><Iplgame /></Protected></Warning>} />
+<Route path="/iplteam" element={<Warning><Protected><Iplteam /></Protected></Warning>} />
+<Route path="/iplfixtures" element={<Warning><Protected><Iplfixtures /></Protected></Warning>} />
+<Route path="/iplplayerstats" element={<Warning><Protected><Iplplayerstats /></Protected></Warning>} />
       </Routes>
      <HomeRoutes />
     </Router>

@@ -94,6 +94,7 @@ const pquery = searchParams.get("player");
       top: 0,
       behavior: 'smooth',
     });
+    toast.dismiss()
   },[])
   const handleSubmit=async()=>{
    const response= await fetch('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/addParticipation', {
