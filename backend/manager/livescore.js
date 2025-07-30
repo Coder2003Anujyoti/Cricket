@@ -285,8 +285,8 @@ const score = players.reduce((acc, player, index) => {
 `A high-voltage clash ends in favour of ${tour.winner==="Draw" ? tour.winner : tour.winner.toUpperCase().split(" ")[0]}!`,
 `${tour.winner.toUpperCase().split(" ")[0]} seal a dominant win in style!`,
 `Massive statement from ${tour.winner.toUpperCase().split(" ")[0]}, a complete performance!`,
-`${tour.winner.toUpperCase().split(" ")[0]} outclass ${tour.winner.split(" ")[0]==tour.playerteam ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
-`${tour.winner.toUpperCase().split(" ")[0]} stun ${tour.winner.split(" ")[0]==tour.playerteam ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
+`${tour.winner.toUpperCase().split(" ")[0]} outclass ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
+`${tour.winner.toUpperCase().split(" ")[0]} stun ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
 `Clinical from ${tour.winner.toUpperCase().split(" ")[0]}, a textbook team effort!`]
   ind=crypto.randomInt(0,text.length)
    random_text=text[ind];
