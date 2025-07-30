@@ -1,6 +1,7 @@
 const TournamentsCollection = require('../schemas/tournaments');
 const UsersCollection=require('../schemas/users');
 const NewsCollection=require("../schemas/news")
+const crypto=require('crypto')
 const adminSockets = new Map();
 let  store = [
   {
@@ -264,10 +265,32 @@ const score = players.reduce((acc, player, index) => {
     }
   }))
   tour.players=players;
-  const text=[`What a thriller between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
+  let text;
+  let ind;
+  let random_text;
+  if(tour.winner==="Draw"){
+  text=[`What a thriller between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
     `A great knock from ${players[0].name}, truly deserving the MoTM!`,
-  `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`,`What a great clash between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`]
-  const random_text=text[Math.floor(Math.random()*text.length)];
+  `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`,
+  `What a great clash between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
+`A high-voltage clash ends in favour of ${tour.winner==="Draw" ? tour.winner : tour.winner.toUpperCase()}!`]
+  ind=crypto.randomInt(0,text.length)
+   random_text=text[ind];
+  }
+ else if(tour.winner!=="Draw"){
+  text=[`What a thriller between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
+    `A great knock from ${players[0].name}, truly deserving the MoTM!`,
+  `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`,
+  `What a great clash between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
+`A high-voltage clash ends in favour of ${tour.winner==="Draw" ? tour.winner : tour.winner.toUpperCase()}!`,
+`${tour.winner.toUpperCase()} seal a dominant win in style!`,
+`Massive statement from ${tour.winner.toUpperCase()}, a complete performance!`,
+`${tour.winner.toUpperCase()} outclass ${tour.winner==tour.playerteam ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
+`${tour.winner.toUpperCase()} stun ${tour.winner==tour.playerteam ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
+`Clinical from ${tour.winner.toUpperCase()}, a textbook team effort!`]
+  ind=crypto.randomInt(0,text.length)
+   random_text=text[ind];
+  }
   await NewsCollection.create({
     newsID:tour.matchID,
     playerteam:tour.playerteam,
