@@ -264,9 +264,9 @@ const score = players.reduce((acc, player, index) => {
     }
   }))
   tour.players=players;
-  const text=[`What a thriller between ${tour.playerteam} and ${tour.computerteam}!`,
-    `A match-winning knock from ${players[0].name}, truly deserving the MoTM!`,
-  `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`]
+  const text=[`What a thriller between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
+    `A great knock from ${players[0].name}, truly deserving the MoTM!`,
+  `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`,`What a great clash between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`]
   const random_text=text[Math.floor(Math.random()*text.length)];
   await NewsCollection.create({
     newsID:tour.matchID,

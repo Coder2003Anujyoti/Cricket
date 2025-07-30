@@ -15,6 +15,7 @@ import UserMake from "./users/UserMake.jsx"
 import Profile from "./profile/Profile.jsx"
 import Online from "./online/Online.jsx"
 import PlayerSearch from "./users/PlayerSearch.jsx"
+import News from "./users/News.jsx"
 import Warning from "./Warning.jsx";
 const HomeRoutes = () => {
   return (
@@ -33,6 +34,7 @@ const HomeRoutes = () => {
 <Route path="/allleaderboard" element={<Warning><Protected><AllLeaderBoard /></Protected></Warning>} />
 <Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />
 <Route path="/playersearch" element={<Warning><Protected><PlayerSearch /></Protected></Warning>} />
+<Route path="/news" element={<Warning><Protected><News /></Protected></Warning>} />
     </Routes>
   )
 }

@@ -10,7 +10,8 @@ import {
   faTimes,
   faUserShield,
   faHouse,
-  faTrophy
+  faTrophy,
+  faNewspaper
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
@@ -190,7 +191,10 @@ const [winner,setWinner]=useState("")
           <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 h-5 text-green-500" />
           <span>Search</span>
         </Link>
-         
+          <Link to="/news" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+          <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
+          <span>News</span>
+        </Link>     
 
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
