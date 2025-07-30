@@ -92,7 +92,6 @@ const AllTournaments = () => {
             {items.filter(it => it.winner !== "").length > 0 ? (
               items
                 .filter(it => it.winner !== "")
-                .reverse()
                 .map((i, idx) => {
                   if (
                     selectedTeams.length === 0 ||

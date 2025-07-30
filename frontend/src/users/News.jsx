@@ -146,7 +146,6 @@ const show_data = async () => {
  {items.map((i)=>{
  if(selectedTeams.length === 0 || selectedTeams.includes(i.playerteam) || selectedTeams.includes(i.computerteam)){
     return(<>
-<HashLink smooth to={`/onlinescore?id=${i.newsID}`}>
     <div className="w-full bg-slate-800 flex flex-row rounded-md flex-wrap">
    <div className="w-1/2 flex flex-col justify-center items-center">
   <div className="flex flex-row gap-2">
@@ -162,7 +161,6 @@ const show_data = async () => {
   <img src={i.image} className="w-auto h-auto" />
   </div>
     </div>
-    </HashLink>
     </>)
     }
     else{
