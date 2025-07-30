@@ -6,8 +6,10 @@ const ToastCleanup = () => {
   const location = useLocation();
 
   useEffect(() => {
-    // Dismiss all toasts whenever the route changes
-    toast.dismiss();
+const dismissRoutes = ["/login", "/create", "/usermake"];
+    if (dismissRoutes.includes(location.pathname)) {
+      toast.dismiss();
+    }
   }, [location.pathname]);
 
   return null; // No UI, just logic
