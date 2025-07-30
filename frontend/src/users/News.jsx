@@ -116,7 +116,7 @@ const show_data = async () => {
 }
 {
   items.length>0 && <>
-  <div className="flex flex-col ml-2 mr-2 gap-3 my-4">
+  <div className="flex flex-col ml-2 mr-2 gap-4 my-4">
  {items.map((i)=>{
     return(<>
     <div className="w-full bg-slate-800 flex flex-row rounded-md flex-wrap">
