@@ -273,7 +273,7 @@ const score = players.reduce((acc, player, index) => {
     `A great knock from ${players[0].name}, truly deserving the MoTM!`,
   `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`,
   `What a great clash between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
-`A high-voltage clash ends in favour of ${tour.winner==="Draw" ? tour.winner : tour.winner.toUpperCase()}!`]
+`A high-voltage clash ends in favour of ${tour.winner==="Draw" ? tour.winner : tour.winner.toUpperCase().split(" ")[0]}!`]
   ind=crypto.randomInt(0,text.length)
    random_text=text[ind];
   }
@@ -282,12 +282,12 @@ const score = players.reduce((acc, player, index) => {
     `A great knock from ${players[0].name}, truly deserving the MoTM!`,
   `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`,
   `What a great clash between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
-`A high-voltage clash ends in favour of ${tour.winner==="Draw" ? tour.winner : tour.winner.toUpperCase()}!`,
-`${tour.winner.toUpperCase()} seal a dominant win in style!`,
-`Massive statement from ${tour.winner.toUpperCase()}, a complete performance!`,
-`${tour.winner.toUpperCase()} outclass ${tour.winner==tour.playerteam ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
-`${tour.winner.toUpperCase()} stun ${tour.winner==tour.playerteam ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
-`Clinical from ${tour.winner.toUpperCase()}, a textbook team effort!`]
+`A high-voltage clash ends in favour of ${tour.winner==="Draw" ? tour.winner : tour.winner.toUpperCase().split(" ")[0]}!`,
+`${tour.winner.toUpperCase().split(" ")[0]} seal a dominant win in style!`,
+`Massive statement from ${tour.winner.toUpperCase().split(" ")[0]}, a complete performance!`,
+`${tour.winner.toUpperCase().split(" ")[0]} outclass ${tour.winner.split(" ")[0]==tour.playerteam ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
+`${tour.winner.toUpperCase().split(" ")[0]} stun ${tour.winner.split(" ")[0]==tour.playerteam ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
+`Clinical from ${tour.winner.toUpperCase().split(" ")[0]}, a textbook team effort!`]
   ind=crypto.randomInt(0,text.length)
    random_text=text[ind];
   }
