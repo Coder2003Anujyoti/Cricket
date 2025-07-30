@@ -116,7 +116,7 @@ const show_data = async () => {
 }
 {
   items.length>0 && <>
-  <div className="flex flex-col ml-2 mr-2 gap-2 my-4">
+  <div className="flex flex-col ml-2 mr-2 gap-3 my-4">
  {items.map((i)=>{
     return(<>
     <div className="w-full bg-slate-800 flex flex-row rounded-md flex-wrap">
@@ -131,7 +131,7 @@ const show_data = async () => {
 </div>
    </div>
   <div className="w-1/2 flex justify-center items-center">
-  <img src={i.image} className="w-full h-full" />
+  <img src={i.image} className="w-auto h-auto" />
   </div>
     </div>
     </>)
