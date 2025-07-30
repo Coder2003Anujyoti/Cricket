@@ -24,11 +24,20 @@ const get_role = () => JSON.parse(sessionStorage.getItem("username"));
 const News = () => {
 const token = get_data();
   const role = get_role();
+const [selectedTeams, setSelectedTeams] = useState([]);
   const [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [selectedTeams, setSelectedTeams] = useState([]);
   const [items, setItems] = useState([]);
+  const teams = ["Mi", "Csk", "Rr", "Kkr", "Gt", "Pbks", "Rcb", "Lsg", "Dc", "Srh"];
+
+  const handleSelect = (team) => {
+    if (selectedTeams.includes(team)) {
+      setSelectedTeams(selectedTeams.filter((t) => t !== team));
+    } else {
+      setSelectedTeams([...selectedTeams, team]);
+    }
+  };
 const show_data = async () => {
     try {
       const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getnews`);
@@ -113,6 +122,18 @@ const show_data = async () => {
     </div>
   )}
 </div>
+{
+  items.length>0 && <>
+  <div className="overflow-x-auto scroll-smooth px-3 py-4">
+<div className="flex gap-4 w-max">
+{teams.map((team) => (
+<div key={team} onClick={() => handleSelect(team)} className="relative cursor-pointer">
+<img src={`Logos/${team}.webp`} className="w-16 h-16 p-2 rounded-full border border-slate-800" />
+{selectedTeams.includes(team) && (
+<FontAwesomeIcon icon={faCheckCircle} className="absolute top-0 right-0 text-green-500 bg-white rounded-full" size="lg"/>)}
+</div>))}</div></div>
+  </>
+}
   <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Tournament News</h1>
 {
   items.length==0 && <>
@@ -123,6 +144,7 @@ const show_data = async () => {
   items.length>0 && <>
   <div className="flex flex-col ml-2 mr-2 gap-4 my-4">
  {items.map((i)=>{
+ if(selectedTeams.length === 0 || selectedTeams.includes(i.playerteam) || selectedTeams.includes(i.computerteam)){
     return(<>
 <HashLink smooth to={`/onlinescore?id=${i.newsID}`}>
     <div className="w-full bg-slate-800 flex flex-row rounded-md flex-wrap">
@@ -142,6 +164,10 @@ const show_data = async () => {
     </div>
     </HashLink>
     </>)
+    }
+    else{
+      return null
+    }
   })}
   </div>
   </>
