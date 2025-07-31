@@ -370,7 +370,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
       <span className="text-gray-600">▼</span>
     </div>
     {userDropdownOpen && (
-      <div className="absolute z-20 bg-white w-full max-w-xs shadow-md rounded mt-1 overflow-y-auto max-h-40 left-0">
+      <div className="absolute z-20 bg-white w-full max-w-xs shadow-md rounded mt-1 overflow-y-auto max-h-20 left-0">
         {teams.map((team) => (
           <div
             key={team.name}
@@ -409,7 +409,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
       <span className="text-gray-600">▼</span>
     </div>
     {computerDropdownOpen && (
-      <div className="absolute z-20 bg-white w-full max-w-xs shadow-md rounded mt-1 overflow-y-auto max-h-40 left-0">
+      <div className="absolute z-20 bg-white w-full max-w-xs shadow-md rounded mt-1 overflow-y-auto max-h-20 left-0">
         {filteredComputerTeams.map((team) => (
           <div
             key={team.name}

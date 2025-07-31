@@ -12,6 +12,7 @@ const TournamentsCollection= require('../schemas/tournaments');
 const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware.js")
 app.use(express.json());
 const UsersCollection= require('../schemas/users.js');
+const NewsCollection= require('../schemas/news.js');
 //*Add Data in Mongodb
    const addDataToMongodb = async() => {
     await UsersCollection.deleteMany();
@@ -56,7 +57,8 @@ router.post('/forget',async(req,res)=>{
 })
 router.get('/users',authenticateToken, authorizeRoles("admin"),async(req,res)=>{
   const data=await UsersCollection.find()
-  return res.json({user_data:data})
+  const news=await NewsCollection.find()
+  return res.json({user_data:data,news_data:news})
 })
 router.get('/allusers',async(req,res)=>{
   const data=await UsersCollection.find()

@@ -15,6 +15,7 @@ import {
 import { faLock, faUnlock } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
+import { toast, Toaster } from 'react-hot-toast';
 const get_data=()=>{
   return sessionStorage.getItem("token")
 }
@@ -25,9 +26,14 @@ const Admin = () => {
   const token=get_data()
   const role=get_role()
   const [showPassword, setShowPassword] = useState({});
+  const [mode, setMode] = useState("users");
   const [loading,setLoading]=useState(true)
   const [isOpen, setIsOpen] = useState(false);
   const [user,setUser]=useState([])
+  const [newsID,setNewsID]=useState("")
+  const [content,setContent]=useState("")
+  const [lock,setLock]=useState(false)
+  const [news,setNews]=useState([])
     const show_data=async(token)=>{
     try{
      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/users", {
@@ -38,10 +44,15 @@ const Admin = () => {
       },
     });
     let data=await response.json()
+    let unews=[]
+  if(data.news_data.filter((i)=>i.posttype=="posts").length>0){
+    unews=data.news_data.filter((i)=>i.posttype=="posts")
+  }
     if(!data.error){
      setTimeout(()=>{
       setLoading(false)
       setUser(data.user_data)
+      setNews(unews)
     },2000)
     }
   }
@@ -49,6 +60,48 @@ const Admin = () => {
     console.log("It is an error-: ",err)
   }
   }
+  const handSubmit = async() => {
+    if (content && newsID) {
+   // alert(new Date(matchDate).toDateString())
+      //alert(`Tournament: ${tournamentName}\nMatch ID: ${matchID}\nUser Team: ${userTeam.name}\nComputer Team: ${computerTeam.name}`);
+   try{
+      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/addnews", {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`  // ✅ correctly placed
+  },
+  body: JSON.stringify({
+    newsID:newsID,
+    content:content
+  }),
+});
+    const data=await response.json();
+    console.log(data)
+    if(!response.ok){
+        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+    }
+    else if(response.ok){
+      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Post added successfully</strong>);
+    }
+  }
+    catch(err){
+        console.log(err)
+     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+      }
+      finally {
+      setLock(false);
+      setContent("")
+      setNewsID("")
+      // Re-enable submit button
+    }
+
+    
+    } else {
+       toast.error("Invalid input");
+       setLock(false)
+    }
+  };
   useEffect(()=>{
     show_data(token)
      window.scrollTo({
@@ -61,6 +114,12 @@ const Admin = () => {
     ...prev,
     [idx]: !prev[idx],
   }));
+};
+const handleSubmit = () => {
+  if (!lock) {
+    setLock(true);
+    handSubmit();
+  }
 };
   return (
     <>
@@ -82,6 +141,8 @@ const Admin = () => {
     </div>
   </>}
   {loading==false && <>
+  <Toaster position="top-center" toastOptions={{className: 'font-bold', // Tailwind class applied to all toasts
+            }}/>
   {/* //& Navbar for mobile */}
     <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
@@ -159,6 +220,28 @@ const Admin = () => {
       </div>
     </div>
   </nav>
+  <div className="flex justify-evenly mt-4">
+  <button
+    onClick={() => setMode("users")}
+    className={`px-4 py-2 font-bold ${mode === "users" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}
+  >
+    Users
+  </button>
+  <button
+    onClick={() => setMode("create")}
+    className={`px-4 py-2 font-bold  ${mode === "create" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}
+  >
+    Create
+  </button>
+    <button
+    onClick={() => setMode("view")}
+    className={`px-4 py-2 font-bold  ${mode === "view" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}
+  >
+    View
+  </button>
+</div>
+{ mode=="users" && <>
+  <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Users List</h1>
   <div className="w-full overflow-x-auto cursor-pointer">
   <table className="min-w-full table-fixed border-collapse">
     <thead>
@@ -174,8 +257,8 @@ const Admin = () => {
         <tr key={idx} className={`${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b`}>
                 <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
           { user.icon!= "" ?
-  <img className="w-8 h-8" src={user.icon} alt="Logo" /> :
-  <img className="w-8 h-8" src={`Icons/cricket.webp`} />}
+  <img className="w-7 h-7" src={user.icon} alt="Logo" /> :
+  <img className="w-7 h-7" src={`Icons/cricket.webp`} />}
         </td>
           <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">{user.username}</td>
 
@@ -206,7 +289,24 @@ const Admin = () => {
     </tbody>
   </table>
 </div>
-
+</>
+}
+{ mode=="create" && <>
+<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
+<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Create Announcement</h2>
+<input type="text" value={newsID}
+onChange={(e)=>setNewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
+<textarea value={content} onChange={(e)=>setContent(e.target.value)} placeholder="Enter Announcement"
+className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
+<button disabled={lock} onClick={handleSubmit} className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300">
+        Create
+      </button>
+    </div>
+    </>}
+{
+  mode=="view" && <>
+  </>
+}
   </>}
   </>
   )
