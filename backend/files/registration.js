@@ -55,11 +55,19 @@ router.post('/forget',async(req,res)=>{
   await person.save()
   res.json({ message: 'Password Updated Successfully' });
 })
-router.get('/users',authenticateToken, authorizeRoles("admin"),async(req,res)=>{
-  const data=await UsersCollection.find()
-  const news=await NewsCollection.find()
-  return res.json({user_data:data,news_data:news})
-})
+router.get('/users', authenticateToken, authorizeRoles("admin"), async (req, res) => {
+  try {
+    const [user_data, news_data] = await Promise.all([
+      UsersCollection.find(),
+      NewsCollection.find()
+    ]);
+
+    res.status(200).json({ user_data, news_data });
+  } catch (error) {
+    console.error("Error fetching users or news:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 router.get('/allusers',async(req,res)=>{
   const data=await UsersCollection.find()
   return res.json({user_data:data})

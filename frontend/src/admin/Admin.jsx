@@ -13,6 +13,7 @@ import {
   faGamepad
 } from '@fortawesome/free-solid-svg-icons';
 import { faLock, faUnlock } from "@fortawesome/free-solid-svg-icons";
+import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
 import { toast, Toaster } from 'react-hot-toast';
@@ -52,7 +53,7 @@ const Admin = () => {
      setTimeout(()=>{
       setLoading(false)
       setUser(data.user_data)
-      setNews(unews)
+      setNews(unews.reverse())
     },2000)
     }
   }
@@ -305,6 +306,35 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
     </>}
 {
   mode=="view" && <>
+<h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Announcements</h1>
+  {
+  news.length==0 && <>
+  <h1 className="font-bold text-white text-center my-48">No News Found</h1>
+  </>
+}
+{
+  news.length>0 && <>
+  <div className="flex flex-col ml-2 mr-2 gap-4 my-4">
+ {news.map((i)=>{
+    return(<>
+    <div className="w-full bg-slate-800 flex flex-col rounded-md flex-wrap">
+  <div className="w-full flex justify-start items-start p-3">
+  <img src={`Logos/Logo.webp`} className="w-16 h-8" />
+  </div>
+<div className="w-full flex flex-col space-y-4">
+<div className="w-full h-full flex flex-row flex-wrap justify-start items-start">
+<h1 className="text-white font-bold text-sm ml-2 mr-2 mt-2">{i.content}</h1>
+</div>
+  <div className="w-full">
+  <img src={`Screen/Main.webp`} className="w-auto h-auto rounded-b-md" />
+  </div>
+</div>
+    </div>
+    </>)
+  })}
+  </div>
+  </>
+}
   </>
 }
   </>}

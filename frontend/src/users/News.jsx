@@ -28,7 +28,9 @@ const [selectedTeams, setSelectedTeams] = useState([]);
   const [searchParams] = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [mode, setMode] = useState("news");
   const [items, setItems] = useState([]);
+  const [news,setNews]=useState([])
   const teams = ["Mi", "Csk", "Rr", "Kkr", "Gt", "Pbks", "Rcb", "Lsg", "Dc", "Srh"];
 
   const handleSelect = (team) => {
@@ -42,10 +44,13 @@ const show_data = async () => {
     try {
       const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getnews`);
       let data = await response.json();
+    const m=data.news_data.filter((i)=>i.posttype=="news")
+    const n=data.news_data.filter((i)=>i.posttype=="posts")
       if (!data.error) {
         setTimeout(() => {
           setLoading(false);
-          setItems(data.news_data);
+          setItems(m);
+          setNews(n)
         }, 2000);
       }
     } catch (err) {
@@ -122,9 +127,24 @@ const show_data = async () => {
     </div>
   )}
 </div>
+  <div className="flex justify-evenly mt-4">
+  <button
+    onClick={() => setMode("news")}
+    className={`px-4 py-2 font-bold ${mode === "news" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}
+  >
+    News
+  </button>
+  <button
+    onClick={() => setMode("announcements")}
+    className={`px-4 py-2 font-bold  ${mode === "announcements" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}
+  >
+  Announcements
+  </button>
+  </div>
+{ mode=="news" && <>
 {
   items.length>0 && <>
-  <div className="overflow-x-auto scroll-smooth px-3 py-4">
+  <div className="overflow-x-auto scroll-smooth px-3 py-4 my-4">
 <div className="flex gap-4 w-max">
 {teams.map((team) => (
 <div key={team} onClick={() => handleSelect(team)} className="relative cursor-pointer">
@@ -168,6 +188,41 @@ const show_data = async () => {
     }
   })}
   </div>
+  </>
+}
+</>
+}
+{
+  mode=="announcements" && <>
+  <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Announcements</h1>
+  {
+  news.length==0 && <>
+  <h1 className="font-bold text-white text-center my-48">No Announcements Found</h1>
+  </>
+}
+{
+  news.length>0 && <>
+  <div className="flex flex-col ml-2 mr-2 gap-4 my-4">
+ {news.map((i)=>{
+    return(<>
+    <div className="w-full bg-slate-800 flex flex-col rounded-md flex-wrap">
+  <div className="w-full flex justify-start items-start p-3">
+  <img src={`Logos/Logo.webp`} className="w-16 h-8" />
+  </div>
+<div className="w-full flex flex-col space-y-4">
+<div className="w-full h-full flex flex-row flex-wrap justify-start items-start">
+<h1 className="text-white font-bold text-sm ml-2 mr-2 mt-2">{i.content}</h1>
+</div>
+  <div className="w-full">
+  <img src={`Screen/Main.webp`} className="w-auto h-auto rounded-b-md" />
+  </div>
+</div>
+    </div>
+    </>)
+  })}
+  </div>
+  </>
+  }
   </>
 }
 </>

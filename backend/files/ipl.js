@@ -17,17 +17,19 @@ const { GFGCollection, Collection, ResultCollection }= require('../schemas/index
     await ResultCollection.insertMany(result);
 }
 //addDataToMongodb();
-router.get('/',async(req,res)=>{
-  try{
-    const data=await GFGCollection.find();
-    const details=await Collection.find();
-    return res.json({data,details});
+router.get('/', async (req, res) => {
+  try {
+    const [data, details] = await Promise.all([
+      GFGCollection.find(),
+      Collection.find()
+    ]);
+
+    res.status(200).json({ data, details });
+  } catch (err) {
+    console.error("Error fetching data:", err);
+    res.status(500).send("Internal Server Error");
   }
-  catch (err) {
-        console.log(err);
-        res.status(500).send("Internal Server Error");
-    }
-})
+});
 router.get('/standings',async(req,res)=>{
   try{
     const details=await Collection.find();
