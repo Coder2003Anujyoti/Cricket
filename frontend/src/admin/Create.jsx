@@ -480,6 +480,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Name</th>
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Player</th>
       <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Computer</th>
+     <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Winner</th>
      <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Date</th>
       </tr>
     </thead>
@@ -494,6 +495,17 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
         <img src={`Logos/${user.computerteam}.webp`} className="w-10 h-10" />
         </td>
+  {
+    user.winner=="" && <>
+  <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">TBD</td>
+    </>
+  }
+    {
+    user.winner!="" && <>
+  <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold"><img src={`Logos/${user.winner.split(" ")[0]==user.playerteam.toUpperCase() ? user.playerteam : user.computerteam}.webp`} className="w-10 h-10" /></td>
+    </>
+  }
+  
         <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
         {user.time}
         </td>
