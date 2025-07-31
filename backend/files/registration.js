@@ -23,7 +23,7 @@ const UsersCollection= require('../schemas/users.js');
   );
     await UsersCollection.insertMany(hashedUsers);
 }
-//addDataToMongodb();
+addDataToMongodb();
 //* Setup Different HTTPS methods
 router.post('/signup', async (req, res) => {
   const { username, password,icon="", participation = [] } = req.body;

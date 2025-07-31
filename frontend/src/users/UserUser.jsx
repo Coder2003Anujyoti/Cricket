@@ -319,7 +319,7 @@ This version focuses purely on the display of player names, ideal for an app whe
 </div>
 <div className="text-center flex flex-col">
 <h2 className="text-base font-bold">{t.name}</h2>
-<h2 className="text-xs font-semibold">{tomorrow.toDateString()}</h2>
+<h2 className="text-xs font-semibold">{t.time}</h2>
 </div>
 </div>
 <div className="flex justify-center gap-3 mt-4">

@@ -183,7 +183,7 @@ This version focuses purely on the display of player names, ideal for an app whe
 <p className="text-base font-bold">{t.computerteam.toUpperCase()}</p></div></div>
 <div className="text-center flex flex-col gap-2">
 <h2 className="text-base font-bold">{t.name}</h2>
-<h2 className="text-xs font-semibold">{tomorrow.toDateString()}</h2>
+<h2 className="text-xs font-semibold">{t.time}</h2>
 </div>
 <div className="flex justify-center gap-3 mt-4">
 { t.winner=="" &&

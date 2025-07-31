@@ -13,7 +13,7 @@ const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware
     await TournamentsCollection.deleteMany();
     await TournamentsCollection.insertMany(tours);
 }
-//addDataToMongodb();
+addDataToMongodb();
 router.get('/gettournaments',async(req,res)=>{
   const datas=await TournamentsCollection.find()
   const data=datas.reverse()
@@ -26,7 +26,6 @@ router.get('/specifictournament',async(req,res)=>{
 })
 router.post('/addtournament',authenticateToken, authorizeRoles("admin"),async(req,res)=>{
 const { name, playerteam, computerteam, matchID } = req.body;
-console.log("hello")
   if (!name || !playerteam || !computerteam || !matchID) {
     return res.status(400).json({ error: "All fields are required." });
   }
@@ -35,11 +34,16 @@ console.log("hello")
 if (exists) {
   return res.status(409).json({ error: "Tournament already exists." });
 }
+const today = new Date(); 
+const tomorrow = new Date(); 
+tomorrow.setDate(today.getDate() + 1);
+const time=tomorrow.toDateString();
     const newTournament = new TournamentsCollection({
       name,
       playerteam,
       computerteam,
-      matchID
+      matchID,
+      time
     });
     await newTournament.save();
     res.status(201).json({ message: "Tournament added successfully", tournament: newTournament });
