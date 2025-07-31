@@ -296,7 +296,8 @@ const score = players.reduce((acc, player, index) => {
     playerteam:tour.playerteam,
     computerteam:tour.computerteam,
     image:players[0].image,
-    content:random_text
+    content:random_text,
+    posttype:"news"
   })
   await tour.save()
 store = [

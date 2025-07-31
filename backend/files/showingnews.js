@@ -19,4 +19,24 @@ router.get('/getnews',async(req,res)=>{
   const data=datas.reverse()
   return res.json({news_data:data})
 })
+router.post('/addnews',authenticateToken, authorizeRoles("admin"), async (req, res) => {
+  const { newsID, content } = req.body;
+  if (!newsID || !content) {
+    return res.status(400).json({ error: "newsID and content are required." });
+  }
+  try {
+    const exists = await NewsCollection.findOne({ newsID });
+    if (exists) {
+      return res.status(409).json({ error: "News with this newsID already exists." });
+    }
+    const newNews = await NewsCollection.create({
+      newsID,
+      content,
+      posttype: "posts"
+    });
+    res.status(201).json({ message: "News added successfully.", news: newNews });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to add news.", details: err.message });
+  }
+});
 module.exports=router
