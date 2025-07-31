@@ -13,7 +13,7 @@ const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware
     await TournamentsCollection.deleteMany();
     await TournamentsCollection.insertMany(tours);
 }
-addDataToMongodb();
+//addDataToMongodb();
 router.get('/gettournaments',async(req,res)=>{
   const datas=await TournamentsCollection.find()
   const data=datas.reverse()

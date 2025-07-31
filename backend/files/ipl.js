@@ -16,7 +16,7 @@ const { GFGCollection, Collection, ResultCollection }= require('../schemas/index
    await ResultCollection.deleteMany();
     await ResultCollection.insertMany(result);
 }
-addDataToMongodb();
+//addDataToMongodb();
 router.get('/',async(req,res)=>{
   try{
     const data=await GFGCollection.find();

@@ -13,7 +13,7 @@ const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware
     await NewsCollection.deleteMany();
     await NewsCollection.insertMany(news);
 }
-addDataToMongodb();
+//addDataToMongodb();
 router.get('/getnews',async(req,res)=>{
   const datas=await NewsCollection.find()
   const data=datas.reverse()
