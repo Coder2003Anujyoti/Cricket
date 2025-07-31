@@ -59,7 +59,8 @@ const Create = () => {
      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getadmintournaments", {
       method: "GET",
       headers: {
-        "Content-Type": "application/json",
+          "Authorization": `Bearer ${token}`,
+        "Content-Type": "application/json"
       },
     });
     let data=await response.json()
