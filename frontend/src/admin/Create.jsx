@@ -56,7 +56,7 @@ const Create = () => {
    const location = useLocation();
    const show_data=async()=>{
     try{
-     const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/gettournaments", {
+     const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getadmintournaments", {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

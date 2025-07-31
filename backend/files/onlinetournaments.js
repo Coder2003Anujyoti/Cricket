@@ -19,6 +19,11 @@ router.get('/gettournaments',async(req,res)=>{
   const data=datas.reverse()
   return res.json({tournaments_data:data})
 })
+router.get('/getadmintournaments',authenticateToken, authorizeRoles("admin"),async(req,res)=>{
+  const datas=await TournamentsCollection.find()
+  const data=datas.reverse()
+  return res.json({tournaments_data:data})
+})
 router.get('/specifictournament',async(req,res)=>{
   const {id}=req.query
   const data=await TournamentsCollection.find({matchID:id})

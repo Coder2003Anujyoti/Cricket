@@ -33,7 +33,7 @@ tomorrow.setDate(today.getDate() + 1);
   const [items,setItems]=useState([])
   const show_data=async()=>{
     try{
-     const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/gettournaments");
+     const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getadmintournaments");
     let data=await response.json()
     if(!data.error){
      setTimeout(()=>{
