@@ -163,6 +163,7 @@ const Admin = () => {
   <table className="min-w-full table-fixed border-collapse">
     <thead>
       <tr className="bg-emerald-500 text-white">
+              <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Icon</th>
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Username</th>
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Password</th>
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Role</th>
@@ -171,6 +172,11 @@ const Admin = () => {
     <tbody>
       {user.map((user, idx) => (
         <tr key={idx} className={`${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b`}>
+                <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
+          { user.icon!= "" ?
+  <img className="w-8 h-8" src={user.icon} alt="Logo" /> :
+  <img className="w-8 h-8" src={`Icons/cricket.webp`} />}
+        </td>
           <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">{user.username}</td>
 
 <td className="px-6 py-4 whitespace-nowrap w-1/3 flex items-center space-x-3 font-semibold">

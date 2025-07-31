@@ -40,15 +40,50 @@ const Create = () => {
   console.log(token)
   const [isOpen, setIsOpen] = useState(false);
   const [tournamentName, setTournamentName] = useState("");
+  const [mode, setMode] = useState("create");
+  const [items,setItems]=useState([])
+  const [loading,setLoading]=useState(true)
   const [matchID, setMatchID] = useState("");
   const [userTeam, setUserTeam] = useState(null);
+  const [matchDate, setMatchDate] = useState("");
   const [computerTeam, setComputerTeam] = useState(null);
   const [userDropdownOpen, setUserDropdownOpen] = useState(false);
   const [computerDropdownOpen, setComputerDropdownOpen] = useState(false);
    const [lock,setLock]=useState(false)
+   const [editlock,setEditlock]=useState(false)
+   const [editmatchID,setEditmatchID]=useState("")
+   const [editmatchDate,setEditmatchDate]=useState("")
    const location = useLocation();
+   const show_data=async()=>{
+    try{
+     const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/gettournaments", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    let data=await response.json()
+    if(!data.error){
+     setTimeout(()=>{
+      setLoading(false)
+      setItems(data.tournaments_data.reverse())
+    },2000)
+    }
+  }
+  catch(err){
+    console.log("It is an error-: ",err)
+  }
+  }
+  useEffect(()=>{
+    show_data()
+     window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  },[token])
    const handSubmit = async() => {
-    if (tournamentName && matchID && userTeam && computerTeam) {
+    if (tournamentName && matchID && userTeam && computerTeam && matchDate) {
+   // alert(new Date(matchDate).toDateString())
       //alert(`Tournament: ${tournamentName}\nMatch ID: ${matchID}\nUser Team: ${userTeam.name}\nComputer Team: ${computerTeam.name}`);
    try{
       const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/addtournament", {
@@ -61,7 +96,8 @@ const Create = () => {
     name: tournamentName,
     playerteam: userTeam.name,
     computerteam: computerTeam.name,
-    matchID: matchID
+    matchID: matchID,
+    time:new Date(matchDate).toDateString()
   }),
 });
     const data=await response.json();
@@ -84,7 +120,50 @@ const Create = () => {
       setComputerTeam(null)
       setUserDropdownOpen(false)
       setComputerDropdownOpen(false)
+      setMatchDate("")
       setMatchID("")
+      // Re-enable submit button
+    }
+
+    
+    } else {
+       toast.error("Invalid input");
+       setLock(false)
+    }
+  };
+  const handEdit = async() => {
+    if (editmatchID && editmatchDate) {
+   // alert(new Date(matchDate).toDateString())
+      //alert(`Tournament: ${tournamentName}\nMatch ID: ${matchID}\nUser Team: ${userTeam.name}\nComputer Team: ${computerTeam.name}`);
+   try{
+      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/edittournament", {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`  // ✅ correctly placed
+  },
+  body: JSON.stringify({
+    matchID: editmatchID,
+    time:new Date(editmatchDate).toDateString()
+  }),
+});
+    const data=await response.json();
+    console.log(data)
+    if(!response.ok){
+        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+    }
+    else if(response.ok){
+      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Tournament updated successfully</strong>);
+    }
+  }
+    catch(err){
+        console.log(err)
+     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+      }
+      finally {
+      setEditlock(false);
+      setEditmatchID("")
+      setEditmatchDate("")
       // Re-enable submit button
     }
 
@@ -100,6 +179,12 @@ const Create = () => {
     handSubmit();
   }
 };
+const handleEdit=()=>{
+    if (!editlock) {
+    setEditlock(true);
+    handEdit();
+  }
+}
 useEffect(()=>{
 window.scrollTo({ top: 0, behavior: "smooth" });
   toast.dismiss();
@@ -111,7 +196,25 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 
   return (
     <>
-    <Toaster position="top-center" toastOptions={{
+    {loading == true && <>
+     <div className="w-full flex flex-col items-center justify-center py-40 md:py-48">
+    <img src="Logos/Logo.webp" className="w-30 h-24 md:w-60 md:h-32" />
+   <div className="w-full flex justify-center gap-y-2  text-center flex-col p-4 mt-4">
+
+    <div className="mt-4 flex flex-row flex-wrap justify-center gap-x-12 gap-y-12 ">
+  {new Array(4).fill("").map((i,ind)=>{
+  return(
+  <div className="text-center">
+    <img src={`sponsor/sponsor${ind+1}.png`} className="w-22 h-14 md:w-20 md:h-16"></img>
+    </div>
+    )
+  })}
+</div>
+    </div>
+    </div>
+  </>}
+{ loading==false && <>
+<Toaster position="top-center" toastOptions={{
               className: 'font-bold', // Tailwind class applied to all toasts
             }}/>
     {/* //& Navbar for mobile */}
@@ -191,6 +294,27 @@ window.scrollTo({ top: 0, behavior: "smooth" });
       </div>
     </div>
   </nav>
+  <div className="flex justify-evenly mt-4">
+  <button
+    onClick={() => setMode("create")}
+    className={`px-4 py-2 font-bold ${mode === "create" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}
+  >
+    Create
+  </button>
+  <button
+    onClick={() => setMode("edit")}
+    className={`px-4 py-2 font-bold  ${mode === "edit" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}
+  >
+    Edit
+  </button>
+    <button
+    onClick={() => setMode("view")}
+    className={`px-4 py-2 font-bold  ${mode === "view" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}
+  >
+    View
+  </button>
+</div>
+{ mode=="create" && <>
        <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
 
       <h2 className="text-xl font-bold text-center text-white md:text-gray-800">Create Tournament</h2>
@@ -210,6 +334,19 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         value={matchID}
         onChange={(e) => setMatchID(e.target.value)}
       />
+<div className="relative">
+  {!matchDate && (
+    <span className="absolute left-3 top-3 font-semibold text-gray-400 pointer-events-none">
+      Enter Match Date
+    </span>
+  )}
+  <input
+    type="date"
+    className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"
+    value={matchDate}
+    onChange={(e) => setMatchDate(e.target.value)}
+  />
+</div>
 
     <div className="flex flex-col md:flex-row gap-4 w-full max-w-md mx-auto px-4">
   {/* User Team Dropdown */}
@@ -298,6 +435,82 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         Create
       </button>
     </div>
+    </>}
+    {
+      mode=="edit" && <>
+<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
+<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Edit Tournament</h2>
+      <input
+        type="text"
+        placeholder="Enter Match ID"
+        className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"
+        value={editmatchID}
+        onChange={(e) => setEditmatchID(e.target.value)}
+      />
+<div className="relative">
+  {!editmatchDate && (
+    <span className="absolute left-3 top-3 font-semibold text-gray-400 pointer-events-none">
+      Enter Match Date
+    </span>
+  )}
+  <input
+    type="date"
+    className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"
+    value={editmatchDate}
+    onChange={(e) => setEditmatchDate(e.target.value)}
+  />
+</div>
+      <button
+        onClick={handleEdit} disabled={editlock}
+        className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300"
+      >
+        Edit
+      </button>
+    </div>
+      </>
+    }
+    { mode=="view" && <>
+  <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Ongoing Tournaments</h1>
+  { items.length>0 && <>
+  <div className="w-full overflow-x-auto cursor-pointer my-2">
+  <table className="min-w-full table-fixed border-collapse">
+    <thead>
+      <tr className="bg-emerald-500 text-white">
+        <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">MatchID</th>
+        <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Name</th>
+        <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Player</th>
+      <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Computer</th>
+     <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Date</th>
+      </tr>
+    </thead>
+    <tbody>
+      {items.map((user, idx) => (
+        <tr key={idx} className={`${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b`}>
+          <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">{user.matchID}</td>
+          <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">{user.name}</td>
+        <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
+        <img src={`Logos/${user.playerteam}.webp`} className="w-10 h-10" />
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
+        <img src={`Logos/${user.computerteam}.webp`} className="w-10 h-10" />
+        </td>
+        <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
+        {user.time}
+        </td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</div>
+</>}
+{
+  items.length==0 && 
+    <h1 className="font-bold text-white text-center my-48">No Tournaments Found</h1>
+}
+</>
+}
+    </>
+    }
     </>
   )
 }

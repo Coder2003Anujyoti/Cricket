@@ -25,19 +25,15 @@ router.get('/specifictournament',async(req,res)=>{
   return res.json({tournaments_data:data})
 })
 router.post('/addtournament',authenticateToken, authorizeRoles("admin"),async(req,res)=>{
-const { name, playerteam, computerteam, matchID } = req.body;
-  if (!name || !playerteam || !computerteam || !matchID) {
+const { name, playerteam, computerteam, matchID , time} = req.body;
+  if (!name || !playerteam || !computerteam || !matchID || !time) {
     return res.status(400).json({ error: "All fields are required." });
   }
   try {
-    const exists = await TournamentsCollection.findOne({ name, playerteam, computerteam, matchID });
+    const exists = await TournamentsCollection.findOne({ name, playerteam, computerteam, matchID, time });
 if (exists) {
   return res.status(409).json({ error: "Tournament already exists." });
 }
-const today = new Date(); 
-const tomorrow = new Date(); 
-tomorrow.setDate(today.getDate() + 1);
-const time=tomorrow.toDateString();
     const newTournament = new TournamentsCollection({
       name,
       playerteam,
@@ -52,4 +48,23 @@ const time=tomorrow.toDateString();
     res.status(500).json({ error: "Server error" });
   }
 })
+router.post('/edittournament',authenticateToken,authorizeRoles('admin'),async (req, res) => { const { matchID, time } = req.body;
+   if (!matchID || !time) {
+return res.status(400).json({ error: "matchID and new time are required." });
+    }
+    try {
+  const tournament = await TournamentsCollection.findOne({ matchID });
+if (!tournament) {
+return res.status(404).json({ error: "Tournament not found." });
+      }// Update only the time
+      tournament.time = time;
+      await tournament.save();
+
+      res.status(200).json({ message: "Tournament updated successfully", tournament });
+    } catch (error) {
+      console.error("❌ Error editing tournament:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
+);
 module.exports = router;
