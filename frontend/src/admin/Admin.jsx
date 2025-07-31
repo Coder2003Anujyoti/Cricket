@@ -35,6 +35,8 @@ const Admin = () => {
   const [content,setContent]=useState("")
   const [lock,setLock]=useState(false)
   const [news,setNews]=useState([])
+  const [deletenewsID,setDeletenewsID]=useState("")
+  const [deletelock,setDeletelock]=useState(false)
     const show_data=async(token)=>{
     try{
      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/users", {
@@ -103,6 +105,46 @@ const Admin = () => {
        setLock(false)
     }
   };
+  const handDelete = async() => {
+    if (deletenewsID) {
+   // alert(new Date(matchDate).toDateString())
+      //alert(`Tournament: ${tournamentName}\nMatch ID: ${matchID}\nUser Team: ${userTeam.name}\nComputer Team: ${computerTeam.name}`);
+   try{
+      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/deletenews", {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`  // ✅ correctly placed
+  },
+  body: JSON.stringify({
+    newsID:deletenewsID
+  }),
+});
+    const data=await response.json();
+    console.log(data)
+    if(!response.ok){
+        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+    }
+    else if(response.ok){
+      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Post deleted successfully</strong>);
+    }
+  }
+    catch(err){
+        console.log(err)
+     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+      }
+      finally {
+      setDeletelock(false);
+      setDeletenewsID("")
+      // Re-enable submit button
+    }
+
+    
+    } else {
+       toast.error("Invalid input");
+       setLock(false)
+    }
+  };
   useEffect(()=>{
     show_data(token)
      window.scrollTo({
@@ -120,6 +162,12 @@ const handleSubmit = () => {
   if (!lock) {
     setLock(true);
     handSubmit();
+  }
+};
+const handleDelete = () => {
+  if (!lock) {
+    setDeletelock(true);
+    handDelete();
   }
 };
   return (
@@ -232,7 +280,7 @@ const handleSubmit = () => {
     onClick={() => setMode("create")}
     className={`px-4 py-2 font-bold  ${mode === "create" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}
   >
-    Create
+  Update
   </button>
     <button
     onClick={() => setMode("view")}
@@ -303,6 +351,14 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
         Create
       </button>
     </div>
+<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
+<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Delete Announcement</h2>
+<input type="text" value={deletenewsID}
+onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
+<button disabled={deletelock} onClick={handleDelete} className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300">
+      Delete
+      </button>
+</div>
     </>}
 {
   mode=="view" && <>
@@ -320,6 +376,9 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
     <div className="w-full bg-slate-800 flex flex-col rounded-md flex-wrap">
   <div className="w-full flex justify-start items-start p-3">
   <img src={`Logos/Logo.webp`} className="w-16 h-8" />
+  <div className="w-full flex justify-end">
+  <h1 className="text-white ml-2 mr-2 font-bold">{i.newsID}</h1>
+  </div>
   </div>
 <div className="w-full flex flex-col space-y-4">
 <div className="w-full h-full flex flex-row flex-wrap justify-start items-start">

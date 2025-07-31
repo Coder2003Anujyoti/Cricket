@@ -17,15 +17,16 @@ import Online from "./online/Online.jsx"
 import PlayerSearch from "./users/PlayerSearch.jsx"
 import News from "./users/News.jsx"
 import Warning from "./Warning.jsx";
+import Unauthorize from "./Unauthorize.jsx"
 const HomeRoutes = () => {
   return (
     <Routes>
     <Route path="/login" element={<Login />} />
-    <Route path="/admin" element={<Warning><Protected><Admin /></Protected></Warning>} />
-    <Route path="/create" element={<Warning><Protected><Create /></Protected></Warning>} />
-    <Route path="/adminuser" element={<Warning><Protected><AdminUser /></Protected></Warning>} />
+    <Route path="/admin" element={<Warning><Protected allowedRoles={['admin']} ><Admin /></Protected></Warning>} />
+    <Route path="/create" element={<Warning><Protected allowedRoles={['admin']}><Create /></Protected></Warning>} />
+    <Route path="/adminuser" element={<Warning><Protected allowedRoles={['admin']}><AdminUser /></Protected></Warning>} />
     <Route path="/useruser" element={<Warning><Protected><UserUser /></Protected></Warning>} />
-   <Route path="/adminplay" element={<Warning><Protected><AdminPlay /></Protected></Warning>} />
+   <Route path="/adminplay" element={<Warning><Protected allowedRoles={['admin']}><AdminPlay /></Protected></Warning>} />
       <Route path="/usermake" element={<Warning><Protected><UserMake /></Protected></Warning>} />
    <Route path="/onlinescore" element={<Warning><Protected><OnlineScore /></Protected></Warning>} />
       <Route path="/leaderboard" element={<Warning><Protected><LeaderBoard/></Protected></Warning>} />
@@ -35,6 +36,7 @@ const HomeRoutes = () => {
 <Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />
 <Route path="/playersearch" element={<Warning><Protected><PlayerSearch /></Protected></Warning>} />
 <Route path="/news" element={<Warning><Protected><News /></Protected></Warning>} />
+<Route path="/unauthorize" element={<Warning><Unauthorize /></Warning>} />
     </Routes>
   )
 }

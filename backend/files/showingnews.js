@@ -39,4 +39,23 @@ router.post('/addnews',authenticateToken, authorizeRoles("admin"), async (req, r
     res.status(500).json({ error: "Failed to add news.", details: err.message });
   }
 });
+router.delete('/deletenews', authenticateToken, authorizeRoles("admin"), async (req, res) => {
+  const { newsID } = req.body;
+
+  if (!newsID) {
+    return res.status(400).json({ error: "newsID is required." });
+  }
+
+  try {
+    const deleted = await NewsCollection.findOneAndDelete({ newsID });
+
+    if (!deleted) {
+      return res.status(404).json({ error: "No news found with the given newsID." });
+    }
+
+    res.status(200).json({ message: "News deleted successfully.", news: deleted });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to delete news.", details: err.message });
+  }
+});
 module.exports=router
