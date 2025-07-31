@@ -85,9 +85,9 @@ const AllLeaderBoard = () => {
         <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-6">Team Leaderboard</h1>
         <div className="w-full text-center flex justify-center flex-col">
           {
-            items.filter(it => it.role !== "admin").length > 0 ? (
+            items.filter(it => it.role !== "admin" && it.score>0).length > 0 ? (
               items
-                .filter(it => it.role !== "admin")
+                .filter(it => it.role !== "admin" && it.score>0)
                 .sort((a, b) => b.score - a.score)
                 .map((it) => (
                   <div

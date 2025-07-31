@@ -113,7 +113,8 @@ window.scrollTo({ top: 0, behavior: "smooth" });
   return (
     <div className="flex items-center justify-center">
       <Toaster position="top-center" toastOptions={{
-          className: 'font-bold', // Tailwind class applied to all toasts
+          className: 'font-bold', 
+          // Tailwind class applied to all toasts
         }}/>
       <div className="w-full my-28 md:my-48 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
         <video
