@@ -40,9 +40,18 @@ const Admin = () => {
 const [editnewsID,setEditnewsID]=useState("")
 const [editcontent,setEditcontent]=useState("")
 const [editlock,setEditlock]=useState(false)
+const [userLen, setUserLen] = useState(0);
+const [newsLen, setNewsLen] = useState(0);
+const [userOffset, setUserOffset] = useState(0);
+const [newsOffset, setNewsOffset] = useState(0);
+const [userLimit, setUserLimit] = useState(5);
+const [newsLimit, setNewsLimit] = useState(5);
+const [userSubload, setUserSubload] = useState(false);
+const [newsSubload, setNewsSubload] = useState(false);
+
     const show_data=async(token)=>{
     try{
-     const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/users", {
+     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/users?offset=0&&limit=5`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -50,21 +59,87 @@ const [editlock,setEditlock]=useState(false)
       },
     });
     let data=await response.json()
-    let unews=[]
-  if(data.news_data.filter((i)=>i.posttype=="posts").length>0){
-    unews=data.news_data.filter((i)=>i.posttype=="posts")
-  }
     if(!data.error){
      setTimeout(()=>{
       setLoading(false)
+      setNewsSubload(false)
+      setUserSubload(false)
+      setUserOffset(userOffset+5)
+      setNewsOffset(newsOffset+5)
+      setUserLen(data.total_users)
+      setNewsLen(data.total_news_posts)
       setUser(data.user_data)
-      setNews(unews.reverse())
+      setNews(data.news_data)
     },2000)
     }
   }
   catch(err){
     console.log("It is an error-: ",err)
   }
+  }
+  const showuser_data=async(token)=>{
+    try{
+     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getuserslist?offset=${userOffset}&&limit=${userLimit}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:`Bearer ${token}`,
+      },
+    });
+    let data=await response.json()
+    if(!data.error){
+     setTimeout(()=>{
+      setLoading(false)
+      setUserSubload(false)
+      setUserOffset(userOffset+5)
+      setUserLen(data.total_users)
+      setUser([...user,...data.user_data])
+    },2000)
+    }
+  }
+  catch(err){
+    console.log("It is an error-: ",err)
+  }
+  }
+  useEffect(()=>{
+    if(userSubload==true){
+      showuser_data()
+    }
+  },[userSubload])
+  const usersgo=()=>{
+    setUserSubload(true)
+  }
+  const showposts_data=async(token)=>{
+    try{
+     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getpostslist?offset=${newsOffset}&&limit=${newsLimit}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization:`Bearer ${token}`,
+      },
+    });
+    let data=await response.json()
+    if(!data.error){
+     setTimeout(()=>{
+      setLoading(false)
+      setNewsSubload(false)
+      setNewsOffset(newsOffset+5)
+      setNewsLen(data.total_news_posts)
+      setNews(data.news_data)
+    },2000)
+    }
+  }
+  catch(err){
+    console.log("It is an error-: ",err)
+  }
+  }
+  useEffect(()=>{
+    if(newsSubload==true){
+      showposts_data()
+    }
+  },[newsSubload])
+  const newsgo=()=>{
+    setNewsSubload(true)
   }
   const handSubmit = async() => {
     if (content && newsID) {
@@ -389,6 +464,22 @@ const handleEdit= () => {
     </tbody>
   </table>
 </div>
+ {
+  userOffset<userLen && <>
+        {
+          userSubload==false && <>
+      <div className="w-full flex justify-center">
+        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={usersgo}>More Items</button>
+      </div>
+          </>
+        }
+        {
+          userSubload==true && <>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold"><p>Loading...</p></div>
+          </>
+        }
+        </>
+      }
 </>
 }
 { mode=="create" && <>
@@ -455,6 +546,22 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
   </div>
   </>
 }
+ {
+  newsOffset<newsLen && <>
+        {
+          newsSubload==false && <>
+      <div className="w-full flex justify-center">
+        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={newsgo}>More Items</button>
+      </div>
+          </>
+        }
+        {
+          newsSubload==true && <>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold"><p>Loading...</p></div>
+          </>
+        }
+        </>
+      }
   </>
 }
   </>}

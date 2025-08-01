@@ -57,14 +57,72 @@ router.post('/forget',async(req,res)=>{
 })
 router.get('/users', authenticateToken, authorizeRoles("admin"), async (req, res) => {
   try {
-    const [user_data, news_data] = await Promise.all([
-      UsersCollection.find(),
-      NewsCollection.find()
+    const usersPromise = UsersCollection.find().sort({ _id: -1 }).limit(5);
+    const usersCountPromise = UsersCollection.countDocuments();
+    const newsPromise = NewsCollection.find({ posttype: "posts" }).sort({ _id: -1 }).limit(5);
+    const newsCountPromise = NewsCollection.countDocuments({ posttype: "posts" });
+    const [user_data, total_users, news_data, total_news_posts] = await Promise.all([
+      usersPromise,
+      usersCountPromise,
+      newsPromise,
+      newsCountPromise
     ]);
-
-    res.status(200).json({ user_data, news_data });
+    res.status(200).json({
+      user_data,
+      news_data,
+      total_users,
+      total_news_posts
+    });
   } catch (error) {
     console.error("Error fetching users or news:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+router.get('/getuserslist', authenticateToken, authorizeRoles("admin"), async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 5;
+    const offset = parseInt(req.query.offset) || 0;
+    const usersPromise = UsersCollection.find()
+      .sort({ _id: -1 })
+      .skip(offset)
+      .limit(limit);
+    const usersCountPromise = UsersCollection.countDocuments();
+    const [user_data, total_users] = await Promise.all([
+      usersPromise,
+      usersCountPromise
+    ]);
+    res.status(200).json({
+      user_data,
+      total_users
+    });
+  } catch (error) {
+    console.error("Error fetching user list:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+router.get('/getpostslist', authenticateToken, authorizeRoles("admin"), async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 5;
+    const offset = parseInt(req.query.offset) || 0;
+
+    const postsPromise = NewsCollection.find({ posttype: "posts" })
+      .sort({ _id: -1 })
+      .skip(offset)
+      .limit(limit);
+
+    const postsCountPromise = NewsCollection.countDocuments({ posttype: "posts" });
+
+    const [news_data, total_news_posts] = await Promise.all([
+      postsPromise,
+      postsCountPromise
+    ]);
+
+    res.status(200).json({
+      news_data,
+      total_news_posts
+    });
+  } catch (error) {
+    console.error("Error fetching news posts:", error);
     res.status(500).json({ error: "Internal server error" });
   }
 });
