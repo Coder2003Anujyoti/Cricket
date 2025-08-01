@@ -254,6 +254,8 @@ const score = players.reduce((acc, player, index) => {
 }, 0);
         console.log(score)
         p.score=score
+        p.players=[]
+        p.selected=[]
         modified=true
       }
       return p
