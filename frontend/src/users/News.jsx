@@ -31,6 +31,15 @@ const [selectedTeams, setSelectedTeams] = useState([]);
   const [mode, setMode] = useState("news");
   const [items, setItems] = useState([]);
   const [news,setNews]=useState([])
+  const [newslen,setNewslen]=useState(-1)
+  const [postslen,setPostslen]=useState(-1)
+  const [postOffset, setPostOffset] = useState(0);
+const [postLimit, setPostLimit] = useState(5);
+const [newsOffset, setNewsOffset] = useState(0);
+const [newsLimit, setNewsLimit] = useState(5);
+
+const [postLoad, setPostLoad] = useState(false);
+const [newsLoad, setNewsLoad] = useState(false);
   const teams = ["Mi", "Csk", "Rr", "Kkr", "Gt", "Pbks", "Rcb", "Lsg", "Dc", "Srh"];
 
   const handleSelect = (team) => {
@@ -42,22 +51,75 @@ const [selectedTeams, setSelectedTeams] = useState([]);
   };
 const show_data = async () => {
     try {
-      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getnews`);
+      const response = await fetch(`http://localhost:8000/getnews`);
       let data = await response.json();
-    const m=data.news_data.filter((i)=>i.posttype=="news")
-    const n=data.news_data.filter((i)=>i.posttype=="posts")
       if (!data.error) {
         setTimeout(() => {
           setLoading(false);
-          setItems(m);
-          setNews(n)
+          setItems(data.news_data);
+          setNews(data.posts_data)
+          setPostslen(data.posts_count)
+          setNewslen(data.news_count)
+          setNewsOffset(newsOffset+5)
+          setPostOffset(postOffset+5)
+          setNewsLoad(false)
+          setPostLoad(false)
         }, 2000);
       }
     } catch (err) {
       console.log("It is an error: ", err);
     }
   };
-
+  const show_news = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/getnewsbynews?offset=${newsOffset}&&limit=${newsLimit}`);
+      let data = await response.json();
+      if (!data.error) {
+        setTimeout(() => {
+          setLoading(false);
+          setItems([...items,...data.news_data]);
+          setNewslen(data.news_count)
+          setNewsOffset(newsOffset+5)
+          setNewsLoad(false)
+        }, 2000);
+      }
+    } catch (err) {
+      console.log("It is an error: ", err);
+    }
+  };
+  useEffect(()=>{
+    if(newsLoad==true){
+      show_news()
+    }
+  },[newsLoad])
+const newsgo=()=>{
+  setNewsLoad(true)
+}
+const show_posts = async () => {
+    try {
+      const response = await fetch(`http://localhost:8000/getnewsbyposts?offset=${postOffset}&&limit=${postLimit}`);
+      let data = await response.json();
+      if (!data.error) {
+        setTimeout(() => {
+          setLoading(false);
+          setNews([...news,...data.posts_data]);
+          setPostslen(data.posts_count)
+          setPostOffset(postOffset+5)
+          setPostLoad(false)
+        }, 2000);
+      }
+    } catch (err) {
+      console.log("It is an error: ", err);
+    }
+  };
+  useEffect(()=>{
+    if(postLoad==true){
+      show_posts()
+    }
+  },[postLoad])
+const postsgo=()=>{
+  setPostLoad(true)
+}
   useEffect(() => {
     show_data();
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -190,6 +252,22 @@ const show_data = async () => {
   </div>
   </>
 }
+ {
+  newsOffset<newslen && selectedTeams.length==0 && <>
+        {
+          newsLoad==false && <>
+      <div className="w-full flex justify-center">
+        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={newsgo}>More Items</button>
+      </div>
+          </>
+        }
+        {
+          newsLoad==true && <>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold"><p>Loading...</p></div>
+          </>
+        }
+        </>
+      }
 </>
 }
 {
@@ -223,6 +301,22 @@ const show_data = async () => {
   </div>
   </>
   }
+   {
+  postOffset<postslen && <>
+        {
+          postLoad==false && <>
+      <div className="w-full flex justify-center">
+        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={postsgo}>More Items</button>
+      </div>
+          </>
+        }
+        {
+          postLoad==true && <>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold"><p>Loading...</p></div>
+          </>
+        }
+        </>
+      }
   </>
 }
 </>

@@ -68,15 +68,34 @@ router.get('/users', authenticateToken, authorizeRoles("admin"), async (req, res
     res.status(500).json({ error: "Internal server error" });
   }
 });
-router.get('/allusers',async(req,res)=>{
-  const data=await UsersCollection.find()
-  return res.json({user_data:data})
-})
-router.get('/specificuser',async(req,res)=>{
-  const {id}=req.query;
-  const users=await UsersCollection.find({"participation.id":id})
-  return res.json(users)
-})
+router.get('/allusers', async (req, res) => {
+  try {
+  const users = await UsersCollection.find();
+  const topUsers = users.filter((i)=>i.role!="admin").map(user => {
+const totalScore = user.participation.length>0
+? user.participation.reduce((acc, it) => acc + Number(it.score || 0), 0) : 0;
+return { username: user.username,icon: user.icon,role:user.role,totalScore, participation: user.participation};
+}).sort((a, b) => b.totalScore - a.totalScore).slice(0, 10);
+    return res.json({ user_data: topUsers });
+  } catch (err) {
+    console.error("Error fetching top users:", err);
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+router.get('/specificuser', async (req, res) => {
+  const { id} = req.query;
+  try {
+  const users = await UsersCollection.find({ "participation.id": id });
+const filteredUsers = users.map(user => {
+const match = user.participation.find(p => p.id === id);
+if (!match) return null; 
+return { username: user.username,icon: user.icon, role:user.role,participation: [match]};}).filter(Boolean) .sort((a, b) => b.participation[0].score - a.participation[0].score) .slice(0, 10);
+    return res.json(filteredUsers);
+  } catch (error) {
+    console.error("Error fetching users:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
 router.get('/userprofile',async(req,res)=>{
   const {username}=req.query;
   const users=await UsersCollection.findOne({username})

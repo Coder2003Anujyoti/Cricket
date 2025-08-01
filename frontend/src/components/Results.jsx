@@ -117,7 +117,7 @@ const Results = () => {
         </>)})}
          {ind===items.length-1 && loads==false && offset<length-5 &&
         <div className="w-full flex justify-center">
-        <button className="p-4 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={go}>More Items</button>
+        <button className="px-4 py-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={go}>More Items</button>
       </div>}
      {loads==true && ind===items.length-1 && <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold"><p>Loading...</p></div> }
       </>)

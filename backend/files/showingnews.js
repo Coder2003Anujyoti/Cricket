@@ -14,11 +14,67 @@ const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware
     await NewsCollection.insertMany(news);
 }
 //addDataToMongodb();
-router.get('/getnews',async(req,res)=>{
-  const datas=await NewsCollection.find()
-  const data=datas.reverse()
-  return res.json({news_data:data})
-})
+router.get('/getnews', async (req, res) => {
+  try {
+    const allNews = await NewsCollection.find().sort({ _id: -1 });
+    const newsList = [];
+    const postsList = [];
+    for (const item of allNews) {
+      if (item.posttype === "news") {
+        newsList.push(item);
+      } else if (item.posttype === "posts") {
+        postsList.push(item);
+      }
+    }
+    return res.json({
+      news_count: newsList.length,
+      news_data: newsList.slice(0,5),
+      posts_count: postsList.length,
+      posts_data: postsList.slice(0,5)
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Error fetching news data" });
+  }
+});
+router.get('/getnewsbynews', async (req, res) => {
+const offset = parseInt(req.query.offset) || 0;
+const limit = parseInt(req.query.limit) || 5;
+  try {
+    const filter = { posttype: "news" };
+    const total = await NewsCollection.countDocuments(filter);
+    const data = await NewsCollection.find(filter)
+      .sort({ _id: -1 })
+      .skip(offset)
+      .limit(limit);
+    return res.json({
+      news_count: total,
+      news_data: data
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Error fetching news by posttype" });
+  }
+});
+router.get('/getnewsbyposts', async (req, res) => {
+const offset = parseInt(req.query.offset) || 0;
+const limit = parseInt(req.query.limit) || 5;
+  try {
+    const filter = { posttype: "posts" };
+    const total = await NewsCollection.countDocuments(filter);
+    const data = await NewsCollection.find(filter)
+      .sort({ _id: -1 })
+      .skip(offset)
+      .limit(limit);
+    return res.json({
+      posts_count: total,
+      posts_data: data
+    });
+  } catch (err) {
+    console.error(err);
+    return res.status(500).json({ error: "Error fetching news by posttype" });
+  }
+});
 router.post('/addnews',authenticateToken, authorizeRoles("admin"), async (req, res) => {
   const { newsID, content } = req.body;
   if (!newsID || !content) {

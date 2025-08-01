@@ -53,10 +53,14 @@ const Create = () => {
    const [editlock,setEditlock]=useState(false)
    const [editmatchID,setEditmatchID]=useState("")
    const [editmatchDate,setEditmatchDate]=useState("")
+   const [subload,setSubload]=useState(false)
+   const [offset,setOffset]=useState(0)
+const [limit,setLimit]=useState(5)
+const [len,setLen]=useState(-1)
    const location = useLocation();
    const show_data=async()=>{
     try{
-     const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getadmintournaments", {
+     const response = await fetch(`http://localhost:8000/getadmintournaments?offset=${offset}&&limit=${limit}`, {
       method: "GET",
       headers: {
           "Authorization": `Bearer ${token}`,
@@ -67,7 +71,10 @@ const Create = () => {
     if(!data.error){
      setTimeout(()=>{
       setLoading(false)
-      setItems(data.tournaments_data.reverse())
+      setSubload(false)
+      setLen(data.total)
+      setOffset(offset+5)
+      setItems(data.tournaments_data
     },2000)
     }
   }
@@ -82,6 +89,14 @@ const Create = () => {
       behavior: 'smooth',
     });
   },[token])
+  useEffect(()=>{
+    if(subload==true){
+      show_data();
+    }
+  },[subload])
+const go=()=>{
+  setSubload(true)
+}
    const handSubmit = async() => {
     if (tournamentName && matchID && userTeam && computerTeam && matchDate) {
    // alert(new Date(matchDate).toDateString())
@@ -520,6 +535,22 @@ window.scrollTo({ top: 0, behavior: "smooth" });
   items.length==0 && 
     <h1 className="font-bold text-white text-center my-48">No Tournaments Found</h1>
 }
+                {
+        offset<len && selectedTeams.length==0 && <>
+        {
+          subload==false && <>
+      <div className="w-full flex justify-center">
+        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={go}>More Items</button>
+      </div>
+          </>
+        }
+        {
+          subload==true && <>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold"><p>Loading...</p></div>
+          </>
+        }
+        </>
+      }
 </>
 }
     </>

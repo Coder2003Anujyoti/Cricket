@@ -14,15 +14,48 @@ const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware
     await TournamentsCollection.insertMany(tours);
 }
 //addDataToMongodb();
-router.get('/gettournaments',async(req,res)=>{
-  const datas=await TournamentsCollection.find()
-  const data=datas.reverse()
-  return res.json({tournaments_data:data})
-})
+router.get('/gettournaments', async (req, res) => {
+const offset = parseInt(req.query.offset) || 0;
+const limit = parseInt(req.query.limit) || 5;
+try {
+const total = await TournamentsCollection.countDocuments();
+const data = await TournamentsCollection.find().sort({ _id: -1 }).skip(offset).limit(limit);
+res.json({ total,tournaments_data: data,});
+  } catch (err) {
+    res.status(500).json({ error: "Error fetching tournaments" });
+  }
+});
+router.get('/getalltournaments', async (req, res) => {
+  const offset = parseInt(req.query.offset) || 0;
+  const limit = parseInt(req.query.limit) || 5;
+  try {
+    const filter = { winner: { $ne: "" } }; // Only tournaments with non-empty winner
+    const total = await TournamentsCollection.countDocuments(filter);
+
+    const data = await TournamentsCollection.find(filter)
+      .sort({ _id: -1 }) // Ascending order
+      .skip(offset)
+      .limit(limit);
+
+    res.json({
+      total,
+      tournaments_data: data,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error fetching filtered tournaments" });
+  }
+});
 router.get('/getadmintournaments',authenticateToken, authorizeRoles("admin"),async(req,res)=>{
-  const datas=await TournamentsCollection.find()
-  const data=datas.reverse()
-  return res.json({tournaments_data:data})
+  const offset = parseInt(req.query.offset) || 0;
+const limit = parseInt(req.query.limit) || 5;
+try {
+const total = await TournamentsCollection.countDocuments();
+const data = await TournamentsCollection.find().sort({ _id: 1 }).skip(offset).limit(limit);
+res.json({ total,tournaments_data: data,});
+  } catch (err) {
+    res.status(500).json({ error: "Error fetching tournaments" });
+  }
 })
 router.get('/specifictournament',async(req,res)=>{
   const {id}=req.query
