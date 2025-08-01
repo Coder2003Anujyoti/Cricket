@@ -475,7 +475,7 @@ const handleEdit= () => {
         }
         {
           userSubload==true && <>
-          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold"><p>Loading...</p></div>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold my-2"><p>Loading...</p></div>
           </>
         }
         </>
@@ -557,7 +557,7 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
         }
         {
           newsSubload==true && <>
-          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold"><p>Loading...</p></div>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold my-2"><p>Loading...</p></div>
           </>
         }
         </>
