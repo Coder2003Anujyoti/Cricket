@@ -133,7 +133,7 @@ router.get('/allusers', async (req, res) => {
 const totalScore = user.participation.length>0
 ? user.participation.reduce((acc, it) => acc + Number(it.score || 0), 0) : 0;
 return { username: user.username,icon: user.icon,role:user.role,totalScore, participation: user.participation};
-}).sort((a, b) => b.totalScore - a.totalScore).slice(0, 10);
+}).sort((a, b) => b.totalScore - a.totalScore).slice(0,5);
     return res.json({ user_data: topUsers });
   } catch (err) {
     console.error("Error fetching top users:", err);
@@ -141,17 +141,57 @@ return { username: user.username,icon: user.icon,role:user.role,totalScore, part
   }
 });
 router.get('/specificuser', async (req, res) => {
-  const { id} = req.query;
+  const { id, name } = req.query;
+
+  if (!id || !name) {
+    return res.status(400).json({ error: "Both 'id' and 'name' query parameters are required." });
+  }
+
   try {
-  const users = await UsersCollection.find({ "participation.id": id });
-const filteredUsers = users.map(user => {
-const match = user.participation.find(p => p.id === id);
-if (!match) return null; 
-return { username: user.username,icon: user.icon, role:user.role,participation: [match]};}).filter(Boolean) .sort((a, b) => b.participation[0].score - a.participation[0].score) .slice(0, 10);
-    return res.json(filteredUsers);
+    const users = await UsersCollection.find({ "participation.id": id });
+
+    const processedUsers = await Promise.all(
+      users.map(async (user) => {
+        const match = user.participation.find(p => p.id === id);
+        if (!match) return null;
+        return {
+          username: user.username,
+          icon: user.icon,
+          role: user.role,
+          participation: [match]
+        };
+      })
+    );
+
+    let finalUsers = processedUsers
+      .filter(Boolean)
+      .sort((a, b) => b.participation[0].score - a.participation[0].score)
+      .slice(0, 5); // top 5
+
+    const alreadyIncluded = finalUsers.some(user => user.username === name);
+
+    if (!alreadyIncluded) {
+      const namedUserDoc = await UsersCollection.findOne({ username: name, "participation.id": id });
+
+      if (namedUserDoc) {
+        const match = namedUserDoc.participation.find(p => p.id === id);
+        if (match) {
+          const namedUser = {
+            username: namedUserDoc.username,
+            icon: namedUserDoc.icon,
+            role: namedUserDoc.role,
+            participation: [match],
+          };
+          finalUsers.push(namedUser); // add at end if not in top 5
+        }
+      }
+    }
+
+    return res.json(finalUsers);
+
   } catch (error) {
     console.error("Error fetching users:", error);
-    res.status(500).json({ error: "Internal Server Error" });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 });
 router.get('/userprofile',async(req,res)=>{

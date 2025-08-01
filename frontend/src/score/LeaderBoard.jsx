@@ -30,7 +30,7 @@ const matchID=searchParams.get("id")
 const [items,setItems]=useState([])
   const show_data=async()=>{
     try{
-     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/specificuser?id=${matchID}`);
+     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/specificuser?id=${matchID}&&name=${role}`);
 let data = await response.json();
 
 const res = data.map((i) => {
@@ -114,7 +114,7 @@ const res = data.map((i) => {
       <div className="w-full text-center flex justify-center flex-col">
         {
           items.sort((a,b)=>b.participation[0].score-a.participation[0].score)
-            .map((it) => (
+            .filter((i,ind)=>ind<5).map((it) => (
            <div
   key={it._id || it.username}
   className="flex items-center justify-center  px-6 py-4 mt-1 w-full bg-slate-800"
