@@ -60,7 +60,11 @@ const [len,setLen]=useState(-1)
    const location = useLocation();
    const show_data=async()=>{
     try{
-     const response = await fetch(`http://localhost:8000/getadmintournaments?offset=${offset}&&limit=${limit}`, {
+      if(!token){
+        console.log("error")
+        return;
+      }
+     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getadmintournaments?offset=${offset}&&limit=${limit}`, {
       method: "GET",
       headers: {
           "Authorization": `Bearer ${token}`,
@@ -68,13 +72,22 @@ const [len,setLen]=useState(-1)
       },
     });
     let data=await response.json()
-    if(!data.error){
+    if(!data.error && offset==0){
      setTimeout(()=>{
       setLoading(false)
       setSubload(false)
       setLen(data.total)
       setOffset(offset+5)
-      setItems(data.tournaments_data
+      setItems(data.tournaments_data)
+    },2000)
+    }
+    else if(!data.error && offset > 0){
+      setTimeout(()=>{
+      setLoading(false)
+      setSubload(false)
+      setLen(data.total)
+      setOffset(offset+5)
+      setItems([...items,...data.tournaments_data])
     },2000)
     }
   }
@@ -536,7 +549,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
     <h1 className="font-bold text-white text-center my-48">No Tournaments Found</h1>
 }
                 {
-        offset<len && selectedTeams.length==0 && <>
+        offset<len && <>
         {
           subload==false && <>
       <div className="w-full flex justify-center">

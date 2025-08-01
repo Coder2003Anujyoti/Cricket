@@ -116,7 +116,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
           className: 'font-bold', 
           // Tailwind class applied to all toasts
         }}/>
-      <div className="w-full my-28 md:my-48 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
+      <div className="w-full my-28 md:my-28 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
         <video
           src="Icons/movable.mp4"
           autoPlay

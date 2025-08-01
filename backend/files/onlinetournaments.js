@@ -52,8 +52,9 @@ const limit = parseInt(req.query.limit) || 5;
 try {
 const total = await TournamentsCollection.countDocuments();
 const data = await TournamentsCollection.find().sort({ _id: 1 }).skip(offset).limit(limit);
-res.json({ total,tournaments_data: data,});
-  } catch (err) {
+return res.json({ total,tournaments_data: data});
+  }
+ catch (err) {
     res.status(500).json({ error: "Error fetching tournaments" });
   }
 })
