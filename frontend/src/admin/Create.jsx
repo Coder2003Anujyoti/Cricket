@@ -57,6 +57,8 @@ const Create = () => {
    const [offset,setOffset]=useState(0)
 const [limit,setLimit]=useState(5)
 const [len,setLen]=useState(-1)
+const [deletenewsID,setDeletenewsID]=useState("")
+  const [deletelock,setDeletelock]=useState(false)
    const location = useLocation();
    const show_data=async()=>{
     try{
@@ -110,6 +112,52 @@ const [len,setLen]=useState(-1)
 const go=()=>{
   setSubload(true)
 }
+const handDelete = async() => {
+    if (deletenewsID) {
+   // alert(new Date(matchDate).toDateString())
+      //alert(`Tournament: ${tournamentName}\nMatch ID: ${matchID}\nUser Team: ${userTeam.name}\nComputer Team: ${computerTeam.name}`);
+   try{
+      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/deletetournaments", {
+  method: 'DELETE',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`  // ✅ correctly placed
+  },
+  body: JSON.stringify({
+    matchID:deletenewsID
+  }),
+});
+    const data=await response.json();
+    console.log(data)
+    if(!response.ok){
+        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+    }
+    else if(response.ok){
+      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>News deleted successfully</strong>);
+    }
+  }
+    catch(err){
+        console.log(err)
+     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+      }
+      finally {
+      setDeletelock(false);
+      setDeletenewsID("")
+      // Re-enable submit button
+    }
+
+    
+    } else {
+       toast.error("Invalid input");
+       setDeletelock(false)
+    }
+  };
+  const handleDelete = () => {
+  if (!deletelock) {
+    setDeletelock(true);
+    handDelete();
+  }
+  }
    const handSubmit = async() => {
     if (tournamentName && matchID && userTeam && computerTeam && matchDate) {
    // alert(new Date(matchDate).toDateString())
@@ -496,6 +544,14 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         Edit
       </button>
     </div>
+    <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
+<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Delete Tournament</h2>
+<input type="text" value={deletenewsID}
+onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter Match ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
+<button disabled={deletelock} onClick={handleDelete} className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300">
+      Delete
+      </button>
+</div>
       </>
     }
     { mode=="view" && <>

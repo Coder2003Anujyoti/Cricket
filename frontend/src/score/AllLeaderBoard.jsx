@@ -32,7 +32,7 @@ const AllLeaderBoard = () => {
 
   const show_data = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/allusers`);
+      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/allusers`);
       let data = await response.json();
       let impdata = data.user_data.map((i) => {
         const total = (i.participation.length > 0) ?

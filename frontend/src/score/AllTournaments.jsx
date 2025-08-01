@@ -31,7 +31,7 @@ const [subload,setSubload]=useState(false)
 
   const show_data = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/getalltournaments?offset=${offset}&&limit=${limit}`);
+      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getalltournaments?offset=${offset}&&limit=${limit}`);
       let data = await response.json();
       if (!data.error && offset==0) {
         setTimeout(() => {

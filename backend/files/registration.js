@@ -57,7 +57,7 @@ router.post('/forget',async(req,res)=>{
 })
 router.get('/users', authenticateToken, authorizeRoles("admin"), async (req, res) => {
   try {
-    const usersPromise = UsersCollection.find().sort({ _id: -1 }).limit(5);
+    const usersPromise = UsersCollection.find().sort({ _id: 1 }).limit(5);
     const usersCountPromise = UsersCollection.countDocuments();
     const newsPromise = NewsCollection.find({ posttype: "posts" }).sort({ _id: -1 }).limit(5);
     const newsCountPromise = NewsCollection.countDocuments({ posttype: "posts" });
@@ -83,7 +83,7 @@ router.get('/getuserslist', authenticateToken, authorizeRoles("admin"), async (r
     const limit = parseInt(req.query.limit) || 5;
     const offset = parseInt(req.query.offset) || 0;
     const usersPromise = UsersCollection.find()
-      .sort({ _id: -1 })
+      .sort({ _id: 1 })
       .skip(offset)
       .limit(limit);
     const usersCountPromise = UsersCollection.countDocuments();

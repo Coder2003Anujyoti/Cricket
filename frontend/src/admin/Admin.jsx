@@ -49,7 +49,7 @@ const [newsLimit, setNewsLimit] = useState(5);
 const [userSubload, setUserSubload] = useState(false);
 const [newsSubload, setNewsSubload] = useState(false);
 
-    const show_data=async(token)=>{
+    const show_data=async()=>{
     try{
      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/users?offset=0&&limit=5`, {
       method: "GET",
@@ -77,7 +77,7 @@ const [newsSubload, setNewsSubload] = useState(false);
     console.log("It is an error-: ",err)
   }
   }
-  const showuser_data=async(token)=>{
+  const showuser_data=async()=>{
     try{
      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getuserslist?offset=${userOffset}&&limit=${userLimit}`, {
       method: "GET",
@@ -109,7 +109,7 @@ const [newsSubload, setNewsSubload] = useState(false);
   const usersgo=()=>{
     setUserSubload(true)
   }
-  const showposts_data=async(token)=>{
+  const showposts_data=async()=>{
     try{
      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getpostslist?offset=${newsOffset}&&limit=${newsLimit}`, {
       method: "GET",
@@ -125,7 +125,7 @@ const [newsSubload, setNewsSubload] = useState(false);
       setNewsSubload(false)
       setNewsOffset(newsOffset+5)
       setNewsLen(data.total_news_posts)
-      setNews(data.news_data)
+      setNews([...news,...data.news_data])
     },2000)
     }
   }
@@ -266,7 +266,7 @@ const [newsSubload, setNewsSubload] = useState(false);
     }
   };
   useEffect(()=>{
-    show_data(token)
+    show_data()
      window.scrollTo({
       top: 0,
       behavior: 'smooth',
@@ -517,7 +517,7 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
 <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Announcements</h1>
   {
   news.length==0 && <>
-  <h1 className="font-bold text-white text-center my-48">No News Found</h1>
+  <h1 className="font-bold text-white text-center my-12">No News Found</h1>
   </>
 }
 {

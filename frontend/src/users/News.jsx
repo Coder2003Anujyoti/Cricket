@@ -51,7 +51,7 @@ const [newsLoad, setNewsLoad] = useState(false);
   };
 const show_data = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/getnews`);
+      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getnews`);
       let data = await response.json();
       if (!data.error) {
         setTimeout(() => {
@@ -72,7 +72,7 @@ const show_data = async () => {
   };
   const show_news = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/getnewsbynews?offset=${newsOffset}&&limit=${newsLimit}`);
+      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getnewsbynews?offset=${newsOffset}&&limit=${newsLimit}`);
       let data = await response.json();
       if (!data.error) {
         setTimeout(() => {
@@ -97,7 +97,7 @@ const newsgo=()=>{
 }
 const show_posts = async () => {
     try {
-      const response = await fetch(`http://localhost:8000/getnewsbyposts?offset=${postOffset}&&limit=${postLimit}`);
+      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getnewsbyposts?offset=${postOffset}&&limit=${postLimit}`);
       let data = await response.json();
       if (!data.error) {
         setTimeout(() => {

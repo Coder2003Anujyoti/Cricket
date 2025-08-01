@@ -6,6 +6,7 @@ const router = express.Router();
 const bodyParser=require('body-parser');
 const mongoose = require('mongoose');
 const TournamentsCollection= require('../schemas/tournaments');
+const NewsCollection= require('../schemas/news.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware.js")
@@ -105,4 +106,31 @@ return res.status(404).json({ error: "Tournament not found." });
     }
   }
 );
+router.delete('/deletetournaments', authenticateToken, authorizeRoles('admin'), async (req, res) => {
+  const { matchID } = req.body;
+
+  if (!matchID) {
+    return res.status(400).json({ error: "matchID is required." });
+  }
+
+  try {
+    const [deletedTournament, deletedNews] = await Promise.all([
+      TournamentsCollection.findOneAndDelete({ matchID }),
+      NewsCollection.findOneAndDelete({ newsID: matchID })
+    ]);
+
+    if (!deletedTournament) {
+      return res.status(404).json({ error: "Tournament not found." });
+    }
+
+    res.status(200).json({
+      message: "Tournament and related news (if any) deleted successfully.",
+      deleted_tournament: deletedTournament,
+      deleted_news: deletedNews || null
+    });
+  } catch (error) {
+    console.error("❌ Error deleting tournament:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 module.exports = router;

@@ -30,7 +30,7 @@ const matchID=searchParams.get("id")
 const [items,setItems]=useState([])
   const show_data=async()=>{
     try{
-     const response = await fetch(`http://localhost:8000/specificuser?id=${matchID}`);
+     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/specificuser?id=${matchID}`);
 let data = await response.json();
 
 const res = data.map((i) => {
