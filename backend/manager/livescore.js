@@ -278,6 +278,7 @@ const score = players.reduce((acc, player, index) => {
    random_text=text[ind];
   }
  else if(tour.winner!=="Draw"){
+  if(tour.winner.toUpperCase().split(" ")[0]==players[0].team.toUpperCase()){
   text=[`What a thriller between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
     `A great knock from ${players[0].name}, truly deserving the MoTM!`,
   `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`,
@@ -290,6 +291,19 @@ const score = players.reduce((acc, player, index) => {
 `Clinical from ${tour.winner.toUpperCase().split(" ")[0]}, a textbook team effort!`]
   ind=crypto.randomInt(0,text.length)
    random_text=text[ind];
+  }
+  else if(tour.winner.toUpperCase().split(" ")[0]!=players[0].team.toUpperCase()){
+   text=[`What a thriller between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
+  `What a great clash between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
+`A high-voltage clash ends in favour of ${tour.winner==="Draw" ? tour.winner : tour.winner.toUpperCase().split(" ")[0]}!`,
+`${tour.winner.toUpperCase().split(" ")[0]} seal a dominant win in style!`,
+`Massive statement from ${tour.winner.toUpperCase().split(" ")[0]}, a complete performance!`,
+`${tour.winner.toUpperCase().split(" ")[0]} outclass ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
+`${tour.winner.toUpperCase().split(" ")[0]} stun ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
+`Clinical from ${tour.winner.toUpperCase().split(" ")[0]}, a textbook team effort!`]
+  ind=crypto.randomInt(0,text.length)
+   random_text=text[ind]; 
+  }
   }
   await NewsCollection.create({
     newsID:tour.matchID,
