@@ -37,6 +37,9 @@ const Admin = () => {
   const [news,setNews]=useState([])
   const [deletenewsID,setDeletenewsID]=useState("")
   const [deletelock,setDeletelock]=useState(false)
+const [editnewsID,setEditnewsID]=useState("")
+const [editcontent,setEditcontent]=useState("")
+const [editlock,setEditlock]=useState(false)
     const show_data=async(token)=>{
     try{
      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/users", {
@@ -142,7 +145,49 @@ const Admin = () => {
     
     } else {
        toast.error("Invalid input");
-       setLock(false)
+       setDeletelock(false)
+    }
+  };
+  const handEdit = async() => {
+    if (editcontent && editnewsID) {
+   // alert(new Date(matchDate).toDateString())
+      //alert(`Tournament: ${tournamentName}\nMatch ID: ${matchID}\nUser Team: ${userTeam.name}\nComputer Team: ${computerTeam.name}`);
+   try{
+      const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/editnews", {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`  // ✅ correctly placed
+  },
+  body: JSON.stringify({
+    newsID:editnewsID,
+    content:editcontent
+  }),
+});
+    const data=await response.json();
+    console.log(data)
+    if(!response.ok){
+        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+    }
+    else if(response.ok){
+      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Post edited successfully</strong>);
+    }
+  }
+    catch(err){
+        console.log(err)
+     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+      }
+      finally {
+      setEditlock(false);
+      setEditcontent("")
+      setEditnewsID("")
+      // Re-enable submit button
+    }
+
+    
+    } else {
+       toast.error("Invalid input");
+       setEditlock(false)
     }
   };
   useEffect(()=>{
@@ -165,9 +210,15 @@ const handleSubmit = () => {
   }
 };
 const handleDelete = () => {
-  if (!lock) {
+  if (!deletelock) {
     setDeletelock(true);
     handDelete();
+  }
+};
+const handleEdit= () => {
+  if (!editlock) {
+    setEditlock(true);
+    handEdit();
   }
 };
   return (
@@ -362,6 +413,16 @@ onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter News ID" clas
     </>}
 {
   mode=="view" && <>
+  <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
+<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Edit Announcement</h2>
+<input type="text" value={editnewsID}
+onChange={(e)=>setEditnewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
+<textarea value={editcontent} onChange={(e)=>setEditcontent(e.target.value)} placeholder="Enter Announcement"
+className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
+<button disabled={editlock} onClick={handleEdit} className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300">
+        Edit
+      </button>
+    </div>
 <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Announcements</h1>
   {
   news.length==0 && <>

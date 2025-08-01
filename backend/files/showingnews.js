@@ -58,4 +58,26 @@ router.delete('/deletenews', authenticateToken, authorizeRoles("admin"), async (
     res.status(500).json({ error: "Failed to delete news.", details: err.message });
   }
 });
+router.post('/editnews', authenticateToken, authorizeRoles("admin"), async (req, res) => {
+  const { newsID, content } = req.body;
+
+  if (!newsID || !content) {
+    return res.status(400).json({ error: "newsID and content are required." });
+  }
+
+  try {
+    const news = await NewsCollection.findOne({ newsID });
+
+    if (!news) {
+      return res.status(404).json({ error: "News with this newsID not found." });
+    }
+
+    news.content = content; // update the content
+    await news.save(); // save the modified document
+
+    res.status(200).json({ message: "News updated successfully.", news });
+  } catch (err) {
+    res.status(500).json({ error: "Failed to update news.", details: err.message });
+  }
+});
 module.exports=router
