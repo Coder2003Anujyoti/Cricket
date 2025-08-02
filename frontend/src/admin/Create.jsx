@@ -66,7 +66,7 @@ const [deletenewsID,setDeletenewsID]=useState("")
         console.log("error")
         return;
       }
-     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getadmintournaments?offset=${offset}&&limit=${limit}`, {
+     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getadmintournament?offset=${offset}&&limit=${limit}`, {
       method: "GET",
       headers: {
           "Authorization": `Bearer ${token}`,

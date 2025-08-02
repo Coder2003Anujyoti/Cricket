@@ -58,6 +58,17 @@ res.json({ total,tournaments_data: data,});
     res.status(500).json({ error: "Error fetching tournaments" });
   }
 })
+router.get('/getadmintournament',authenticateToken, authorizeRoles("admin"),async(req,res)=>{
+  const offset = parseInt(req.query.offset) || 0;
+const limit = parseInt(req.query.limit) || 5;
+try {
+const total = await TournamentsCollection.countDocuments();
+const data = await TournamentsCollection.find().sort({ _id: 1 }).skip(offset).limit(limit);
+res.json({ total,tournaments_data: data,});
+  } catch (err) {
+    res.status(500).json({ error: "Error fetching tournaments" });
+  }
+})
 router.get('/specifictournament',async(req,res)=>{
   const {id}=req.query
   const data=await TournamentsCollection.find({matchID:id})
