@@ -37,21 +37,21 @@ export default function Login() {
         response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/signup",{
           method:'POST',
           headers:{ 'Content-Type' : "application/json" },
-          body: JSON.stringify({username,password}),
+          body: JSON.stringify({username.trim(),password.trim()}),
         })
       }
       else if(mode=="login"){
         response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/login",{
           method:'POST',
           headers:{ 'Content-Type' : "application/json" },
-          body: JSON.stringify({username,password}),
+          body: JSON.stringify({username.trim(),password.trim()}),
         })
       }
       else{
         response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/forget",{
           method:'POST',
           headers:{ 'Content-Type' : "application/json" },
-          body: JSON.stringify({username,password}),
+          body: JSON.stringify({username.trim(),password.trim()}),
         })
       }
       const data=await response.json();
