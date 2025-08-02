@@ -205,18 +205,7 @@ router.get('/userparticipation', async (req, res) => {
     if (!user) {
       return res.status(404).json({ error: "User not found." });
     }
-    const match = user.participation.find(p => p.id === matchID);
-    if (!match) {
-      return res.json([]); // empty array if match not found
-    }
-    const userWithFilteredMatch = {
-      username: user.username,
-      icon: user.icon,
-      role: user.role,
-      participation: [match], // only the specific match
-    };
-
-    return res.json([userWithFilteredMatch]); // wrapped in array
+    return res.json([user]); // wrapped in array
   } catch (error) {
     console.error("Error fetching user participation:", error);
     return res.status(500).json({ error: "Internal Server Error" });

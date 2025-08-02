@@ -61,10 +61,9 @@ const pquery = searchParams.get("player");
  }
   const show_data=async()=>{
     try{
-     const [response,res] = await Promise.all([fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/"),fetch(`http://localhost:8000/userparticipation?username=${username}&&matchID=${id}`)]);
+     const [response,res] = await Promise.all([fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/"),fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/userparticipation?username=${username}&&matchID=${id}`)]);
     let data=await response.json()
     let datares=await res.json();
-    alert(datares[0].username)
     const mal=datares.filter((i)=>i.username==username)
     const val=mal[0].participation.filter((i)=>i.id===id)
     const c=data.data.filter((i)=>i.team==cquery || i.team==pquery)
