@@ -124,7 +124,7 @@ const handle=async(icon)=>{
   <img className="w-36 h-36" src={`Icons/cricket.webp`} />}
   </div>
   <div className="w-full flex text-center justify-center items-center mt-3 gap-2">
-  <FontAwesomeIcon icon={faHandPaper} className="text-yellow-500 w-8 h-8" />
+  <FontAwesomeIcon icon={faHandPaper} className="text-yellow-400 w-8 h-8 animate-wave" />
   <p className="font-bold text-white text-lg">Hello {items[0].username}</p>
   </div>
   <div className="w-full flex flex-col text-center justify-start items-start mt-4">

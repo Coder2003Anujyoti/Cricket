@@ -95,7 +95,7 @@ const res = data.map((i) => {
   key={it._id || it.username}
   className="flex items-center justify-center gap-4 px-6 py-4 mt-2 "
 >
-  <h1 className="text-xl font-bold text-white flex items-center justify-center gap-2 flex-wrap">
+  <h1 className="text-lg font-bold text-white flex items-center justify-center gap-2 flex-wrap">
   🎉 Congratulations, <span className="text-white">{it.username}</span>!
   <span className="flex items-center gap-1">
     Your Score is
@@ -123,12 +123,12 @@ const res = data.map((i) => {
           { it.icon!= "" ?
   <img className="w-10 h-10" src={it.icon} alt="Logo" /> :
   <img className="w-10 h-10" src={`Icons/cricket.webp`} />}
-  <h1 className="text-xl ml-2 font-bold text-white">
+  <h1 className="text-base ml-2 font-bold text-white">
 {it.username}
   </h1>
   </div>
   <div className="flex w-full gap-2 justify-end items-center">
-    <h1 className="text-xl font-bold text-white">
+    <h1 className="text-base font-bold text-white">
 {it.participation[0].score}
   </h1>
     <img src="Icons/coin.png" className="w-8 h-8 mr-2" />

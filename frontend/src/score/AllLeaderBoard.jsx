@@ -10,7 +10,8 @@ import {
   faTimes,
   faUserShield,
   faHouse,
-  faTrophy
+  faTrophy,
+  faMedal
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import { HashLink } from 'react-router-hash-link';
@@ -94,16 +95,18 @@ const AllLeaderBoard = () => {
                     key={it.name}
                     className="flex items-center justify-center px-6 py-4 mt-1 w-full bg-slate-800"
                   >
-                    <div className="flex justify-center items-center">
+                     
+                         <div className="flex justify-center items-center">
                       {it.icon !== "" ? (
                         <img className="w-10 h-10" src={it.icon} alt="Logo" />
                       ) : (
                         <img className="w-10 h-10" src={`Icons/cricket.webp`} alt="Default" />
                       )}
-                      <h1 className="text-xl ml-2 font-bold text-white">{it.name}</h1>
+                      <h1 className="text-base ml-2 font-bold text-white">{it.name}</h1>
                     </div>
+                    
                     <div className="flex w-full gap-2 justify-end items-center">
-                      <h1 className="text-xl font-bold text-white">{it.score}</h1>
+                      <h1 className="text-base font-bold text-white">{it.score}</h1>
                       <img src="Icons/coin.png" className="w-8 h-8 mr-2" alt="coin" />
                     </div>
                   </div>
