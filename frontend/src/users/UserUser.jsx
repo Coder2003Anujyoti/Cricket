@@ -396,6 +396,14 @@ This version focuses purely on the display of player names, ideal for an app whe
     <div className="border-t border-gray-700 mt-4 p-2 text-center text-gray-400">
       © 2025 Coder2003Anujyoti All rights reserved.
     </div>
+    <HashLink smooth to="/chat">
+     <button
+  className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-slate-900 border border-slate-500 text-white p-2 sm:p-3 rounded-full shadow-md sm:shadow-lg  transition-all duration-300 z-50"
+  aria-label="Scroll to top"
+>
+<img src="Icons/ai.png" className="w-8 h-8"/>
+</button>
+</HashLink>
 </footer>
 </>
 }

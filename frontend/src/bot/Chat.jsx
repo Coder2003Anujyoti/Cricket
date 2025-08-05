@@ -49,7 +49,7 @@ useEffect(()=>{
   },[token])
   const handSubmit = async (val) => {
   try {
-    const response = await fetch('http://localhost:8000/chat', {
+    const response = await fetch('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/chat', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',

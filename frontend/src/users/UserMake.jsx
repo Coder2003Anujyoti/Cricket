@@ -133,7 +133,7 @@ toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Players register success
     }
   }
 const handget=async()=>{
-   const response= await fetch('http://localhost:8000/topplayers', {
+   const response= await fetch('https://intelligent-ailyn-handcricket-e8842259.koyeb.app/topplayers', {
   method: 'POST',
   headers: {
     'Content-Type': 'application/json'
@@ -267,6 +267,21 @@ setTimeout(()=>{
  {
   subload==true && <>
   <p className="text-white text-sm my-32 text-center font-bold">Loading....</p>
+  </>
+}
+{
+  subload==false && aiitems.length>0 && <>
+  <div className="w-full my-6 text-white font-bold text-center text-base">
+<p className="ml-4 mr-4">AI Generated Team</p>
+</div>
+<div className="w-full justify-center items-center flex flex-row gap-4 flex-wrap">
+  {aiitems.sort((a, b) => a.name.localeCompare(b.name)).map((i, index) => (
+    <div key={index} className="flex justify-center flex-col text-center text-white font-bold bg-slate-800 rounded-md p-2">
+    <div className="w-full flex justify-center items-center">  <img src={i.image} alt={i.name || "team-logo"} className="w-36 h-36" /></div>
+  <p className="my-2">{i.name}</p>
+    </div>
+  ))}
+</div>
   </>
 }
   </>
