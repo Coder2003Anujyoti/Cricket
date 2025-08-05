@@ -3,7 +3,7 @@ import { useSearchParams } from "react-router-dom";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import { HashLink } from 'react-router-hash-link';
-
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 const get_data = () => sessionStorage.getItem("token");
 const get_role = () => JSON.parse(sessionStorage.getItem("username"));
 
@@ -159,13 +159,19 @@ const go=()=>{
         {
           subload==false && <>
       <div className="w-full flex justify-center">
-        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={go}>More Items</button>
+<button
+  onClick={go}
+  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+>
+  <span>More Matches</span>
+  <FontAwesomeIcon icon={faChevronDown} />
+</button>
       </div>
           </>
         }
         {
           subload==true && <>
-          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold my-2"><p>Loading...</p></div>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-sm font-bold my-4"><p>Loading...</p></div>
           </>
         }
         </>

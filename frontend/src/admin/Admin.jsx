@@ -13,6 +13,7 @@ import {
   faGamepad
 } from '@fortawesome/free-solid-svg-icons';
 import { faLock, faUnlock } from "@fortawesome/free-solid-svg-icons";
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { faBullhorn } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
@@ -469,13 +470,19 @@ const handleEdit= () => {
         {
           userSubload==false && <>
       <div className="w-full flex justify-center">
-        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={usersgo}>More Items</button>
+<button
+  onClick={usersgo}
+  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+>
+  <span>More Users</span>
+  <FontAwesomeIcon icon={faChevronDown} />
+</button>
       </div>
           </>
         }
         {
           userSubload==true && <>
-          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold my-2"><p>Loading...</p></div>
+          <div className="w-full my-4 flex items-center justify-center text-center text-slate-400 text-sm font-bold"><p>Loading...</p></div>
           </>
         }
         </>
@@ -487,7 +494,7 @@ const handleEdit= () => {
 <h2 className="text-xl font-bold text-center text-white md:text-gray-800">Create Announcement</h2>
 <input type="text" value={newsID}
 onChange={(e)=>setNewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
-<textarea value={content} onChange={(e)=>setContent(e.target.value)} placeholder="Enter Announcement"
+<textarea style={{ resize: "none" }} value={content} onChange={(e)=>setContent(e.target.value)} placeholder="Enter Announcement"
 className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
 <button disabled={lock} onClick={handleSubmit} className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300">
         Create
@@ -550,14 +557,20 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
   newsOffset<newsLen && <>
         {
           newsSubload==false && <>
-      <div className="w-full flex justify-center">
-        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={newsgo}>More Items</button>
+      <div className="w-full  flex justify-center">
+<button
+  onClick={newsgo}
+  className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+>
+  <span>More Announcements</span>
+  <FontAwesomeIcon icon={faChevronDown} />
+</button>
       </div>
           </>
         }
         {
           newsSubload==true && <>
-          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold my-2"><p>Loading...</p></div>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-sm font-bold my-4"><p>Loading...</p></div>
           </>
         }
         </>

@@ -44,7 +44,7 @@ const Winner = ({winner,yourteam,opposteam}) => {
   const [histruns,setHistruns]=useState({});
   const [histwickets,setHistwickets]=useState({});
   const [winnerarray,setWinnerarray]=useState(()=>LocalWinner()||[]);
-  const [load,setLoad]=useState(true);
+  const [load,setLoad]=useState(false);
   const [valid,setValid]=useState(false)
   const [winarray,setWinarray]=useState(()=>LocalWin()||[]);
   const [teams,setTeams]=useState(()=>LocalData()|| ["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"]);
@@ -100,15 +100,15 @@ const computerwickets=playerdata.reduce((total,i)=>{
   },[])
   useEffect(()=>{
   if(winner===yourteam[0].team){
-   send_data({data:array},{winner:yourteam,loser:opposteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Winner",oppstatus:"Loser"})
+   //send_data({data:array},{winner:yourteam,loser:opposteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Winner",oppstatus:"Loser"})
    setLoad(false)
   }
  else if(winner===opposteam[0].team){
-   send_data({data:array},{winner:opposteam,loser:yourteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Loser",oppstatus:"Winner"})
+   //send_data({data:array},{winner:opposteam,loser:yourteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Loser",oppstatus:"Winner"})
    setLoad(false)
   }
   else{
-    send_data({data:array},{winner:yourteam,loser:opposteam,draw:true},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Draw",oppstatus:"Draw"})
+   // send_data({data:array},{winner:yourteam,loser:opposteam,draw:true},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Draw",oppstatus:"Draw"})
     setLoad(false)
     }
   },[])

@@ -269,12 +269,9 @@ return(<>
 <li>
   For searching news, team stats and tournaments based on any team — for example: 
   <br />
-  <strong>Mumbai Indians Tournament → "Tournament Mi"</strong>,
-  <br />
-  <strong>News → "News Mi"</strong>,
-  <br />
-  <strong>Team → "Team Mi"</strong>,
-  <br />
+  <strong>Mumbai Indians Tournament → "Tournament Mi"</strong><br />
+  <strong>News → "News Mi"</strong><br />
+  <strong>Team → "Team Mi"</strong><br />
   <strong>Player → "Player Hardik Pandya"</strong>
 </li>
   <li>

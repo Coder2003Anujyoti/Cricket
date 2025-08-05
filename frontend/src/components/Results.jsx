@@ -1,6 +1,8 @@
 import React,{useState,useEffect} from "react";
 import {useSearchParams,Link} from "react-router-dom"
 import {HashLink} from 'react-router-hash-link'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 const Results = () => {
   const [searchParams] = useSearchParams();
   const [items,setItems]=useState([]);
@@ -55,7 +57,7 @@ const Results = () => {
   <img className="w-24 h-24" src={`Logos/${teamId}.webp`} />
 </div>
       <div className="flex justify-center items-center py-60">
-  <h1 className="text-slate-400 text-xl font-bold">No Matches</h1>
+  <h1 className="text-slate-400 text-base font-bold">No Matches</h1>
 </div>
     <footer className="bg-black mt-4 text-white">
       <div className="w-full flex justify-center  text-center flex-col p-4 mt-4">
@@ -102,24 +104,27 @@ const Results = () => {
   <img className="w-24 h-24" src={`Logos/${teamId}.webp`} />
 </div>
   <div className="w-full flex flex-col justify-center">
-     <div className="flex justify-center items-center py-8"><h1 className="text-sm p-2 bg-slate-800 rounded-lg text-slate-400 font-bold">Match Results</h1></div>
+     <div className="flex justify-center items-center py-8"><h1 className="text-sm px-3 py-2 bg-slate-800 rounded-lg text-slate-400 font-bold">Matches Results</h1></div>
    <div className="w-full flex flex-row flex-wrap justify-center gap-x-8 gap-y-8">
     {items.map((item,ind)=>{
       return(<>
         {item.map((i)=>{return(<>
-  <div className=" w-full flex flex-row justify-center gap-16 p-2 border-b border-b-slate-600">
-    <Link to={`/history?team=${teamId}`} >  <img src={`Logos/${teamId}.webp`} className="w-16 h-16"/>
-    </Link>
+  <div className=" w-full flex flex-row justify-center gap-16 p-2 border-b border-b-slate-600"> <img src={`Logos/${teamId}.webp`} className="w-16 h-16"/>
     <div className="flex justify-center items-center"><h1 className="text-base text-yellow-400 font-bold">{i.status}</h1></div>
-     <Link to={`/history?team=${i.name}`} >   <img src={`Logos/${i.name}.webp`} className="w-16 h-16" />
-     </Link>
+ <img src={`Logos/${i.name}.webp`} className="w-16 h-16" />
          </div>
         </>)})}
          {ind===items.length-1 && loads==false && offset<length-5 &&
         <div className="w-full flex justify-center">
-        <button className="px-4 py-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={go}>More Items</button>
+<button
+  onClick={go}
+  className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+>
+  <span>More Matches</span>
+  <FontAwesomeIcon icon={faChevronDown} />
+</button>
       </div>}
-     {loads==true && ind===items.length-1 && <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold"><p>Loading...</p></div> }
+     {loads==true && ind===items.length-1 && <div className="w-full flex items-center justify-center text-center text-slate-400 text-sm font-bold"><p>Loading...</p></div> }
       </>)
     })}
   </div>

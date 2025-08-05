@@ -13,6 +13,7 @@ import {
   faGamepad
 } from '@fortawesome/free-solid-svg-icons';
 import { toast, Toaster } from 'react-hot-toast';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Link,useLocation } from "react-router-dom";
 import {HashLink} from 'react-router-hash-link'
 const get_data=()=>{
@@ -609,13 +610,19 @@ onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter Match ID" cla
         {
           subload==false && <>
       <div className="w-full flex justify-center">
-        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={go}>More Items</button>
+<button
+  onClick={go}
+  className="flex items-center  gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+>
+  <span>More Matches</span>
+  <FontAwesomeIcon icon={faChevronDown} />
+</button>
       </div>
           </>
         }
         {
           subload==true && <>
-          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold my-2"><p>Loading...</p></div>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-sm font-bold my-4"><p>Loading...</p></div>
           </>
         }
         </>

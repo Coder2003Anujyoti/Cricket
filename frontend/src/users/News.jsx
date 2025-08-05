@@ -4,6 +4,7 @@ import { FaArrowUp } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { FaBroadcastTower } from "react-icons/fa"; // FontAwesome
 import { faRotateRight } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import {
   faMagnifyingGlass,
   faSignOutAlt,
@@ -257,13 +258,19 @@ const postsgo=()=>{
         {
           newsLoad==false && <>
       <div className="w-full flex justify-center">
-        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={newsgo}>More Items</button>
+<button
+  onClick={newsgo}
+  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+>
+  <span>More News</span>
+  <FontAwesomeIcon icon={faChevronDown} />
+</button>
       </div>
           </>
         }
         {
           newsLoad==true && <>
-          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold my-2"><p>Loading...</p></div>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-sm font-bold my-4"><p>Loading...</p></div>
           </>
         }
         </>
@@ -306,13 +313,19 @@ const postsgo=()=>{
         {
           postLoad==false && <>
       <div className="w-full flex justify-center">
-        <button className="px-4 py-2 my-2 font-bold text-sm text-slate-400 bg-slate-800 rounded-lg" onClick={postsgo}>More Items</button>
+<button
+  onClick={postsgo}
+  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+>
+  <span>More Announcements</span>
+  <FontAwesomeIcon icon={faChevronDown} />
+</button>
       </div>
           </>
         }
         {
           postLoad==true && <>
-          <div className="w-full flex items-center justify-center text-center text-slate-400 text-base font-bold my-2"><p>Loading...</p></div>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-sm font-bold my-4"><p>Loading...</p></div>
           </>
         }
         </>

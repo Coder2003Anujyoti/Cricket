@@ -175,7 +175,7 @@ if (!tour) return console.log("Tournament not found for matchID:", id);
 tour.computerrun=computerrun
 tour.computerwicket=computerwicket
 tour.overs=overs
-tour.winner=winner
+tour.winner=winner.trim()
 tour.message=""
 tour.hasStarted=false
 tour.target=0;
@@ -184,7 +184,7 @@ tour.target=0;
  store[0].computerrun=computerrun
 store[0].computerwicket=computerwicket
 store[0].overs=overs
-store[0].winner=winner
+store[0].winner=winner.trim()
 store[0].msg=""
 store[0].target=0
 console.log(`Tournament ${id} started status: ${started}`);
@@ -209,7 +209,7 @@ if (!tour) return console.log("Tournament not found for matchID:", id);
 tour.playerrun=playerrun
 tour.playerwicket=playerwicket
 tour.overs=overs
-tour.winner=winner
+tour.winner=winner.trim()
 tour.message=""
 tour.hasStarted=false
 tour.target=0;
@@ -218,7 +218,7 @@ tour.target=0;
  store[0].playerrun=playerrun
 store[0].playerwicket=playerwicket
 store[0].overs=overs
-store[0].winner=winner
+store[0].winner=winner.trim()
 store[0].msg=""
 store[0].target=0
 console.log(`Tournament ${id} started status: ${started}`);
@@ -276,7 +276,7 @@ const score = players.reduce((acc, player, index) => {
   `Masterclass by ${players[0].name} what a performance!`,`${players[0].name}'s all-round brilliance lights up the game!`,
   `What a great clash between ${tour.playerteam.toUpperCase()} and ${tour.computerteam.toUpperCase()}!`,
 `A high-voltage clash ends in favour of ${tour.winner==="Draw" ? tour.winner : tour.winner.toUpperCase().split(" ")[0]}!`]
-  ind=crypto.randomInt(0,text.length)
+ ind=crypto.randomInt(0,text.length)
    random_text=text[ind];
   }
  else if(tour.winner!=="Draw"){
@@ -291,7 +291,8 @@ const score = players.reduce((acc, player, index) => {
 `${tour.winner.toUpperCase().split(" ")[0]} outclass ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
 `${tour.winner.toUpperCase().split(" ")[0]} stun ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
 `Clinical from ${tour.winner.toUpperCase().split(" ")[0]}, a textbook team effort!`]
-  ind=crypto.randomInt(0,text.length)
+ // ind=crypto.randomInt(0,text.length)
+ ind=5
    random_text=text[ind];
   }
   else if(tour.winner.toUpperCase().split(" ")[0]!=players[0].team.toUpperCase()){
@@ -303,7 +304,8 @@ const score = players.reduce((acc, player, index) => {
 `${tour.winner.toUpperCase().split(" ")[0]} outclass ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
 `${tour.winner.toUpperCase().split(" ")[0]} stun ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
 `Clinical from ${tour.winner.toUpperCase().split(" ")[0]}, a textbook team effort!`]
-  ind=crypto.randomInt(0,text.length)
+//  ind=crypto.randomInt(0,text.length)
+ind=3;
    random_text=text[ind]; 
   }
   }
