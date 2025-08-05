@@ -18,24 +18,6 @@ const generateContent = async (prompt) => {
   );
   return res.data.candidates?.[0]?.content?.parts?.[0]?.text || 'No data generated.';
 };
-const test = async () => {
-  try {
-    const res = await axios.post(
-      `https://generativelanguage.googleapis.com/v1/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
-      {
-        contents: [{ parts: [{ text: "Say hello!" }] }],
-      },
-      {
-        headers: { 'Content-Type': 'application/json' },
-      }
-    );
-    console.log(res.data);
-  } catch (err) {
-    console.error(err.response?.data || err.message);
-  }
-};
-
-test();
 router.post('/topplayers', async (req, res) => {
   const players = req.body.players;
 
