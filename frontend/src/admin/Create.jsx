@@ -571,13 +571,13 @@ onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter Match ID" cla
     </thead>
     <tbody>
       {items.map((user, idx) => (
-        <tr key={idx} className={`${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b`}>
-          <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">{user.matchID}</td>
-          <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">{user.name}</td>
-        <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
+        <tr key={idx} className={`${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b text-xs`}>
+          <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold text-xs">{user.matchID}</td>
+          <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold text-xs">{user.name}</td>
+        <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold text-xs">
         <img src={`Logos/${user.playerteam}.webp`} className="w-10 h-10" />
         </td>
-        <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
+        <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold text-xs">
         <img src={`Logos/${user.computerteam}.webp`} className="w-10 h-10" />
         </td>
   {
@@ -587,7 +587,7 @@ onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter Match ID" cla
   }
     {
     user.winner!="" && <>
-  <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold"><img src={`Logos/${user.winner.split(" ")[0]==user.playerteam.toUpperCase() ? user.playerteam : user.computerteam}.webp`} className="w-10 h-10" /></td>
+  <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold text-xs"><img src={`Logos/${user.winner.split(" ")[0]==user.playerteam.toUpperCase() ? user.playerteam : user.computerteam}.webp`} className="w-10 h-10" /></td>
     </>
   }
   

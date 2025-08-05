@@ -1,5 +1,7 @@
 import React from "react";
 import { Routes, Route } from "react-router-dom";
+import {Link} from 'react-router-dom'
+import {HashLink} from 'react-router-hash-link'
 import Login from "./login/Login"
 import Admin from "./admin/Admin"
 import Create from "./admin/Create.jsx"
@@ -16,10 +18,12 @@ import Profile from "./profile/Profile.jsx"
 import Online from "./online/Online.jsx"
 import PlayerSearch from "./users/PlayerSearch.jsx"
 import News from "./users/News.jsx"
+import Chat from "./bot/Chat.jsx"
 import Warning from "./Warning.jsx";
 import Unauthorize from "./Unauthorize.jsx"
 const HomeRoutes = () => {
   return (
+  <>
     <Routes>
     <Route path="/login" element={<Login />} />
     <Route path="/admin" element={<Warning><Protected allowedRoles={['admin']} ><Admin /></Protected></Warning>} />
@@ -36,8 +40,10 @@ const HomeRoutes = () => {
 <Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />
 <Route path="/playersearch" element={<Warning><Protected><PlayerSearch /></Protected></Warning>} />
 <Route path="/news" element={<Warning><Protected><News /></Protected></Warning>} />
+<Route path="/chat" element={<Warning><Protected><Chat /></Protected></Warning>} />
 <Route path="/unauthorize" element={<Warning><Unauthorize /></Warning>} />
     </Routes>
+</>
   )
 }
 

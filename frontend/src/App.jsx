@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import {Link} from 'react-router-dom'
+import {HashLink} from 'react-router-hash-link'
 import { MdWarningAmber } from "react-icons/md";
 import TeamList from "./components/TeamList";
 import TeamDetails from "./components/TeamDetails";

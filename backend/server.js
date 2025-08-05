@@ -7,6 +7,8 @@ const iplRoutes = require('./files/ipl.js');
 const loginRoutes= require('./files/registration.js')
 const adminRoutes=require("./files/onlinetournaments.js")
 const newsRoutes=require("./files/showingnews.js")
+const chatsRoutes=require("./files/chats.js")
+const geminiRoutes=require("./files/gemini.js")
 const cors=require('cors');
 const app = express();
 const  connectDB = require('./db/config.js');
@@ -22,6 +24,8 @@ app.use(iplRoutes);
 app.use(loginRoutes);
 app.use(adminRoutes);
 app.use(newsRoutes);
+app.use(chatsRoutes)
+app.use(geminiRoutes)
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {

@@ -6,6 +6,7 @@ ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
 const Winner = ({winner,yourteam,opposteam}) => {
   const [histruns,setHistruns]=useState({});
   const [histwickets,setHistwickets]=useState({});
+  const [valid,setValid]=useState(false)
   const [load,setLoad]=useState(true);
   const array=yourteam.concat(opposteam);
   const playerdata=yourteam;
@@ -28,6 +29,7 @@ const computerwickets=playerdata.reduce((total,i)=>{
   return total;
 },0)
   const send_data=async(datas,gatas,rat)=>{
+  if(valid==false){
     const [res,ress,gess]=await Promise.all([fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/players", {
     method: "POST",
     body: JSON.stringify(datas),
@@ -50,6 +52,8 @@ const computerwickets=playerdata.reduce((total,i)=>{
  const value=await res.json();
  const values=await ress.json();
  const vals = await gess.json();
+ setValid(true)
+ }
   }
   useEffect(()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });

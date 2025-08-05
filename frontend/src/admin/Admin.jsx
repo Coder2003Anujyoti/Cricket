@@ -435,12 +435,12 @@ const handleEdit= () => {
   <img className="w-7 h-7" src={user.icon} alt="Logo" /> :
   <img className="w-7 h-7" src={`Icons/cricket.webp`} />}
         </td>
-          <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">{user.username}</td>
+          <td className="px-6 py-4 text-xs whitespace-nowrap w-1/3 font-semibold">{user.username}</td>
 
-<td className="px-6 py-4 whitespace-nowrap w-1/3 flex items-center space-x-3 font-semibold">
+<td className="px-6 py-4 whitespace-nowrap w-1/3 flex items-center space-x-3 font-semibold text-xs text-center">
   <FontAwesomeIcon
     icon={showPassword[idx] ? faUnlock : faLock}
-    className="text-gray-500 cursor-pointer"
+    className="text-gray-500 text-xs cursor-pointer"
     onClick={() => togglePassword(idx)}
   />
   <span>
@@ -450,8 +450,8 @@ const handleEdit= () => {
   </span>
 </td>
 
-          <td className="px-6 py-4 whitespace-nowrap w-1/3">
-            <span className={`px-3 py-1 rounded-full text-xs font-medium ${
+          <td className="px-6 py-4 whitespace-nowrap w-1/3 text-xs">
+            <span className={`px-3 py-1 rounded-full  font-medium ${
               user.role === 'admin' ? 'bg-red-100 text-red-700'
               : user.role === 'user' ? 'bg-blue-100 text-blue-700'
               : 'bg-green-100 text-green-700'
@@ -517,7 +517,7 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
 <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Announcements</h1>
   {
   news.length==0 && <>
-  <h1 className="font-bold text-white text-center my-12">No News Found</h1>
+  <h1 className="font-bold text-white text-center my-12">No Announcements Found</h1>
   </>
 }
 {

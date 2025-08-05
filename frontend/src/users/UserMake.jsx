@@ -198,7 +198,7 @@ toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Players register success
 </div>
 { hide==false && len==0 &&
 <div className="w-full my-4 flex justify-center">
-<button disabled={locked} onClick={submit} className="bg-slate-800 px-6 py-2 text-white font-bold rounded-md">Save</button>
+<button disabled={locked} onClick={submit} className="bg-slate-800 px-6 py-2 text-white font-bold rounded-md disabled:bg-gray-900">Save</button>
 </div>
 }
   </>

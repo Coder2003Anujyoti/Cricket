@@ -45,6 +45,7 @@ const Winner = ({winner,yourteam,opposteam}) => {
   const [histwickets,setHistwickets]=useState({});
   const [winnerarray,setWinnerarray]=useState(()=>LocalWinner()||[]);
   const [load,setLoad]=useState(true);
+  const [valid,setValid]=useState(false)
   const [winarray,setWinarray]=useState(()=>LocalWin()||[]);
   const [teams,setTeams]=useState(()=>LocalData()|| ["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"]);
   const array=yourteam.concat(opposteam);
@@ -68,6 +69,7 @@ const computerwickets=playerdata.reduce((total,i)=>{
   return total;
 },0)
   const send_data=async(datas,gatas,rat)=>{
+  if(valid==false){
     const [res,ress,gess]=await Promise.all([fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/players", {
     method: "POST",
     body: JSON.stringify(datas),
@@ -90,6 +92,8 @@ const computerwickets=playerdata.reduce((total,i)=>{
  const value=await res.json();
  const values=await ress.json();
  const vals = await gess.json();
+ setValid(true)
+ }
   }
   useEffect(()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
