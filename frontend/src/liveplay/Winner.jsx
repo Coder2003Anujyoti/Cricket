@@ -13,9 +13,6 @@ const Winner = ({winner,yourteam,opposteam,matchid}) => {
   const playerdata=yourteam;
 const computerdata= opposteam;
 const motm=array.sort((a,b)=>(b.runs+b.wickets)-(a.runs+a.wickets));
-useEffect(() => {
-  socket.emit("adddata",{id:matchid,players:motm})
-  },[])
 const playertotal=playerdata.reduce((total,i)=>{
   total+=(i.runs);
   return total;
@@ -59,24 +56,51 @@ const computerwickets=playerdata.reduce((total,i)=>{
  setValid(true)
  }
   }
-  useEffect(()=>{
+  useEffect(() => {
+  if (!load) return; // Don't run if already loaded
+  if (winner && motm && matchid) {
+    socket.emit("adddata", { id: matchid, players: motm });
+
+    // Send to backend
+    if (winner === yourteam[0].team) {
+      send_data(
+        { data: array },
+        { winner: yourteam, loser: opposteam, draw: false },
+        {
+          team: yourteam[0].team,
+          opposteam: opposteam[0].team,
+          yourstatus: "Winner",
+          oppstatus: "Loser",
+        }
+      );
+    } else if (winner === opposteam[0].team) {
+      send_data(
+        { data: array },
+        { winner: opposteam, loser: yourteam, draw: false },
+        {
+          team: yourteam[0].team,
+          opposteam: opposteam[0].team,
+          yourstatus: "Loser",
+          oppstatus: "Winner",
+        }
+      );
+    } else {
+      send_data(
+        { data: array },
+        { winner: yourteam, loser: opposteam, draw: true },
+        {
+          team: yourteam[0].team,
+          opposteam: opposteam[0].team,
+          yourstatus: "Draw",
+          oppstatus: "Draw",
+        }
+      );
+    }
+
+    setLoad(false);
     window.scrollTo({ top: 0, behavior: "smooth" });
-  },[])
-  useEffect(()=>{
-  if(winner===yourteam[0].team){
-   send_data({data:array},{winner:yourteam,loser:opposteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Winner",oppstatus:"Loser"})
-   setLoad(false)
   }
- else if(winner===opposteam[0].team){
-   send_data({data:array},{winner:opposteam,loser:yourteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Loser",oppstatus:"Winner"})
-   setLoad(false)
-  }
-  else{
-    send_data({data:array},{winner:yourteam,loser:opposteam,draw:true},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Draw",oppstatus:"Draw"})
-    setLoad(false)
-  }
-  
-  },[])
+}, [winner, motm, matchid]);
   const histogramOptions = {
   responsive: true,
   scales: {

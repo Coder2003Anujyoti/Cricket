@@ -291,8 +291,7 @@ const score = players.reduce((acc, player, index) => {
 `${tour.winner.toUpperCase().split(" ")[0]} outclass ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
 `${tour.winner.toUpperCase().split(" ")[0]} stun ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
 `Clinical from ${tour.winner.toUpperCase().split(" ")[0]}, a textbook team effort!`]
- // ind=crypto.randomInt(0,text.length)
- ind=5
+ ind=crypto.randomInt(0,text.length)
    random_text=text[ind];
   }
   else if(tour.winner.toUpperCase().split(" ")[0]!=players[0].team.toUpperCase()){
@@ -304,8 +303,7 @@ const score = players.reduce((acc, player, index) => {
 `${tour.winner.toUpperCase().split(" ")[0]} outclass ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in all departments!`,
 `${tour.winner.toUpperCase().split(" ")[0]} stun ${tour.winner.split(" ")[0]==tour.playerteam.toUpperCase() ? tour.computerteam.toUpperCase() : tour.playerteam.toUpperCase()} in a match full of twists!`,
 `Clinical from ${tour.winner.toUpperCase().split(" ")[0]}, a textbook team effort!`]
-//  ind=crypto.randomInt(0,text.length)
-ind=3;
+ ind=crypto.randomInt(0,text.length)
    random_text=text[ind]; 
   }
   }

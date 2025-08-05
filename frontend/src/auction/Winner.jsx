@@ -90,20 +90,6 @@ const computerwickets=playerdata.reduce((total,i)=>{
   },[])
   useEffect(()=>{
   if(winner===yourteam[0].team){
-  // send_data({data:array},{winner:yourteam,loser:opposteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Winner",oppstatus:"Loser"})
-   setLoad(false)
-  }
- else if(winner===opposteam[0].team){
- //  send_data({data:array},{winner:opposteam,loser:yourteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Loser",oppstatus:"Winner"})
-   setLoad(false)
-  }
-  else{
-  //  send_data({data:array},{winner:yourteam,loser:opposteam,draw:true},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Draw",oppstatus:"Draw"})
-    setLoad(false)
-  }
-  },[])
-  useEffect(()=>{
-  if(winner===yourteam[0].team){
   const pl=pdata.map((i)=>{
     array.map((it)=>{
       if(i.team===it.team && i.name===it.name){
