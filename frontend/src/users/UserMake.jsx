@@ -30,8 +30,11 @@ const [player,setPlayer]=useState([])
 const [isOpen, setIsOpen] = useState(false);
 const [loading,setLoading]=useState(true)
 const [len,setLen]=useState(0)
+const [subload,setSubload]=useState(false)
+const [aiitems,setAiitems]=useState([])
 const [hide,setHide]=useState(false)
 const [show,setShow]=useState(true)
+const [mode, setMode] = useState("select");
 const [store,setStore]=useState("")
 const [searchParams] = useSearchParams();
 const pquery = searchParams.get("player");
@@ -129,6 +132,36 @@ toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Players register success
       handleSubmit();
     }
   }
+const handget=async()=>{
+   const response= await fetch('http://localhost:8000/topplayers', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    players:team
+  })
+})
+const data=await response.json();
+if(!response.ok){
+toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+  setSubload(false)
+}
+else if(response.ok){
+setTimeout(()=>{
+  setAiitems(data.topPlayers)
+  setSubload(false)
+},2000)
+}
+  }
+  useEffect(()=>{
+    if(subload==true){
+      handget();
+    }
+  },[subload])
+  const handleget=()=>{
+    setSubload(true)
+  }
   return (
  <>
  <Toaster position="top-center" toastOptions={{
@@ -157,7 +190,23 @@ toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Players register success
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
 </div>
 { player.length<10 && len==0 && <>
-<div className="w-full my-2 text-white font-bold text-center">
+  <div className="flex justify-evenly mt-4">
+  <button
+    onClick={() => setMode("select")}
+    className={`px-4 py-2 font-bold ${mode === "select" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}>
+ Make Team
+  </button>
+  <button
+    onClick={() => setMode("ai")}
+    className={`px-4 py-2 font-bold  ${mode === "ai" ? 'border-b border-b-white text-white' : 'text-white border-b border-b-transparent'}`}>
+  AI Generated
+  </button>
+  </div>
+  </>
+  }
+{ mode=="select" && <>
+{ player.length<10 && len==0 && <>
+<div className="w-full my-4 text-white font-bold text-center">
 <p className="ml-4 mr-4">*You need to select {10-select.length} players</p>
 </div>
 <div className="w-full justify-center items-center flex flex-row gap-4 flex-wrap">
@@ -200,6 +249,25 @@ toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Players register success
 <div className="w-full my-4 flex justify-center">
 <button disabled={locked} onClick={submit} className="bg-slate-800 px-6 py-2 text-white font-bold rounded-md disabled:bg-gray-900">Save</button>
 </div>
+}
+  </>
+}
+</>
+}
+{
+  mode=="ai" && player.length<10 && len==0 &&
+  <>
+  { subload==false && aiitems.length==0 && <>
+ <div className="w-full overflow-hidden  flex my-24 flex-col justify-center items-center p-2 gap-y-4">
+ <img src="Icons/ai.png" className="w-32 h-32 rounded-full" />
+ <button onClick={handleget} disabled={subload}  className="bg-slate-800 px-6 py-2 text-white font-bold rounded-md disabled:bg-gray-900">Generate Team</button>
+ </div>
+ </>
+ }
+ {
+  subload==true && <>
+  <p className="text-white text-sm my-32 text-center font-bold">Loading....</p>
+  </>
 }
   </>
 }
