@@ -45,7 +45,7 @@ const Winner = ({winner,yourteam,opposteam}) => {
   const [histwickets,setHistwickets]=useState({});
   const [winnerarray,setWinnerarray]=useState(()=>LocalWinner()||[]);
   const [valid,setValid]=useState(false)
-  const [load,setLoad]=useState(false);
+  const [load,setLoad]=useState(true);
   const [winarray,setWinarray]=useState(()=>LocalWin()||[]);
   const [teams,setTeams]=useState(()=>LocalData()|| ["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"]);
   const array=yourteam.concat(opposteam);
@@ -95,6 +95,21 @@ const computerwickets=playerdata.reduce((total,i)=>{
  setValid(true)
  }
   }
+  useEffect(()=>{
+  if(winner===yourteam[0].team){
+   //send_data({data:array},{winner:yourteam,loser:opposteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Winner",oppstatus:"Loser"})
+   setLoad(false)
+  }
+ else if(winner===opposteam[0].team){
+   //send_data({data:array},{winner:opposteam,loser:yourteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Loser",oppstatus:"Winner"})
+   setLoad(false)
+  }
+  else{
+   // send_data({data:array},{winner:yourteam,loser:opposteam,draw:true},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Draw",oppstatus:"Draw"})
+    setLoad(false)
+  }
+  
+  },[])
   useEffect(()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
   },[])
