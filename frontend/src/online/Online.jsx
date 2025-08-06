@@ -61,6 +61,7 @@ useEffect(()=>{
   socket.on('choiceturn',(ms)=>{
     if(ms=="Your Turn"){
     setMsg(ms)
+    setOpt(0)
     resetInactivityTimer();
     }
     else{
@@ -96,6 +97,11 @@ useEffect(() => {
     resetInactivityTimer();
   }
 }, [start, msg]);
+useEffect(() => {
+  if (!socket.connected) {
+    socket.connect();
+  }
+}, []);
 const add_Name=(i)=>{
   if (disable==false) {
   socket.emit('joinRoom', {name:name,team:i});
@@ -103,10 +109,12 @@ const add_Name=(i)=>{
     }
 }
 const optio=(i)=>{
-  socket.emit('gomove',i)
+  if(opt==0){
+   socket.emit('gomove',i)
   clearInterval(countdownInterval.current);
   clearTimeout(inactivityTimeout.current);
   setOpt(i)
+  }
 }
 
   return (
@@ -157,7 +165,7 @@ const optio=(i)=>{
   ))}
 </div>
 { data.game.result=='' && <h1 className="text-center font-bold text-white">{msg}</h1>}
-{ msg=="Your Turn" && data.game.result=='' &&
+{ msg=="Your Turn" && data.game.result=='' && opt==0 &&
     <div className="flex flex-row flex-wrap justify-center py-6 gap-4">
       {buttons.map((i)=>{
         return(<>

@@ -30,7 +30,6 @@ const token=get_data()
 const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
   const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
-  console.log(token)
   const [isOpen, setIsOpen] = useState(false);
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
@@ -70,7 +69,6 @@ const [winner,setWinner]=useState("")
   useEffect(()=>{
     socket.emit("latejoin"); 
     socket.on("storelate", (msg) => {
-    console.log("Late joiner received store data:", msg);
     setShow(msg.id);
     setStart(msg.start);
     setMessage(msg.msg);

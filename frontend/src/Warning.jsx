@@ -1,8 +1,8 @@
-import { isMobile } from "react-device-detect";
+import { isMobile,isDesktop } from "react-device-detect";
 import { MdWarningAmber } from "react-icons/md"; // ⚠️ Warning icon
 
 const Warning = ({ children }) => {
-  return (isMobile) ? (
+  return (isMobile || isDesktop) ? (
     children
   ) : (
     <div className="flex justify-center items-center my-40 px-4">
