@@ -83,7 +83,7 @@ const PlayerSearch = () => {
 {
   loading==false && <>
   {/* //& Navbar for mobile */}
-    <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
+    <div  className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
     <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
     <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="w-8 h-8" />
@@ -135,7 +135,7 @@ const PlayerSearch = () => {
 <FontAwesomeIcon icon={faCheckCircle} className="absolute top-0 right-0 text-green-500 bg-white rounded-full" size="lg"/>)}
 </div>))}</div> </div>
 <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Players Details</h1>
-<div className="w-full justify-center items-center flex flex-row gap-4 flex-wrap">
+<div className="w-full p-2 justify-start items-start flex flex-row gap-4 flex-wrap">
  {items
   .sort((a, b) => a.name.localeCompare(b.name))
   .map((i, index) =>
@@ -160,6 +160,7 @@ const PlayerSearch = () => {
   )
 }
 </div>
+
 </>
 }
 

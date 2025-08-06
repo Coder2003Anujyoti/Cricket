@@ -209,7 +209,7 @@ setTimeout(()=>{
 <div className="w-full my-4 text-white font-bold text-center">
 <p className="ml-4 mr-4">*You need to select {10-select.length} players</p>
 </div>
-<div className="w-full justify-center items-center flex flex-row gap-4 flex-wrap">
+<div className="w-full p-2 justify-start items-start flex flex-row gap-4 flex-wrap">
   {team.sort((a, b) => a.name.localeCompare(b.name)).map((i, index) => (
     <div key={index} className="flex justify-center flex-col text-center text-white font-bold bg-slate-800 rounded-md p-2">
     <div className="w-full flex justify-center items-center">  <img src={i.image} alt={i.name || "team-logo"} className="w-36 h-36" /></div>
@@ -237,7 +237,7 @@ setTimeout(()=>{
   <div className="w-full my-2 text-white font-bold text-center text-base">
 <p className="ml-4 mr-4">Your Team</p>
 </div>
-<div className="w-full justify-center items-center flex flex-row gap-4 flex-wrap">
+<div className="w-full p-2 justify-start items-start flex flex-row gap-4 flex-wrap">
   {player.sort((a, b) => a.name.localeCompare(b.name)).map((i, index) => (
     <div key={index} className="flex justify-center flex-col text-center text-white font-bold bg-slate-800 rounded-md p-2">
     <div className="w-full flex justify-center items-center">  <img src={i.image} alt={i.name || "team-logo"} className="w-36 h-36" /></div>
@@ -274,7 +274,7 @@ setTimeout(()=>{
   <div className="w-full my-6 text-white font-bold text-center text-base">
 <p className="ml-4 mr-4">AI Generated Team Suggestions</p>
 </div>
-<div className="w-full justify-center items-center flex flex-row gap-4 flex-wrap">
+<div className="w-full p-2 justify-start items-start flex flex-row gap-4 flex-wrap">
   {aiitems.sort((a, b) => a.name.localeCompare(b.name)).map((i, index) => (
     <div key={index} className="flex justify-center flex-col text-center text-white font-bold bg-slate-800 rounded-md p-2">
     <div className="w-full flex justify-center items-center">  <img src={i.image} alt={i.name || "team-logo"} className="w-36 h-36" /></div>
