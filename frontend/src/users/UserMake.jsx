@@ -247,7 +247,7 @@ setTimeout(()=>{
 </div>
 { hide==false && len==0 &&
 <div className="w-full my-4 flex justify-center">
-<button disabled={locked} onClick={submit} className="bg-slate-800 px-6 py-2 text-white font-bold rounded-md disabled:bg-gray-900">Save</button>
+<button disabled={locked} onClick={submit} className="bg-slate-800 px-6 py-2 text-white font-bold rounded-md disabled:text-gray-900 disabled:bg-gray-900">Save</button>
 </div>
 }
   </>
@@ -260,7 +260,7 @@ setTimeout(()=>{
   { subload==false && aiitems.length==0 && <>
  <div className="w-full overflow-hidden  flex my-24 flex-col justify-center items-center p-2 gap-y-4">
  <img src="Icons/ai.png" className="w-32 h-32 rounded-full" />
- <button onClick={handleget} disabled={subload}  className="bg-slate-800 px-6 py-2 text-white font-bold rounded-md disabled:bg-gray-900">Generate Team</button>
+ <button onClick={handleget} disabled={subload}  className="bg-slate-800 px-6 py-2 text-white font-bold rounded-md disabled:bg-gray-900">Generate Suggestions</button>
  </div>
  </>
  }
@@ -272,7 +272,7 @@ setTimeout(()=>{
 {
   subload==false && aiitems.length>0 && <>
   <div className="w-full my-6 text-white font-bold text-center text-base">
-<p className="ml-4 mr-4">AI Generated Team</p>
+<p className="ml-4 mr-4">AI Generated Team Suggestions</p>
 </div>
 <div className="w-full justify-center items-center flex flex-row gap-4 flex-wrap">
   {aiitems.sort((a, b) => a.name.localeCompare(b.name)).map((i, index) => (
