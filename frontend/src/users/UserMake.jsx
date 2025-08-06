@@ -44,8 +44,7 @@ const pquery = searchParams.get("player");
   const location = useLocation();
   useEffect(() => {
   socket.on("gamestart",(msg)=>{
-    if(msg.id==id && location.pathname==="/usermake" ){
-    navigate(-1)
+    if(msg.id==id){
     setShow(false)
     }
     else

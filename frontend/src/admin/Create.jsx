@@ -134,7 +134,7 @@ const handDelete = async() => {
         toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
     }
     else if(response.ok){
-      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>News deleted successfully</strong>);
+      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Tournament deleted successfully</strong>);
     }
   }
     catch(err){
