@@ -262,18 +262,21 @@ return(<>
 }
 {
   mode=="guidelines" && <>
-  <ul className="text-yellow-400 text-sm list-disc pl-5 space-y-4 my-16 ml-2 mr-4 font-semibold">
+<ul className="text-yellow-400 text-sm list-disc pl-5 space-y-4 my-16 ml-2 mr-4 font-semibold">
   <li>
     For searching latest news and tournaments just write <strong>latest news</strong> and <strong>latest tournaments</strong>.
   </li>
-<li>
-  For searching news, team stats and tournaments based on any team — for example: 
-  <br />
-  <strong>Mumbai Indians Tournament → "Tournament Mi"</strong><br />
-  <strong>News → "News Mi"</strong><br />
-  <strong>Team → "Team Mi"</strong><br />
-  <strong>Player → "Player Hardik Pandya"</strong>
-</li>
+  <li>
+    For searching news, team stats and tournaments based on any team — for example: 
+    <br />
+    <strong>Mumbai Indians Tournament → "Tournament Mi"</strong><br />
+    <strong>News → "News Mi"</strong><br />
+    <strong>Team → "Team Mi"</strong><br />
+    <strong>Player → "Player Hardik Pandya"</strong>
+  </li>
+  <li>
+    Avoid using nicknames like <strong>Thala</strong>, <strong>Hitman</strong>, and do not include numbers or special characters in your search queries.
+  </li>
   <li>
     This is an intuitive-based AI agent made with ❤️ by <strong>Coder2003Anujyoti</strong>.
   </li>
