@@ -122,7 +122,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         className: shouldShowMobile ? "font-bold" : "",
       }}
     />
-      <div className="w-full my-28 lg:my-28 md:my-20 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
+      <div className="w-full my-24 lg:my-36 md:my-20 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
         <video
           src="Icons/movable.mp4"
           autoPlay

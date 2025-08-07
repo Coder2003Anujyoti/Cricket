@@ -206,14 +206,14 @@ const pieChartOptions = {
     <img
       src={items[0].image}
       alt="Player"
-      className="w-80 h-80 object-contain rounded-xl shadow-md"
+      className="w-80 h-80 object-contain"
     />
   </div>
 
   {/* 🧾 Player Info + Logo */}
   <div className="w-1/3 flex flex-col justify-center items-center gap-6 text-slate-200">
     {/* Text Section */}
-    <div className="flex flex-col justify-center items-start gap-2 bg-slate-800 w-full p-4 rounded-xl shadow-inner">
+    <div className="flex flex-col justify-center items-start gap-2 bg-slate-800 w-full p-4 rounded-xl">
       <h1 className="text-2xl font-bold tracking-wide">
         Name: {items[0].name} {items[0].captain ? "(C)" : ""}
       </h1>
