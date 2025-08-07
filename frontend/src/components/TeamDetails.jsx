@@ -290,6 +290,7 @@ const histogramteamWickets = {
     {item.map((i)=>{
     if(i.team==teamId)
       return(<>
+       <Link to={`/profile?name=${i.name}&team=${i.team}`}>
         <div className="p-1 flex flex-col gap-1 rounded-lg bg-slate-800 text-center md:text-base justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
     <div className="flex justify-center items-center"> <img className="w-24 h-24 md:w-36 md:h-36"src={i.image} /></div>
    <div className="flex flex-col text-center my-2 md:text-base">
@@ -299,6 +300,7 @@ const histogramteamWickets = {
     }
   </div>
         </div>
+        </Link>
       </>)
     })}
   </div>
@@ -313,11 +315,13 @@ const histogramteamWickets = {
       item.filter((i)=> i.team==teamId).sort((a,b)=>b.runs-a.runs).map((i,ind)=>{
       if(ind<6)
         return(<>
+         <Link to={`/profile?name=${i.name}&team=${i.team}`}>
             <div className="p-4 flex flex-col gap-4 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
     <div className="flex justify-center items-center"><img src={i.image} className="w-16 h-16 md:w-36 md:h-36" /></div>
     <div><p className="text-slate-400 text-base font-bold">{i.name}</p>
          <p className="text-slate-400 text-base font-bold">Runs-:{i.runs}</p></div>
            </div>
+           </Link>
         </>)
       })
     }
@@ -330,11 +334,13 @@ const histogramteamWickets = {
       item.filter((i)=> i.team==teamId).sort((a,b)=>b.wickets-a.wickets).map((i,ind)=>{
       if(ind<6 && i.team==teamId)
         return(<>
+         <Link to={`/profile?name=${i.name}&team=${i.team}`}>
     <div className="p-4 flex flex-col gap-4 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
     <div className="flex justify-center items-center"><img src={i.image} className="w-16 h-16 md:w-36 md:h-36" /></div>
     <div><p className="text-slate-400 text-base font-bold">{i.name}</p>
          <p className="text-slate-400 text-base font-bold">Wickets-:{i.wickets}</p></div>
            </div>
+           </Link>
         </>)
       })
     }
@@ -482,13 +488,13 @@ const histogramteamWickets = {
       item.sort((a,b)=>b.runs-a.runs).map((i,ind)=>{
       if(ind<6)
         return(<>
-     
+      <Link to={`/profile?name=${i.name}&team=${i.team}`}>
             <div className="p-4 flex flex-col gap-4 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
     <div className="flex justify-center items-center"><img src={i.image} className="w-16 h-16 md:w-36 md:h-36" /></div>
     <div><p className="text-slate-400 text-base font-bold">{i.name}</p>
          <p className="text-slate-400 text-base font-bold">Runs-:{i.runs}</p></div>
            </div>
-        
+        </Link>
         </>)
       })
     }
@@ -501,13 +507,13 @@ const histogramteamWickets = {
       item.sort((a,b)=>b.wickets-a.wickets).map((i,ind)=>{
       if(ind<6)
         return(<>
-      
+       <Link to={`/profile?name=${i.name}&team=${i.team}`}>
     <div className="p-4 flex flex-col gap-4 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
     <div className="flex justify-center items-center"><img src={i.image} className="w-16 h-16 md:w-36 md:h-36" /></div>
     <div><p className="text-slate-400 text-base font-bold">{i.name}</p>
          <p className="text-slate-400 text-base font-bold">Wickets-:{i.wickets}</p></div>
            </div>
-       
+       </Link>
         </>)
       })
     }
