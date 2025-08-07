@@ -1,5 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { FaArrowUp } from "react-icons/fa";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faMagnifyingGlass,
@@ -38,7 +40,6 @@ const teams = [
 const Create = () => {
   const token=get_data()
   const role=get_role()
-  console.log(token)
   const [isOpen, setIsOpen] = useState(false);
   const [tournamentName, setTournamentName] = useState("");
   const [mode, setMode] = useState("create");
@@ -296,7 +297,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
               className: 'font-bold', // Tailwind class applied to all toasts
             }}/>
     {/* //& Navbar for mobile */}
-    <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
+    <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 lg:hidden z-50 md:px-4 md:py-3">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
   
   <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
@@ -322,7 +323,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
           </Link>
         )}
 
-        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500 md:hidden">
           <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
           <span>Users</span>
         </Link>
@@ -344,7 +345,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 </div>
 
   {/* //* Navbar for big screens */}
-     <nav className="bg-slate-800 hidden md:block text-white backdrop-blur-md shadow-md">
+     <nav className="bg-slate-800 hidden lg:block text-white backdrop-blur-md shadow-md">
     <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
       <div className="flex items-center space-x-2">
         <img
@@ -359,6 +360,12 @@ window.scrollTo({ top: 0, behavior: "smooth" });
       <span>Home</span>
       </Link>
       {role=="admin" && <>
+               <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+                <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+                <span>About</span>
+              </Link>
+              </>}
+      {role=="admin" && <>
       <Link to="/create"  className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500"
       >
         <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />
@@ -369,6 +376,13 @@ window.scrollTo({ top: 0, behavior: "smooth" });
       <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
       <span>Sign Out</span>
       </Link>
+         <button
+        onClick={() => window.location.reload()}
+        className="flex items-center space-x-3 text-white font-medium hover:text-indigo-600"
+      >
+        <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-indigo-500" />
+        <span>Reload</span>
+      </button>
       </div>
     </div>
   </nav>
@@ -393,14 +407,14 @@ window.scrollTo({ top: 0, behavior: "smooth" });
   </button>
 </div>
 { mode=="create" && <>
-       <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
+       <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl space-y-6">
 
-      <h2 className="text-xl font-bold text-center text-white md:text-gray-800">Create Tournament</h2>
+      <h2 className="text-xl font-bold text-center text-white">Create Tournament</h2>
 
       <input
         type="text"
         placeholder="Enter Tournament Name"
-        className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"
+        className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none"
         value={tournamentName}
         onChange={(e) => setTournamentName(e.target.value)}
       />
@@ -408,11 +422,11 @@ window.scrollTo({ top: 0, behavior: "smooth" });
       <input
         type="text"
         placeholder="Enter Match ID"
-        className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"
+        className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"
         value={matchID}
         onChange={(e) => setMatchID(e.target.value)}
       />
-<div className="relative">
+      <div className="relative md:hidden">
   {!matchDate && (
     <span className="absolute left-3 top-3 font-semibold text-gray-400 pointer-events-none">
       Enter Match Date
@@ -420,11 +434,25 @@ window.scrollTo({ top: 0, behavior: "smooth" });
   )}
   <input
     type="date"
-    className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"
+    className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none placeholder-transparent"
     value={matchDate}
     onChange={(e) => setMatchDate(e.target.value)}
   />
 </div>
+<div className="relative hidden md:block">
+      {!matchDate && (
+        <span className="absolute left-3 top-3 text-gray-400 font-semibold pointer-events-none">
+          Enter Match Date
+        </span>
+      )}
+      <DatePicker
+        selected={matchDate}
+        onChange={(date) => setMatchDate(date)}
+        placeholderText="Select Match Date"
+        dateFormat="dd-MM-yyyy"
+        className="w-[180px] min-w-[525px] p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"
+      />
+    </div>
 
     <div className="flex flex-col md:flex-row gap-4 w-full max-w-md mx-auto px-4">
   {/* User Team Dropdown */}
@@ -508,7 +536,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 
       <button
         onClick={handleCreate} disabled={lock}
-        className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300"
+        className="w-full bg-slate-800 text-white font-bold py-2 px-4 rounded-md transition duration-300"
       >
         Create
       </button>
@@ -516,16 +544,17 @@ window.scrollTo({ top: 0, behavior: "smooth" });
     </>}
     {
       mode=="edit" && <>
-<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
-<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Edit Tournament</h2>
+  <div className='flex-col flex md:flex-row md:flex-wrap'>
+<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl space-y-6">
+<h2 className="text-xl font-bold text-center text-white">Edit Tournament</h2>
       <input
         type="text"
         placeholder="Enter Match ID"
-        className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"
+        className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"
         value={editmatchID}
         onChange={(e) => setEditmatchID(e.target.value)}
       />
-<div className="relative">
+<div className="relative md:hidden">
   {!editmatchDate && (
     <span className="absolute left-3 top-3 font-semibold text-gray-400 pointer-events-none">
       Enter Match Date
@@ -533,25 +562,40 @@ window.scrollTo({ top: 0, behavior: "smooth" });
   )}
   <input
     type="date"
-    className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"
+    className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"
     value={editmatchDate}
     onChange={(e) => setEditmatchDate(e.target.value)}
   />
 </div>
+<div className="relative hidden md:block">
+      {!matchDate && (
+        <span className="absolute left-3 top-3 text-gray-400 font-semibold pointer-events-none">
+          Enter Match Date
+        </span>
+      )}
+      <DatePicker
+        selected={matchDate}
+        onChange={(date) => setMatchDate(date)}
+        placeholderText="Select Match Date"
+        dateFormat="dd-MM-yyyy"
+        className="w-[180px] min-w-[525px] p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"
+      />
+    </div>
       <button
         onClick={handleEdit} disabled={editlock}
-        className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300"
+        className="w-full bg-slate-800 text-white font-bold py-2 px-4 rounded-md  transition duration-300"
       >
         Edit
       </button>
     </div>
-    <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
-<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Delete Tournament</h2>
+    <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl  space-y-6">
+<h2 className="text-xl font-bold text-center text-white ">Delete Tournament</h2>
 <input type="text" value={deletenewsID}
-onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter Match ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
-<button disabled={deletelock} onClick={handleDelete} className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300">
+onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter Match ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
+<button disabled={deletelock} onClick={handleDelete} className="w-full bg-slate-800 text-white font-bold  py-2 px-4 rounded-md  transition duration-300">
       Delete
       </button>
+</div>
 </div>
       </>
     }

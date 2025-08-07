@@ -147,7 +147,7 @@ const postsgo=()=>{
   {
   loading==false && <>
   {/* //& Navbar for mobile */}
-    <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
+    <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 lg:hidden z-50 md:px-4 md:py-3">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
     <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
     <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="w-8 h-8" />
@@ -161,7 +161,7 @@ const postsgo=()=>{
           <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-indigo-500" />
           <span>Home</span>
         </Link>
-          <Link to="/useruser" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+          <Link to="/useruser" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500 md:hidden">
           <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
           <span>About</span>
         </Link>
@@ -190,6 +190,55 @@ const postsgo=()=>{
     </div>
   )}
 </div>
+<nav className="bg-slate-800 hidden lg:block text-white backdrop-blur-md shadow-md">
+  <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+    <div className="flex items-center space-x-2">
+      <img
+        src="Logos/Logo.webp"
+        alt="Logo"
+        className="w-20 h-16 md:w-32 md:h-20 lg:w-36 lg:h-24 object-contain"
+      />
+    </div>
+     <div className="hidden lg:flex items-center gap-4 space-x-6">
+       <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-500">
+          <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-indigo-500" />
+          <span>Home</span>
+        </Link>
+      { JSON.parse(sessionStorage.getItem("role"))=="user" && <> <Link to="/playersearch" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+          <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 h-5 text-green-500" />
+          <span>Search</span>
+        </Link></>}
+          { JSON.parse(sessionStorage.getItem("role"))=="user" && <> <Link to="/news" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+          <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
+          <span>News</span>
+        </Link> </>  } 
+        { JSON.parse(sessionStorage.getItem("role"))=="admin" && <>
+         <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+          <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+          <span>About</span>
+        </Link>
+        </>}
+         { JSON.parse(sessionStorage.getItem("role")) === "admin" && (
+          <Link to="/create" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+            <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />
+            <span>Admin</span>
+          </Link>
+        )}
+
+        <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
+          <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
+          <span>Sign Out</span>
+        </Link>
+         <button
+  onClick={() => window.location.reload()}
+  className="flex items-center space-x-3 text-white font-medium hover:text-sky-600"
+>
+  <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-sky-500" />
+  <span>Reload</span>
+</button>
+      </div>
+  </div>
+</nav>
   <div className="flex justify-evenly mt-4">
   <button
     onClick={() => setMode("news")}
@@ -207,11 +256,11 @@ const postsgo=()=>{
 { mode=="news" && <>
 {
   items.length>0 && <>
-  <div className="overflow-x-auto scroll-smooth px-3 py-4 my-4">
-<div className="flex gap-4 w-max">
+  <div className="overflow-x-auto scroll-smooth px-3 py-4 my-4 lg:flex lg:justify-center lg:items-center lg:py-6">
+<div className="flex gap-4 w-max md:justify-center md:items-center lg:gap-10">
 {teams.map((team) => (
 <div key={team} onClick={() => handleSelect(team)} className="relative cursor-pointer">
-<img src={`Logos/${team}.webp`} className="w-16 h-16 p-2 rounded-full border border-slate-800" />
+<img src={`Logos/${team}.webp`} className="w-16 h-16 p-2 rounded-full border border-slate-800 lg:w-24 lg:h-24" />
 {selectedTeams.includes(team) && (
 <FontAwesomeIcon icon={faCheckCircle} className="absolute top-0 right-0 text-green-500 bg-white rounded-full" size="lg"/>)}
 </div>))}</div></div>
@@ -225,11 +274,11 @@ const postsgo=()=>{
 }
 {
   items.length>0 && <>
-  <div className="flex flex-col ml-2 mr-2 gap-4 my-4">
+  <div className="flex flex-col ml-2 mr-2 gap-4 my-4 md:my-6 lg:px-20 lg:ml-16 md:ml-6 md:justify-center md:gap-8 md:items-center lg:gap-10 lg:items-start lg:justify-start lg:flex-row lg:flex-wrap">
  {items.map((i)=>{
  if(selectedTeams.length === 0 || selectedTeams.includes(i.playerteam) || selectedTeams.includes(i.computerteam)){
     return(<>
-    <div className="w-full bg-slate-800 flex flex-row rounded-md flex-wrap">
+    <div className="w-full bg-slate-800 flex flex-row rounded-md flex-wrap lg:w-96 lg:h-48 md:w-96 md:h-48 md:p-2">
    <div className="w-1/2 flex flex-col justify-center items-center">
   <div className="flex flex-row gap-2">
 <img src={`Logos/${i.playerteam}.webp`} className="w-14 h-14 sm:w-16 sm:h-16 rounded-full object-contain" />
@@ -260,7 +309,7 @@ const postsgo=()=>{
       <div className="w-full flex justify-center">
 <button
   onClick={newsgo}
-  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md transition-all duration-300 ease-in-out"
 >
   <span>More News</span>
   <FontAwesomeIcon icon={faChevronDown} />
@@ -287,10 +336,10 @@ const postsgo=()=>{
 }
 {
   news.length>0 && <>
-  <div className="flex flex-col ml-2 mr-2 gap-4 my-4">
+  <div className="flex flex-col ml-2 mr-2 gap-4 my-4 lg:px-20 md:justify-center md:items-center md:py-3 lg:ml-16 lg:gap-10 lg:items-start lg:justify-start lg:flex-row lg:flex-wrap ">
  {news.map((i)=>{
     return(<>
-    <div className="w-full bg-slate-800 flex flex-col rounded-md flex-wrap">
+    <div className="w-full bg-slate-800 flex flex-col rounded-md flex-wrap lg:w-96 lg:h-90 md:w-96 md:h-84">
   <div className="w-full flex justify-start items-start p-3">
   <img src={`Logos/Logo.webp`} className="w-16 h-8" />
   </div>
@@ -315,7 +364,7 @@ const postsgo=()=>{
       <div className="w-full flex justify-center">
 <button
   onClick={postsgo}
-  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md transition-all duration-300 ease-in-out"
 >
   <span>More Announcements</span>
   <FontAwesomeIcon icon={faChevronDown} />

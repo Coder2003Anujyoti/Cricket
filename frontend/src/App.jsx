@@ -84,7 +84,7 @@ const App = () => {
 <Route path="/history" element={<Warning><Protected><History /></Protected></Warning>} />
 <Route path="/standings" element={<Warning><Protected><Standings /></Protected></Warning>} />
 <Route path="/results" element={<Warning><Protected><Results /></Protected></Warning>} />
-<Route path="/profile" element={<Warning><Protected><Card /></Protected></Warning>} />
+<Route path="/profile" element={<Protected><Card /></Protected>} />
 <Route path="/auction" element={<Warning><Protected><Auction /></Protected></Warning>} />
 <Route path="/playgame" element={<Warning><Protected><Playgame /></Protected></Warning>} />
 <Route path="/analysis" element={<Warning><Protected><Analysis /></Protected></Warning>} />

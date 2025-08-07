@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
+import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "react-responsive";
 import { toast, Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
 import {useAutho} from "../protector/useAuth.jsx";
@@ -11,6 +13,8 @@ export default function Login() {
   const [lock,setLock]=useState(false)
   const { login } = useAutho();
   const navigate = useNavigate();
+  const isMobileView = useMediaQuery({ query: "(max-width: 425px)" });
+    const shouldShowMobile = isMobile || isMobileView;
    useEffect(()=>{
   sessionStorage.removeItem("token")
   sessionStorage.removeItem("username")
@@ -112,11 +116,13 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 },[])
   return (
     <div className="flex items-center justify-center">
-      <Toaster position="top-center" toastOptions={{
-          className: 'font-bold', 
-          // Tailwind class applied to all toasts
-        }}/>
-      <div className="w-full my-28 md:my-28 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
+       <Toaster
+      position="top-center"
+      toastOptions={{
+        className: shouldShowMobile ? "font-bold" : "",
+      }}
+    />
+      <div className="w-full my-28 lg:my-28 md:my-20 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
         <video
           src="Icons/movable.mp4"
           autoPlay
@@ -136,7 +142,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
-            className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none md:focus:ring-2 md:focus:ring-indigo-400"
+            className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none"
           />
 
           <div className="relative w-full mb-4">
@@ -145,7 +151,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
               placeholder={mode === 'forgot' ? "New Password" : "Password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full cursor-pointer px-4 py-2 border rounded-md font-semibold focus:outline-none md:focus:ring-2  md:focus:ring-indigo-400  pr-10"
+              className="w-full cursor-pointer px-4 py-2 border rounded-md font-semibold focus:outline-none  pr-10"
             />
             <button
               type="button"
@@ -156,20 +162,20 @@ window.scrollTo({ top: 0, behavior: "smooth" });
             </button>
           </div>
 
-          <button type="submit" disabled={lock} className="w-full py-2 mb-2 md:bg-indigo-500 md:text-white font-bold text-white bg-gray-900 rounded-md md:hover:bg-indigo-600 transition">
+          <button type="submit" disabled={lock} className="w-full py-2 mb-2  font-bold text-white bg-gray-900 rounded-md transition">
             {mode === 'login' ? 'Login' : mode === 'signup' ? 'Sign Up' : 'Reset Password'}
           </button>
         </form>
 
         <div className="flex justify-between w-full text-sm mt-2">
           {mode !== 'signup' && (
-            <button onClick={() => setMode('signup')} className="text-white font-bold md:text-indigo-500 md:hover:underline">Sign Up</button>
+            <button onClick={() => setMode('signup')} className="text-white font-bold">Sign Up</button>
           )}
           {mode !== 'forgot' && (
-            <button onClick={() => setMode('forgot')} className="text-white font-bold md:text-indigo-500 md:hover:underline">Forgot Password?</button>
+            <button onClick={() => setMode('forgot')} className="text-white font-bold">Forgot Password?</button>
           )}
           {(mode === 'signup' || mode === 'forgot') && (
-            <button onClick={() => setMode('login')} className="text-white font-bold md:text-indigo-500 md:hover:underline">Back to Login</button>
+            <button onClick={() => setMode('login')} className="text-white font-bold">Back to Login</button>
           )}
         </div>
       </div>

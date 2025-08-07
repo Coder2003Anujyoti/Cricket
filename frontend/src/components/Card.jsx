@@ -200,20 +200,20 @@ const pieChartOptions = {
     <Bar data={bar} options={barChartOptions} />
   </div>
 </div>
-<div className="w-full my-12 hidden lg:flex flex-row justify-center items-center gap-6 p-6 bg-gray-900 rounded-2xl ">
+<div className="w-full my-12 hidden lg:flex flex-row justify-center items-center gap-6 p-6 rounded-2xl ">
   {/* 🖼️ Player Image */}
   <div className="w-1/3 flex justify-center">
     <img
       src={items[0].image}
       alt="Player"
-      className="w-80 h-80 object-contain rounded-xl border-4 border-slate-700 shadow-md"
+      className="w-80 h-80 object-contain rounded-xl shadow-md"
     />
   </div>
 
   {/* 🧾 Player Info + Logo */}
   <div className="w-1/3 flex flex-col justify-center items-center gap-6 text-slate-200">
     {/* Text Section */}
-    <div className="flex flex-col justify-center items-start gap-2 bg-gray-800 w-full p-4 rounded-xl shadow-inner">
+    <div className="flex flex-col justify-center items-start gap-2 bg-slate-800 w-full p-4 rounded-xl shadow-inner">
       <h1 className="text-2xl font-bold tracking-wide">
         Name: {items[0].name} {items[0].captain ? "(C)" : ""}
       </h1>

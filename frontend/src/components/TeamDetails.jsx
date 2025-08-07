@@ -601,13 +601,6 @@ const histogramteamWickets = {
     <div className="border-t border-gray-700 mt-4 p-2 text-center text-gray-400">
       © 2025 Coder2003Anujyoti All rights reserved.
     </div>
-     <button
-  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-  className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-slate-600 text-white p-2 sm:p-3 rounded-full shadow-md sm:shadow-lg  transition-all duration-300 z-50"
-  aria-label="Scroll to top"
->
-  <FaArrowUp className="w-4 h-4 sm:w-5 sm:h-5" />
-</button>
 </footer>
 </>}
 </>

@@ -320,7 +320,7 @@ const handleEdit= () => {
   <Toaster position="top-center" toastOptions={{className: 'font-bold', // Tailwind class applied to all toasts
             }}/>
   {/* //& Navbar for mobile */}
-    <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
+    <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 lg:hidden z-50  md:px-4 md:py-3 ">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
   
   <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
@@ -346,7 +346,7 @@ const handleEdit= () => {
           </Link>
         )}
 
-        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500 md:hidden">
           <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
           <span>User</span>
         </Link>
@@ -368,7 +368,7 @@ const handleEdit= () => {
 </div>
 
   {/* //* Navbar for big screens */}
-     <nav className="bg-slate-800 hidden md:block text-white backdrop-blur-md shadow-md">
+     <nav className="bg-slate-800 hidden lg:block text-white backdrop-blur-md shadow-md">
     <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
       <div className="flex items-center space-x-2">
         <img
@@ -382,6 +382,12 @@ const handleEdit= () => {
       <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-blue-500" />
       <span>Home</span>
       </Link>
+       {role=="admin" && <>
+               <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+                <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+                <span>About</span>
+              </Link>
+              </>}
       {role=="admin" && <>
       <Link to="/create"  className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500"
       >
@@ -393,6 +399,13 @@ const handleEdit= () => {
       <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
       <span>Sign Out</span>
       </Link>
+       <button
+        onClick={() => window.location.reload()}
+        className="flex items-center space-x-3 text-white font-medium hover:text-indigo-600"
+      >
+        <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-indigo-500" />
+        <span>Reload</span>
+      </button>
       </div>
     </div>
   </nav>
@@ -433,15 +446,15 @@ const handleEdit= () => {
         <tr key={idx} className={`${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b`}>
                 <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
           { user.icon!= "" ?
-  <img className="w-7 h-7" src={user.icon} alt="Logo" /> :
-  <img className="w-7 h-7" src={`Icons/cricket.webp`} />}
+  <img className="w-7 h-7 md:w-10 md:h-10" src={user.icon} alt="Logo" /> :
+  <img className="w-7 h-7 md:w-10 md:h-10" src={`Icons/cricket.webp`} />}
         </td>
-          <td className="px-6 py-4 text-xs whitespace-nowrap w-1/3 font-semibold">{user.username}</td>
+          <td className="px-6 py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">{user.username}</td>
 
-<td className="px-6 py-4 whitespace-nowrap w-1/3 flex items-center space-x-3 font-semibold text-xs text-center">
+<td className="px-6 py-6 whitespace-nowrap w-1/3 flex items-center space-x-3 font-semibold text-xs md:text-sm text-center">
   <FontAwesomeIcon
     icon={showPassword[idx] ? faUnlock : faLock}
-    className="text-gray-500 text-xs cursor-pointer"
+    className="text-gray-500 text-xs md:text-sm cursor-pointer"
     onClick={() => togglePassword(idx)}
   />
   <span>
@@ -472,7 +485,7 @@ const handleEdit= () => {
       <div className="w-full flex justify-center">
 <button
   onClick={usersgo}
-  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md  transition-all duration-300 ease-in-out"
 >
   <span>More Users</span>
   <FontAwesomeIcon icon={faChevronDown} />
@@ -490,34 +503,36 @@ const handleEdit= () => {
 </>
 }
 { mode=="create" && <>
-<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
-<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Create Announcement</h2>
+<div className='flex-col flex md:flex-row md:flex-wrap'>
+<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl md:shadow-lg space-y-6">
+<h2 className="text-xl font-bold text-center text-white">Create Announcement</h2>
 <input type="text" value={newsID}
-onChange={(e)=>setNewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
+onChange={(e)=>setNewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
 <textarea style={{ resize: "none" }} value={content} onChange={(e)=>setContent(e.target.value)} placeholder="Enter Announcement"
-className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
-<button disabled={lock} onClick={handleSubmit} className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300">
+className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none"/>
+<button disabled={lock} onClick={handleSubmit} className="w-full bg-slate-800 text-white font-bold py-2 px-4 rounded-md transition duration-300">
         Create
       </button>
     </div>
-<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
-<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Delete Announcement</h2>
+<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl space-y-6">
+<h2 className="text-xl font-bold text-center text-white">Delete Announcement</h2>
 <input type="text" value={deletenewsID}
-onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
-<button disabled={deletelock} onClick={handleDelete} className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300">
+onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
+<button disabled={deletelock} onClick={handleDelete} className="w-full bg-slate-800 text-white font-bold py-2 px-4 rounded-md transition duration-300">
       Delete
       </button>
+</div>
 </div>
     </>}
 {
   mode=="view" && <>
-  <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 md:bg-white md:mt-8  rounded-xl md:shadow-lg space-y-6">
-<h2 className="text-xl font-bold text-center text-white md:text-gray-800">Edit Announcement</h2>
+  <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl space-y-6">
+<h2 className="text-xl font-bold text-center text-white">Edit Announcement</h2>
 <input type="text" value={editnewsID}
-onChange={(e)=>setEditnewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
-<textarea value={editcontent} onChange={(e)=>setEditcontent(e.target.value)} placeholder="Enter Announcement"
-className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none md:focus:ring md:focus:ring-blue-200"/>
-<button disabled={editlock} onClick={handleEdit} className="w-full md:bg-blue-600 bg-slate-800 text-white font-bold md:font-semibold py-2 px-4 rounded-md md:hover:bg-blue-700 transition duration-300">
+onChange={(e)=>setEditnewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
+<textarea value={editcontent} style={{ resize: "none" }} onChange={(e)=>setEditcontent(e.target.value)} placeholder="Enter Announcement"
+className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none"/>
+<button disabled={editlock} onClick={handleEdit} className="w-full bg-slate-800 text-white font-bold  py-2 px-4 rounded-md transition duration-300">
         Edit
       </button>
     </div>
@@ -529,10 +544,10 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
 }
 {
   news.length>0 && <>
-  <div className="flex flex-col ml-2 mr-2 gap-4 my-4">
+  <div className="flex flex-col ml-2 mr-2 gap-4 my-4 lg:px-20 md:justify-center md:items-center md:py-3 lg:ml-16 lg:gap-10 lg:items-start lg:justify-start lg:flex-row lg:flex-wrap">
  {news.map((i)=>{
     return(<>
-    <div className="w-full bg-slate-800 flex flex-col rounded-md flex-wrap">
+    <div className="w-full bg-slate-800 flex flex-col rounded-md flex-wrap lg:w-96 lg:h-90 md:w-96 md:h-84">
   <div className="w-full flex justify-start items-start p-3">
   <img src={`Logos/Logo.webp`} className="w-16 h-8" />
   <div className="w-full flex justify-end">
@@ -560,7 +575,7 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
       <div className="w-full  flex justify-center">
 <button
   onClick={newsgo}
-  className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+  className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md  transition-all duration-300 ease-in-out"
 >
   <span>More Announcements</span>
   <FontAwesomeIcon icon={faChevronDown} />

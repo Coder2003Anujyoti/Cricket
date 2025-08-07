@@ -1,8 +1,16 @@
-import { isMobile,isDesktop } from "react-device-detect";
+import React from "react";
+import { isMobile } from "react-device-detect";
+import { useMediaQuery } from "react-responsive";
 import { MdWarningAmber } from "react-icons/md"; // ⚠️ Warning icon
 
 const Warning = ({ children }) => {
-  return (isMobile || isDesktop) ? (
+  // Detect mobile view width
+  const isMobileView = useMediaQuery({ query: "(max-width: 425px)" });
+
+  // Show mobile content if device is mobile OR viewport is small
+  const shouldShowMobile = isMobile || isMobileView;
+
+  return shouldShowMobile ? (
     children
   ) : (
     <div className="flex justify-center items-center my-40 px-4">

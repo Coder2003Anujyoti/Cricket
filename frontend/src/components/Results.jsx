@@ -118,7 +118,7 @@ const Results = () => {
         <div className="w-full flex justify-center">
 <button
   onClick={go}
-  className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+  className="flex items-center gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md  transition-all duration-300 ease-in-out"
 >
   <span>More Matches</span>
   <FontAwesomeIcon icon={faChevronDown} />

@@ -134,12 +134,12 @@ const go=()=>{
                         {/* Buttons */}
                         <div className="flex flex-row flex-wrap items-center gap-4">
                           <HashLink smooth to={`/onlinescore?id=${i.matchID}`}>
-                            <button className="bg-slate-900 hover:bg-slate-700 text-white text-sm sm:text-base px-6 py-2 font-semibold rounded-md shadow">
+                            <button className="bg-slate-900 text-white text-sm sm:text-base px-6 py-2 font-semibold rounded-md shadow">
                               Score
                             </button>
                           </HashLink>
                           <HashLink smooth to={`/leaderboard?id=${i.matchID}`}>
-                            <button className="bg-slate-900 hover:bg-slate-700 text-white text-sm sm:text-base px-6 py-2 font-semibold rounded-md shadow">
+                            <button className="bg-slate-900 text-white text-sm sm:text-base px-6 py-2 font-semibold rounded-md shadow">
                               Leaderboard
                             </button>
                           </HashLink>
@@ -161,7 +161,7 @@ const go=()=>{
       <div className="w-full flex justify-center">
 <button
   onClick={go}
-  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+  className="flex items-center my-4 gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md transition-all duration-300 ease-in-out"
 >
   <span>More Matches</span>
   <FontAwesomeIcon icon={faChevronDown} />

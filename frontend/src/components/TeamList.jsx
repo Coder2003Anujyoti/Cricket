@@ -85,7 +85,7 @@ const get_data=async()=>{
   </>}
 { load===false && <>
 {/* //& Navbar for mobile */}
-  <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50 md:hidden">
+  <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 z-50 lg:hidden md:px-4 md:py-3">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} />
     <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
     <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="w-8 h-8" />
@@ -111,7 +111,7 @@ const get_data=async()=>{
           </Link>
         )}
 
-        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+        <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500 md:hidden">
           <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
           <span>User</span>
         </Link>
@@ -138,7 +138,7 @@ const get_data=async()=>{
           <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-indigo-500" />
           <span>Home</span>
         </Link>
-        <Link to="/useruser" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+        <Link to="/useruser" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500 md:hidden">
           <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
           <span>About</span>
         </Link>
@@ -162,7 +162,6 @@ const get_data=async()=>{
   <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-sky-500" />
   <span>Reload</span>
 </button>
-
       </div>
     </div>
   )}
@@ -170,17 +169,52 @@ const get_data=async()=>{
   }
 </div>
 {/* //* Navbar for big screens */}
-   <nav className="bg-slate-800 hidden md:block text-white backdrop-blur-md shadow-md">
+   <nav className="bg-slate-800 hidden lg:block text-white backdrop-blur-md shadow-md">
   <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
-    <div className="flex items-center space-x-2">
+    <div className="flex items-center space-x-2 md:flex">
       <img
         src="Logos/Logo.webp"
         alt="Logo"
         className="w-20 h-16 md:w-32 md:h-20 lg:w-36 lg:h-24 object-contain"
       />
-    </div>
-    <div className="w-full bg-slate-800 flex p-1  justify-end items-center hidden ">
-  <HashLink smooth to="/login"><img className="w-16 h-16" src={`Icons/cricket.webp`} /></HashLink>
+      </div>
+     <div className="hidden lg:flex items-center gap-4 space-x-6">
+       <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-500">
+          <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-indigo-500" />
+          <span>Home</span>
+        </Link>
+      { role=="user" && <> <Link to="/playersearch" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+          <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 h-5 text-green-500" />
+          <span>Search</span>
+        </Link></>}
+          { role=="user" && <> <Link to="/news" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+          <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
+          <span>News</span>
+        </Link> </>  } 
+        {role=="admin" && <>
+         <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+          <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+          <span>About</span>
+        </Link>
+        </>}
+         {role === "admin" && (
+          <Link to="/create" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+            <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />
+            <span>Admin</span>
+          </Link>
+        )}
+
+        <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
+          <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
+          <span>Sign Out</span>
+        </Link>
+         <button
+  onClick={() => window.location.reload()}
+  className="flex items-center space-x-3 text-white font-medium hover:text-sky-600"
+>
+  <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-sky-500" />
+  <span>Reload</span>
+</button>
   </div>
   </div>
 </nav>
@@ -203,13 +237,13 @@ This version focuses purely on the display of player names, ideal for an app whe
   <img
     src="Screen/Main.webp"
     alt="Background"
-    className="absolute inset-0 w-full h-full object-cover blur-sm scale-110"
+    className="absolute inset-0 w-full h-full object-cover blur-sm  scale-150"
   />
-  <div className="absolute inset-0 bg-black/50" />
+  <div className="absolute inset-0 bg-slate-900/70 " />
   <div className="relative z-10 flex items-center justify-center h-full w-full">
   <div className="text-white max-w-2xl px-6 py-8 space-y-8 text-center">
-    <h1 className="text-3xl md:text-5xl font-extrabold drop-shadow-lg">
-      Welcome to <span className="text-yellow-400">Cricket Fever</span>
+    <h1 className="text-3xl md:text-5xl font-bold drop-shadow-lg">
+      Welcome to Cricket Fever
     </h1>
     <p className="text-base md:text-lg font-medium leading-relaxed drop-shadow">
       Dive into the thrilling world of IPL! Track your favorite teams, view match stats, and relive unforgettable moments.
@@ -218,12 +252,12 @@ This version focuses purely on the display of player names, ideal for an app whe
   </div>
 </div>
 </div>
-<section id="abouts" className="bg-gradient-to-br from-[#0d1b2a] to-[#1b263b] py-16 px-6 md:px-16 text-white hidden md:block">
+<section id="abouts" className=" py-16 px-6 md:px-16 text-white hidden md:block">
       <div className="max-w-4xl mx-auto text-center">
-        <h2 className="text-4xl md:text-5xl font-extrabold mb-8 text-yellow-400 drop-shadow-lg">
+        <h2 className="text-4xl md:text-5xl font-bold mb-8 text-white drop-shadow-lg">
           About </h2>
-        <p className="text-lg md:text-xl leading-relaxed text-gray-200">
-          The official <span className="text-yellow-400 font-semibold">Cricket Fever App</span> is your go-to platform for tracking all the players in the Indian Premier League. 
+        <p className="text-lg md:text-lg font-semibold leading-relaxed text-gray-200">
+          The official Cricket Fever App is your go-to platform for tracking all the players in the Indian Premier League. 
           This app offers an extensive list of all the players participating in the tournament, 
           allowing fans to quickly find and explore their favourite stars.
           Whether you are looking for a specific player or just want to explore the talent in the IPL, 
@@ -233,14 +267,14 @@ This version focuses purely on the display of player names, ideal for an app whe
         </p>
       </div>
     </section>
-     <section id="servicess" className="bg-[#0d1b2a] py-12 px-6 text-white relative hidden md:block">
-      <h2 className="text-3xl md:text-4xl font-bold mb-6 text-yellow-400 text-center">
+     <section id="servicess" className="py-12 px-6 text-white relative border-b  border-t border-t-slate-600 border-b-slate-600 hidden md:block">
+      <h2 className="text-3xl md:text-4xl font-bold mb-6 text-center">
         IPL Points Table
       </h2>
       <div className="absolute left-4 top-[50%] transform -translate-y-1/2 z-10 lg:block md:hidden">
         <button
           onClick={() => scroll("left")}
-          className="bg-yellow-400 text-black p-2 rounded-full shadow hover:bg-yellow-500"
+          className="bg-slate-900 text-white p-2 rounded-full shadow font-bold"
         >
           <FaChevronLeft />
         </button>
@@ -248,7 +282,7 @@ This version focuses purely on the display of player names, ideal for an app whe
       <div className="absolute right-4 top-[50%] transform -translate-y-1/2 z-10 lg:block md:hidden">
         <button
           onClick={() => scroll("right")}
-          className="bg-yellow-400 text-black p-2 rounded-full shadow hover:bg-yellow-500"
+          className="bg-slate-900 text-white p-2 rounded-full shadow"
         >
           <FaChevronRight />
         </button>
@@ -261,9 +295,9 @@ This version focuses purely on the display of player names, ideal for an app whe
           <Link  to={`/details?team=${team.teamid}`}>
           <div
             key={team.id}
-            className="relative min-w-[250px] bg-[#1b263b] rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transition-transform hover:scale-105 duration-300"
+            className="relative bg-slate-800 min-w-[250px] bg-[#1b263b] rounded-2xl shadow-lg p-6 flex flex-col items-center justify-center transition-transform duration-300"
           >
-            <div className="absolute top-2 left-2 bg-yellow-400 text-black text-xl font-bold px-3 py-1 rounded-full shadow">
+            <div className="absolute top-2 left-2 bg-slate-900 text-white text-xl font-bold px-3 py-1 rounded-full shadow">
               {index + 1}
             </div>
             <img
@@ -271,18 +305,18 @@ This version focuses purely on the display of player names, ideal for an app whe
               alt={team.name}
               className="w-20 h-20 object-contain mb-4"
             />
-            <h3 className="text-xl font-semibold mb-2 text-yellow-300 text-center">
+            <h3 className="text-xl font-bold mb-2 text-white text-center">
               {team.team}
             </h3>
             <div className="flex flex-col gap-6 items-center my-4">
-              <div className="bg-sky-500/80 px-4 py-1 rounded-full text-sm font-medium text-white shadow">
+              <div className="bg-slate-900 px-4 py-1 rounded-full text-sm font-bold text-white shadow">
                 Matches: {team.matches}
               </div>
               <div className="flex flex-row gap-6 items-center">
-                <div className="bg-green-500/80 px-4 py-1 rounded-full text-sm font-medium text-white shadow">
+                <div className="bg-slate-900 px-4 py-1 rounded-full text-sm font-bold text-white shadow">
                   Wins: {team.win}
                 </div>
-                <div className="bg-red-500/80 px-4 py-1 rounded-full text-sm font-medium text-white shadow">
+                <div className="bg-slate-900 px-4 py-1 rounded-full text-sm font-bold text-white shadow">
                   Losses: {team.lose}
                 </div>
               </div>
@@ -292,14 +326,14 @@ This version focuses purely on the display of player names, ideal for an app whe
         ))}
       </div>
     </section>
-    <section id="gallerys" className="bg-[#0d1b2a] text-white relative hidden md:block">
-      <h2 className="text-3xl md:text-4xl font-bold mb-6 text-yellow-400 text-center">
+    <section id="gallerys" className="my-10 text-white relative hidden md:block">
+      <h2 className="text-3xl md:text-4xl font-bold mb-6 text-white text-center">
         IPL Moments Gallery
       </h2>
       <div className="absolute left-4 top-[50%] transform -translate-y-1/2 z-10 lg:block md:hidden">
         <button
           onClick={() => scrollx("left")}
-          className="bg-yellow-400 text-black p-2 rounded-full shadow hover:bg-yellow-500"
+          className="bg-slate-900 text-white p-2 rounded-full shadow"
         >
           <FaChevronLeft />
         </button>
@@ -307,7 +341,7 @@ This version focuses purely on the display of player names, ideal for an app whe
       <div className="absolute right-4 top-[50%] transform -translate-y-1/2 z-10 lg:block md:hidden">
         <button
           onClick={() => scrollx("right")}
-          className="bg-yellow-400 text-black p-2 rounded-full shadow hover:bg-yellow-500"
+          className="bg-slate-900 text-white p-2 rounded-full shadow"
         >
           <FaChevronRight />
         </button>
@@ -319,12 +353,12 @@ This version focuses purely on the display of player names, ideal for an app whe
         {new Array(8).fill("").map((img,ind) => (
           <div
             key={img.id}
-            className="min-w-[500px] h-[320px] bg-[#1b263b] rounded-2xl overflow-hidden shadow-lg hover:scale-105 transition-transform duration-300"
+            className="min-w-[500px] h-[320px] bg-[#1b263b] rounded-2xl overflow-hidden shadow-lg transition-transform duration-300"
           >
             <img
               src={`Gallery/pic${ind+3}.jpg`}
               alt={img.alt}
-              className="w-full h-full object-cover"
+              className="w-88 h-88 object-cover"
             />
           </div>
         ))}
@@ -472,13 +506,6 @@ This version focuses purely on the display of player names, ideal for an app whe
     <div className="border-t border-gray-700 mt-4 p-2 text-center text-gray-400">
       © 2025 Coder2003Anujyoti All rights reserved.
     </div>
-     <button
-  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-  className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 bg-slate-600 text-white p-2 sm:p-3 rounded-full shadow-md sm:shadow-lg  transition-all duration-300 z-50"
-  aria-label="Scroll to top"
->
-  <FaArrowUp className="w-4 h-4 sm:w-5 sm:h-5" />
-</button>
 </footer>
 </>}
 </>

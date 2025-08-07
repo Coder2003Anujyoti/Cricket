@@ -26,8 +26,8 @@ const HomeRoutes = () => {
   <>
     <Routes>
     <Route path="/login" element={<Login />} />
-    <Route path="/admin" element={<Warning><Protected allowedRoles={['admin']} ><Admin /></Protected></Warning>} />
-    <Route path="/create" element={<Warning><Protected allowedRoles={['admin']}><Create /></Protected></Warning>} />
+    <Route path="/admin" element={<Protected allowedRoles={['admin']} ><Admin /></Protected>} />
+    <Route path="/create" element={<Protected allowedRoles={['admin']}><Create /></Protected>} />
     <Route path="/adminuser" element={<Warning><Protected allowedRoles={['admin']}><AdminUser /></Protected></Warning>} />
     <Route path="/useruser" element={<Warning><Protected><UserUser /></Protected></Warning>} />
    <Route path="/adminplay" element={<Warning><Protected allowedRoles={['admin']}><AdminPlay /></Protected></Warning>} />
@@ -38,8 +38,8 @@ const HomeRoutes = () => {
  <Route path="/online" element={<Warning><Protected><Online /></Protected></Warning>} />
 <Route path="/allleaderboard" element={<Warning><Protected><AllLeaderBoard /></Protected></Warning>} />
 <Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />
-<Route path="/playersearch" element={<Warning><Protected><PlayerSearch /></Protected></Warning>} />
-<Route path="/news" element={<Warning><Protected><News /></Protected></Warning>} />
+<Route path="/playersearch" element={<Protected><PlayerSearch /></Protected>} />
+<Route path="/news" element={<Protected><News /></Protected>} />
 <Route path="/chat" element={<Warning><Protected><Chat /></Protected></Warning>} />
 <Route path="/unauthorize" element={<Warning><Unauthorize /></Warning>} />
     </Routes>
