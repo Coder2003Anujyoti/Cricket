@@ -34,7 +34,7 @@ const HomeRoutes = () => {
       <Route path="/usermake" element={<Warning><Protected><UserMake /></Protected></Warning>} />
    <Route path="/onlinescore" element={<Warning><Protected><OnlineScore /></Protected></Warning>} />
       <Route path="/leaderboard" element={<Warning><Protected><LeaderBoard/></Protected></Warning>} />
-      <Route path="/loginprofile" element={<Warning><Protected><Profile/></Protected></Warning>} />
+      <Route path="/loginprofile" element={<Protected><Profile/></Protected>} />
  <Route path="/online" element={<Warning><Protected><Online /></Protected></Warning>} />
 <Route path="/allleaderboard" element={<Warning><Protected><AllLeaderBoard /></Protected></Warning>} />
 <Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />

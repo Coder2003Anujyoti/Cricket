@@ -12,6 +12,10 @@ import {
   faUserShield,
   faHouse,
   faTrophy,
+  faRotateRight,
+  faNewspaper,
+  faGamepad,
+  faUser,
   faHandPaper
 } from '@fortawesome/free-solid-svg-icons';
 import { Link,useNavigate } from "react-router-dom";
@@ -34,6 +38,7 @@ const Profile = () => {
   const raul=get_raul()
   const password=get_password()
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
@@ -131,31 +136,178 @@ const handle=async(icon)=>{
   </>}
   {
     loading==false && <>
+    <div className="relative w-full bg-slate-800 md:flex hidden items-center justify-between p-2 z-50 lg:hidden md:px-4 md:py-3">
+      <img className="w-28 h-16" src={`Logos/Logo.webp`} />
+        <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
+        <FontAwesomeIcon icon={isOpen ? faTimes : faBars} className="w-8 h-8" />
+      </button>
+      { raul=="admin" ? <>
+      {/* Mobile Nav Links - Dropdown */}
+      {isOpen && (
+        <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
+          <div className="flex flex-col space-y-4">
+            <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
+              <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-blue-500" />
+              <span>Home</span>
+            </Link>
+                    <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+              <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+              <span>About</span>
+            </Link>
+    
+            {raul === "admin" && (
+              <Link to="/create" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+                <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />
+                <span>Admin</span>
+              </Link>
+            )}
+    
+            <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500 md:hidden">
+              <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
+              <span>User</span>
+            </Link>
+            <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-green-500 md:flex">
+              <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-green-500" />
+              <span>Profile</span>
+            </Link>
+            <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
+              <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
+              <span>Sign Out</span>
+            </Link>
+             <button
+              onClick={() => window.location.reload()}
+              className="flex items-center space-x-3 text-white font-medium hover:text-indigo-600"
+            >
+              <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-indigo-500" />
+              <span>Reload</span>
+            </button>
+          </div>
+        </div>
+      )}
+      </> : <>
+        {isOpen && (
+        <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
+          <div className="flex flex-col space-y-4">
+                  <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-500">
+              <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-indigo-500" />
+              <span>Home</span>
+            </Link>
+            <Link to="/useruser" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500 md:hidden">
+              <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+              <span>About</span>
+            </Link>
+          <Link to="/playersearch" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+              <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 h-5 text-green-500" />
+              <span>Search</span>
+            </Link>
+              <Link to="/news" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+              <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
+              <span>News</span>
+            </Link>         
+             <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
+              <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
+              <span>Profile</span>
+            </Link>
+            <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
+              <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
+              <span>Sign Out</span>
+            </Link>
+            <button
+      onClick={() => window.location.reload()}
+      className="flex items-center space-x-3 text-white font-medium hover:text-sky-600"
+    >
+      <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-sky-500" />
+      <span>Reload</span>
+    </button>
+          </div>
+        </div>
+      )}
+      </>
+      }
+    </div>
+    {/* //* Navbar for big screens */}
+       <nav className="bg-slate-800 hidden lg:block text-white backdrop-blur-md shadow-md">
+      <div className="max-w-7xl mx-auto flex items-center justify-between px-4 py-3">
+        <div className="flex items-center space-x-2 md:flex">
+          <img
+            src="Logos/Logo.webp"
+            alt="Logo"
+            className="w-20 h-16 md:w-32 md:h-20 lg:w-36 lg:h-24 object-contain"
+          />
+          </div>
+         <div className="hidden lg:flex items-center gap-4 space-x-6">
+           <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-indigo-500">
+              <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-indigo-500" />
+              <span>Home</span>
+            </Link>
+          { raul=="user" && <> <Link to="/playersearch" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+              <FontAwesomeIcon icon={faMagnifyingGlass} className="w-5 h-5 text-green-500" />
+              <span>Search</span>
+            </Link></>}
+              { raul=="user" && <> <Link to="/news" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+              <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
+              <span>News</span>
+            </Link> </>  } 
+            {raul=="admin" && <>
+             <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+              <FontAwesomeIcon icon={faGamepad} className="w-5 h-5 text-pink-500" />
+              <span>About</span>
+            </Link>
+            </>}
+             {raul === "admin" && (
+              <Link to="/create" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
+                <FontAwesomeIcon icon={faTrophy} className="w-5 h-5 text-yellow-500" />
+                <span>Admin</span>
+              </Link>
+            )}
+            { raul=="user" ? <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
+              <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
+              <span>Profile</span>
+            </Link> :  <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-green-500 md:flex">
+             <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-green-500" />
+                                  <span>Profile</span>
+                                </Link>}
+            <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
+              <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
+              <span>Sign Out</span>
+            </Link>
+             <button
+      onClick={() => window.location.reload()}
+      className="flex items-center space-x-3 text-white font-medium hover:text-sky-600"
+    >
+      <FontAwesomeIcon icon={faRotateRight} className="w-5 h-5 text-sky-500" />
+      <span>Reload</span>
+    </button>
+      </div>
+      </div>
+    </nav>
         <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
   </div>
   { raul!="admin" && <>
-  <div className="w-full flex justify-end items-center gap-2">
+  <div className="w-full flex justify-end items-center gap-2 md:hidden">
   <img src="Icons/coin.png" className="w-8 h-8" />
   <h1 className="font-bold text-white mr-2 text-base">{score}</h1>
   </div>
   </>
   }
-  <div className="w-full flex mt-6 justify-center items-center">
+  <div className="w-full flex flex-col md:flex-row">
+  <div className="w-full flex mt-6 justify-center items-center md:w-1/2 md:mt-0">
           { items[0].icon!= "" ?
-  <img className="w-36 h-36" src={items[0].icon} alt="Logo" /> :
-  <img className="w-32 h-32" src={`Icons/cricket.webp`} />}
+  <img className="w-36 h-36 lg:w-64 lg:h-64" src={items[0].icon} alt="Logo" /> :
+  <img className="w-32 h-32 lg:w-60 lg:h-60" src={`Icons/cricket.webp`} />}
   </div>
-  <div className="w-full flex text-center justify-center items-center mt-3 gap-2">
+  <div className="md:w-1/2 md:p-6 lg:mt-6" >
+  <div className="w-full flex text-center justify-center items-center mt-3 gap-2 md:justify-start md:ml-12 ">
   <FontAwesomeIcon icon={faHandPaper} className="text-yellow-400 w-8 h-8 animate-wave" />
   <p className="font-bold text-white text-lg">Hello {items[0].username}</p>
   </div>
-  <div className="w-full flex flex-col text-center justify-start items-start mt-3">
+  <div className="w-full flex flex-col text-center justify-start items-start mt-3 md:mt-6">
   <p className="font-bold ml-6 text-white text-lg">Username</p>
   <div className="w-64 h-10 rounded-lg flex justify-start items-center bg-slate-800 text-white ml-6">
     <p className="font-bold ml-4 text-white text-lg">{items[0].username}</p>
   </div>
-    <p className="font-bold ml-6 text-white text-lg mt-3">Password</p>
+    <p className="font-bold ml-6 text-white text-lg mt-3 md:mt-6">Password</p>
 <div className="w-64 h-10 rounded-lg flex justify-between items-center bg-slate-800 text-white ml-6 px-4">
       <p className="font-bold text-white text-lg">
         {showPassword ? items[0].password : '*'.repeat(items[0].password.length)}
@@ -168,7 +320,7 @@ const handle=async(icon)=>{
       </button>
     </div>
   </div>
-  <div className="flex w-full flex-col justify-start items-start mt-3">
+  <div className="flex w-full flex-col justify-start items-start mt-3 md:mt-6">
   <p className="font-bold ml-6 text-white text-lg">Choose Icons</p>
   <div className="w-full flex flex-row flex-wrap justify-start items-center gap-4 mt-3 px-6 ">
     {
@@ -177,12 +329,14 @@ const handle=async(icon)=>{
       ))
     }
   </div>
-  <div className="w-full flex items-center justify-center">
+  {raul=="user" && <> <div className="w-full flex items-center justify-center md:justify-start md:ml-6 md:mt-6">
   <button onClick={handDelete}
     className="w-36 py-2 my-7 font-bold text-white bg-slate-800 rounded-md transition">
     Delete Account
   </button>
-  </div>
+  </div></>}
+</div>
+</div>
 </div>
     </>
   }

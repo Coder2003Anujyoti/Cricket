@@ -12,7 +12,8 @@ import {
   faHouse,
   faTrophy,
   faRotateRight,
-  faGamepad
+  faGamepad,
+  faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { toast, Toaster } from 'react-hot-toast';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
@@ -327,7 +328,10 @@ window.scrollTo({ top: 0, behavior: "smooth" });
           <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
           <span>Users</span>
         </Link>
-
+ <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
+                      <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
+                      <span>Profile</span>
+                    </Link>
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>
@@ -372,6 +376,10 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         <span>Admin</span>
       </Link>
       </>}
+       <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
+                            <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
+                            <span>Profile</span>
+                          </Link>
       <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
       <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
       <span>Sign Out</span>
@@ -476,7 +484,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
       <span className="text-gray-600">▼</span>
     </div>
     {userDropdownOpen && (
-      <div className="absolute z-20 bg-white w-full max-w-xs shadow-md rounded mt-1 overflow-y-auto max-h-20 left-0">
+      <div className="absolute z-20 bg-white w-full max-w-xs shadow-md rounded mt-1 overflow-y-auto max-h-20 md:max-h-32 left-0">
         {teams.map((team) => (
           <div
             key={team.name}
@@ -515,7 +523,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
       <span className="text-gray-600">▼</span>
     </div>
     {computerDropdownOpen && (
-      <div className="absolute z-20 bg-white w-full max-w-xs shadow-md rounded mt-1 overflow-y-auto max-h-20 left-0">
+      <div className="absolute z-20 bg-white w-full max-w-xs shadow-md rounded mt-1 overflow-y-auto max-h-20 md:max-h-32 left-0">
         {filteredComputerTeams.map((team) => (
           <div
             key={team.name}

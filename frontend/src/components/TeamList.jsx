@@ -13,7 +13,8 @@ import {
   faTrophy,
   faRotateRight,
   faNewspaper,
-  faGamepad
+  faGamepad,
+  faUser
 } from '@fortawesome/free-solid-svg-icons';
 const get_data2=()=>{
   return sessionStorage.getItem("token")
@@ -115,7 +116,10 @@ const get_data=async()=>{
           <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
           <span>User</span>
         </Link>
-
+        <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
+          <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
+          <span>Profile</span>
+        </Link>
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>
@@ -149,8 +153,11 @@ const get_data=async()=>{
           <Link to="/news" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
           <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
           <span>News</span>
-        </Link>     
-
+        </Link>         
+         <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
+          <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
+          <span>Profile</span>
+        </Link>
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>
@@ -203,7 +210,10 @@ const get_data=async()=>{
             <span>Admin</span>
           </Link>
         )}
-
+         <Link to="/loginprofile" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+          <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
+          <span>Profile</span>
+        </Link>
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>

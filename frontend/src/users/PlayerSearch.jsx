@@ -13,7 +13,8 @@ import {
   faHouse,
   faTrophy,
   faNewspaper,
-  faGamepad
+  faGamepad,
+  faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
@@ -109,6 +110,10 @@ const PlayerSearch = () => {
           <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
           <span>News</span>
         </Link>     
+         <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
+                      <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
+                      <span>Profile</span>
+                    </Link>
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>
@@ -159,7 +164,10 @@ const PlayerSearch = () => {
             <span>Admin</span>
           </Link>
         )}
-
+ <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
+              <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
+              <span>Profile</span>
+            </Link>
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>

@@ -5,7 +5,7 @@ import { MdWarningAmber } from "react-icons/md"; // ⚠️ Warning icon
 
 const Warning = ({ children }) => {
   // Detect mobile view width
-  const isMobileView = useMediaQuery({ query: "(max-width: 425px)" });
+  const isMobileView = useMediaQuery({ query: "(max-width: 428px)" });
 
   // Show mobile content if device is mobile OR viewport is small
   const shouldShowMobile = isMobile || isMobileView;
