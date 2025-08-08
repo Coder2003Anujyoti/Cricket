@@ -10,6 +10,7 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [deletelock,setDeletelock]=useState(false)
   const [lock,setLock]=useState(false)
   const { login } = useAutho();
   const navigate = useNavigate();
@@ -21,6 +22,72 @@ export default function Login() {
   sessionStorage.removeItem("user")
   sessionStorage.removeItem("role")
   },[])
+  const handleDeleteAccount=async()=>{
+    try{
+  const response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/deleteaccount",{
+          method:'DELETE',
+          headers:{ 'Content-Type' : "application/json" },
+          body: JSON.stringify({username:username.trim().replace(/\s+/g, " "),password:password.trim()}),
+        })
+ const data=await response.json();
+      if(!response.ok){
+          toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>{data.error}</strong>);
+        }
+        else if(response.ok){
+          toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>{data.message}</strong>);
+      }
+      }
+    catch(err){
+    console.log(err)
+   toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+    }
+    finally {
+    setDeletelock(false); 
+  }
+  }
+  const showDeleteConfirm = () => {
+    let valid = true;
+    if (username.trim()=="" || password.trim()=="") {
+      toast.error("Invalid input");
+      valid = false;
+    }
+    if (!valid) return;
+if(valid){
+  toast((t) => (
+    <div className="flex flex-col items-center gap-3 text-center bg-slate-800 font-bold md:font-semibold">
+      <p className="text-white">
+        Are you sure you want to delete your account? <br /> This action cannot be undone.
+      </p>
+      <div className="flex gap-2">
+        <button
+          onClick={() => {
+            toast.dismiss(t.id);
+            handleDeleteAccount();
+          }}
+          className="px-4 py-1 bg-gray-900 text-white rounded-md"
+        >
+          Yes, Delete
+        </button>
+        <button
+          onClick={() => toast.dismiss(t.id)}
+          className="px-4 py-1 bg-gray-900 text-white rounded-md"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  ), {
+    style: {
+      background: "#1f2937", // slate-800
+      color: "#fff",
+      padding: "16px",
+      borderRadius: "12px",
+      font:'bold'
+    },
+    duration: 5000,
+  });
+  }
+};
   const handSubmit = async () => {
    
 
@@ -41,46 +108,46 @@ export default function Login() {
         response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/signup",{
           method:'POST',
           headers:{ 'Content-Type' : "application/json" },
-          body: JSON.stringify({username:username.trim(),password:password.trim()}),
+          body: JSON.stringify({username:username.trim().replace(/\s+/g, " "),password:password.trim()}),
         })
       }
       else if(mode=="login"){
         response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/login",{
           method:'POST',
           headers:{ 'Content-Type' : "application/json" },
-          body: JSON.stringify({username:username.trim(),password:password.trim()}),
+          body: JSON.stringify({username:username.trim().replace(/\s+/g, " "),password:password.trim()}),
         })
       }
       else{
         response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/forget",{
           method:'POST',
           headers:{ 'Content-Type' : "application/json" },
-          body: JSON.stringify({username:username.trim(),password:password.trim()}),
+          body: JSON.stringify({username:username.trim().replace(/\s+/g, " "),password:password.trim()}),
         })
       }
       const data=await response.json();
       if(!response.ok){
         if(mode == "signup"){
-           toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>User is already registered</strong>);
+           toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>{data.error}</strong>);
           
         }
         else if(mode == "login"){
           console.log(data)
-           toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>User need to register first</strong>);
+           toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>{data.error}</strong>);
           
         }
         else{
-          toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>User is not found</strong>);
+          toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>{data.error}</strong>);
           
         }
       }
         else if(response.ok){
       if(mode == "signup"){
-           toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>User register successfully</strong>);
+           toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>{data.message}</strong>);
            
         }
         else if(mode=="forgot"){
-          toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Password changed successfully</strong>);
+          toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>{data.message}</strong>);
           
         }
       }
@@ -122,7 +189,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         className: shouldShowMobile ? "font-bold" : "",
       }}
     />
-      <div className="w-full my-24 lg:my-36 md:my-20 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
+  <div className="w-full my-24 lg:my-36 md:my-20 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
         <video
           src="Icons/movable.mp4"
           autoPlay
@@ -166,8 +233,15 @@ window.scrollTo({ top: 0, behavior: "smooth" });
             {mode === 'login' ? 'Login' : mode === 'signup' ? 'Sign Up' : 'Reset Password'}
           </button>
         </form>
-
-        <div className="flex justify-between w-full text-sm mt-2">
+    {mode === 'login' && (
+  <button disabled={deletelock}
+    onClick={showDeleteConfirm}
+    className="w-full py-2 font-bold text-white bg-gray-900 rounded-md transition"
+  >
+    Delete Account
+  </button>
+)}
+        <div className="flex justify-between w-full text-sm mt-4">
           {mode !== 'signup' && (
             <button onClick={() => setMode('signup')} className="text-white font-bold">Sign Up</button>
           )}

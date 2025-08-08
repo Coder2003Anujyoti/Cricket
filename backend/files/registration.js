@@ -45,6 +45,24 @@ router.post("/login",async(req,res)=>{
   const token = jwt.sign({ username: user.username, role: user.role }, process.env.JWT_SECRET,{ expiresIn: '1h' } );
   res.json({ token, username: user.username, role: user.role });
 });
+router.delete("/deleteaccount", async (req, res) => {
+  try {
+    const { username, password } = req.body;
+    const user = await UsersCollection.findOne({ username });
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+    const isMatch = await bcrypt.compare(password, user.hasheduserpassword);
+    if (!isMatch) {
+      return res.status(401).json({ error: "Invalid credentials" });
+    }
+    await UsersCollection.deleteOne({ username });
+    res.json({ message: "Account deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
 router.post('/forget',async(req,res)=>{
     const { username,password } = req.body;
     const person=await UsersCollection.findOne({username})
