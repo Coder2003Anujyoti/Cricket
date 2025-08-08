@@ -41,7 +41,7 @@ const HomeRoutes = () => {
 <Route path="/playersearch" element={<Protected><PlayerSearch /></Protected>} />
 <Route path="/news" element={<Protected><News /></Protected>} />
 <Route path="/chat" element={<Warning><Protected><Chat /></Protected></Warning>} />
-<Route path="/unauthorize" element={<Warning><Unauthorize /></Warning>} />
+<Route path="/unauthorize" element={<Unauthorize />} />
     </Routes>
 </>
   )
