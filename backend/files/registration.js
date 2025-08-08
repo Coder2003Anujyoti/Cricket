@@ -43,7 +43,7 @@ router.post("/login",async(req,res)=>{
   const isMatch = await bcrypt.compare(password, user.hasheduserpassword);
   if (!isMatch) return res.status(401).json({ error: 'Invalid credentials' });
   const token = jwt.sign({ username: user.username, role: user.role }, process.env.JWT_SECRET,{ expiresIn: '1h' } );
-  res.json({ token, username: user.username, role: user.role });
+  res.json({ token, username: user.username, role: user.role,password:user.password });
 });
 router.delete("/deleteaccount", async (req, res) => {
   try {
