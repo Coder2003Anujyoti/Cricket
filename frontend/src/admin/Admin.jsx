@@ -317,7 +317,7 @@ const handleEdit= () => {
     </div>
   </>}
   {loading==false && <>
-  <Toaster position="top-center" toastOptions={{className: 'font-bold', // Tailwind class applied to all toasts
+  <Toaster position="top-center" toastOptions={{className: 'font-bold', duration:2000, // Tailwind class applied to all toasts
             }}/>
   {/* //& Navbar for mobile */}
     <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 lg:hidden z-50  md:px-4 md:py-3 ">

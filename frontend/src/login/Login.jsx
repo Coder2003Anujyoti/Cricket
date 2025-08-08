@@ -118,6 +118,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
       position="top-center"
       toastOptions={{
         className: shouldShowMobile ? "font-bold" : "",
+        duration:2000,
       }}
     />
   <div className="w-full my-28 lg:my-36 md:my-20 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">

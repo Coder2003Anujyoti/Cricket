@@ -164,7 +164,9 @@ setTimeout(()=>{
   return (
  <>
  <Toaster position="top-center" toastOptions={{
-          className: 'font-bold', // Tailwind class applied to all toasts
+          className: 'font-bold',
+          duration:2000,
+          // Tailwind class applied to all toasts
         }}/>
       {loading == true && <>
      <div className="w-full flex flex-col items-center justify-center py-40 md:py-48">
