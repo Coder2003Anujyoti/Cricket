@@ -144,7 +144,7 @@ const handle=async(icon)=>{
   <div className="w-full flex mt-6 justify-center items-center">
           { items[0].icon!= "" ?
   <img className="w-36 h-36" src={items[0].icon} alt="Logo" /> :
-  <img className="w-36 h-36" src={`Icons/cricket.webp`} />}
+  <img className="w-32 h-32" src={`Icons/cricket.webp`} />}
   </div>
   <div className="w-full flex text-center justify-center items-center mt-3 gap-2">
   <FontAwesomeIcon icon={faHandPaper} className="text-yellow-400 w-8 h-8 animate-wave" />
