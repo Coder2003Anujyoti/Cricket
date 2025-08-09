@@ -5,6 +5,7 @@ const UserSchema = new mongoose.Schema({
   password: { type: String, required: true },
   role: {type: String, required: true},
   hasheduserpassword: {type: String, required: true},
+  total: {type: Number, default:0},
   icon: {type: String, default:""},
   participation: { type: Array, default: [] }
 });

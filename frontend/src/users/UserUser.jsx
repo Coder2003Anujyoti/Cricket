@@ -322,7 +322,7 @@ This version focuses purely on the display of player names, ideal for an app whe
 </div>
 <div className="flex justify-center gap-3 mt-4">
 { show!=t.matchID && t.hasStarted==false && t.winner==""  && 
-<HashLink smooth to={`/usermake?player=${t.playerteam}&&computer=${t.computerteam}&&id=${t.matchID}`}>
+<HashLink smooth to={`/usermake?player=${t.playerteam}&&computer=${t.computerteam}&&id=${t.matchID}&&matchname=${t.name}&&matchtime=${t.time}`}>
 <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Make Team</button>
   </HashLink>
 }

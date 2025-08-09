@@ -40,6 +40,8 @@ const [searchParams] = useSearchParams();
 const pquery = searchParams.get("player");
   const cquery= searchParams.get("computer")
   const id= searchParams.get("id")
+const matchname=searchParams.get("matchname")
+const matchtime=searchParams.get("matchtime")
   const navigate = useNavigate();
   const location = useLocation();
   useEffect(() => {
@@ -108,6 +110,10 @@ const pquery = searchParams.get("player");
     username ,
     participationEntry: {
       id,
+      playerteam:pquery,
+      computerteam:cquery,
+      matchname,
+      matchtime,
       selected:player,
       players: [],
       score: 0

@@ -298,16 +298,16 @@ const handle=async(icon)=>{
   <img className="w-32 h-32 lg:w-60 lg:h-60" src={`Icons/cricket.webp`} />}
   </div>
   <div className="md:w-1/2 md:p-6 lg:mt-6" >
-  <div className="w-full flex text-center justify-center items-center mt-3 gap-2 md:justify-start md:ml-12 ">
+  <div className="w-full flex text-center justify-center items-center mt-4 gap-2 md:justify-start md:ml-12 ">
   <FontAwesomeIcon icon={faHandPaper} className="text-yellow-400 w-8 h-8 animate-wave" />
   <p className="font-bold text-white text-lg">Hello {items[0].username}</p>
   </div>
-  <div className="w-full flex flex-col text-center justify-start items-start mt-3 md:mt-6">
+  <div className="w-full flex flex-col text-center justify-start items-start mt-4 md:mt-6">
   <p className="font-bold ml-6 text-white text-lg">Username</p>
   <div className="w-64 h-10 rounded-lg flex justify-start items-center bg-slate-800 text-white ml-6">
     <p className="font-bold ml-4 text-white text-lg">{items[0].username}</p>
   </div>
-    <p className="font-bold ml-6 text-white text-lg mt-3 md:mt-6">Password</p>
+    <p className="font-bold ml-6 text-white text-lg mt-4 md:mt-6">Password</p>
 <div className="w-64 h-10 rounded-lg flex justify-between items-center bg-slate-800 text-white ml-6 px-4">
       <p className="font-bold text-white text-lg">
         {showPassword ? items[0].password : '*'.repeat(items[0].password.length)}
@@ -320,7 +320,7 @@ const handle=async(icon)=>{
       </button>
     </div>
   </div>
-  <div className="flex w-full flex-col justify-start items-start mt-3 md:mt-6">
+  <div className="flex w-full flex-col justify-start items-start mt-4 md:mt-6">
   <p className="font-bold ml-6 text-white text-lg">Choose Icons</p>
   <div className="w-full flex flex-row flex-wrap justify-start items-center gap-4 mt-3 px-6 ">
     {
@@ -329,13 +329,13 @@ const handle=async(icon)=>{
       ))
     }
   </div>
+  </div>
   {raul=="user" && <> <div className="w-full flex items-center justify-center md:justify-start md:ml-6 md:mt-6">
   <button onClick={handDelete}
     className="w-36 py-2 my-7 font-bold text-white bg-slate-800 rounded-md transition">
     Delete Account
   </button>
   </div></>}
-</div>
 </div>
 </div>
     </>

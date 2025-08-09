@@ -256,7 +256,10 @@ router.post('/addParticipation', async (req, res) => {
     if(tour.hasStarted==true || tour.winner!=""){
       return res.status(404).json({ message: "Tournament already started" })
     }
-    user.participation.push(participationEntry);
+if (user.participation.length >= 5) {
+    user.participation.shift();
+}
+  user.participation.push(participationEntry);
     await user.save();
     res.status(200).json({ message: "Participation added", user });
   } catch (error) {

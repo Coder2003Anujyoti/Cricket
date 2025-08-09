@@ -256,6 +256,7 @@ const score = players.reduce((acc, player, index) => {
         p.score=score
         p.players=[]
         p.selected=[]
+        user.total+=score
         modified=true
       }
       return p
