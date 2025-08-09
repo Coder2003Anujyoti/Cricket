@@ -73,6 +73,7 @@ const Profile = () => {
         sc=data.participation.reduce((acc,i)=>acc+=Number(i.score),0)
       }
       if(!data.error){
+      data.participation=data.participation.slice().reverse();
        setTimeout(()=>{
         setLoading(false)
         setItems([data])
@@ -105,6 +106,7 @@ const handle=async(icon)=>{
       else{
         sc=data.participation.reduce((acc,i)=>acc+=Number(i.score),0)
       }
+  data.participation=data.participation.slice().reverse();
   setItems([data])
   setScore(sc)
   setLoading(false)
@@ -285,9 +287,9 @@ const handle=async(icon)=>{
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
   </div>
   { raul!="admin" && <>
-  <div className="w-full flex justify-end items-center gap-2 md:hidden">
+  <div className="w-full flex justify-end items-center gap-2 md:hidden my-2">
   <img src="Icons/coin.png" className="w-8 h-8" />
-  <h1 className="font-bold text-white mr-2 text-base">{score}</h1>
+  <h1 className="font-bold text-white mr-2 text-base">{items[0].total}</h1>
   </div>
   </>
   }
@@ -330,6 +332,47 @@ const handle=async(icon)=>{
     }
   </div>
   </div>
+{ raul!=="admin" && <>
+  <div className="w-full flex flex-col justify-start items-start my-6 md:hidden">
+       <h1 className="text-green-400 text-lg font-bold shadow-green-400 ml-6">Ongoing Participations</h1>
+{ items[0].participation.length>0  && <>
+    <div className="overflow-x-auto scroll-smooth max-w-full px-3 py-4">
+  <div className="flex gap-4">
+    {items[0].participation.filter((i,index)=> index < 5).map((t, idx) => (
+  <div key={idx} className="min-w-[300px] max-w-[300px] bg-slate-800 text-white p-5 rounded-xl shadow-lg flex-shrink-0">
+    <div className="w-full flex justify-end items-center gap-2 md:hidden">
+  <img src="Icons/coin.png" className="w-6 h-6" />
+  <h1 className="font-bold text-white mr-2 text-sm">{t.score}</h1>
+  </div>
+<div className="flex items-center justify-between gap-4 my-3">
+<div className="flex flex-col items-center">
+<img src={`Logos/${t.playerteam}.webp`} alt={t.playerteam} className="w-24 h-24"/>
+<p className=" text-base font-bold">{t.playerteam.toUpperCase()}</p></div>
+  <div className="text-center">
+ <h2 className="text-base font-extrabold">V/S</h2>
+</div>
+<div className="flex flex-col items-center">
+<img src={`Logos/${t.computerteam}.webp`} alt={t.computerteam} className="w-24 h-24"/>
+<p className="text-base font-bold">{t.computerteam.toUpperCase()}</p></div></div>
+<div className="text-center flex flex-col gap-2">
+<h2 className="text-base font-bold">{t.matchname}</h2>
+<h2 className="text-xs font-semibold">{t.matchtime}</h2>
+</div>
+      </div>
+    ))}
+  </div>
+</div>
+</>}
+{
+  items[0].participation.length==0 && <>
+<div className="w-full flex justify-center items-center p-24">
+ <h1 className=" text-center text-base font-bold text-white">No participation</h1>
+ </div>
+  </>
+}
+  </div>
+  </>
+  }
   {raul=="user" && <> <div className="w-full flex items-center justify-center md:justify-start md:ml-6 md:mt-6">
   <button onClick={handDelete}
     className="w-36 py-2 my-7 font-bold text-white bg-slate-800 rounded-md transition">
