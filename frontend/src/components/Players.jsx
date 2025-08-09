@@ -57,7 +57,7 @@ const Players = () => {
   </div>
 </nav>
   <div className="flex justify-center items-center py-4">
-  <h1 className="text-slate-400 text-xl font-bold">Batters</h1>
+  <h1 className="text-slate-400 text-base font-bold">Batters</h1>
   </div>
   <div className="w-full flex p-2 flex-wrap flex-row justify-center  gap-1 md:gap-6">
     {items.map((i)=>{
@@ -78,7 +78,7 @@ const Players = () => {
     })}
   </div>
     <div className="flex justify-center items-center py-4">
-  <h1 className="text-slate-400 text-xl font-bold">All-Rounders</h1>
+  <h1 className="text-slate-400 text-base font-bold">All-Rounders</h1>
   </div>
   <div className="w-full flex p-2 flex-wrap flex-row justify-center  gap-1 md:gap-6">
     {items.map((i)=>{
@@ -99,7 +99,7 @@ const Players = () => {
     })}
   </div>
     <div className="flex justify-center items-center py-4">
-  <h1 className="text-slate-400 text-xl font-bold">Bowlers</h1>
+  <h1 className="text-slate-400 text-base font-bold">Bowlers</h1>
   </div>
   <div className="w-full flex p-2 flex-wrap flex-row justify-center  gap-1 md:gap-6">
     {items.map((i)=>{

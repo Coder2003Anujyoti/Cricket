@@ -373,7 +373,7 @@ const handle=async(icon)=>{
   </div>
   </>
   }
-  {raul=="user" && <> <div className="w-full flex items-center justify-center md:justify-start md:ml-6 md:mt-6">
+  {raul=="user" && <> <div className="w-full flex items-center p-4 justify-center md:justify-start md:ml-6 md:mt-6">
   <button onClick={handDelete}
     className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition">
     Delete Account

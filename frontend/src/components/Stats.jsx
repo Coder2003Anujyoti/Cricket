@@ -101,7 +101,7 @@ setHistruns(histogramRuns);
   <img className="w-24 h-24" src={`Logos/${teamId}.webp`} />
 </div>
   <div className="flex justify-center items-center py-4">
-  <h1 className="text-slate-400 text-xl font-bold">Top Batters</h1>
+  <h1 className="text-slate-400 text-base font-bold">Top Batters</h1>
   </div>
   <div className="w-full flex p-2 flex-wrap flex-row justify-center  gap-1">
     {items.sort((a,b)=>b.runs-a.runs).map((i,ind)=>{
@@ -130,7 +130,7 @@ setHistruns(histogramRuns);
       <Bar data={histruns} options={histogramOptions} />
     </div>
     <div className="flex justify-center items-center py-4">
-  <h1 className="text-slate-400 text-xl font-bold">Top Bowlers</h1>
+  <h1 className="text-slate-400 text-base font-bold">Top Bowlers</h1>
   </div>
   <div className="w-full flex p-2 flex-wrap flex-row justify-center  gap-1">
     {items.sort((a,b)=>b.wickets-a.wickets).map((i,ind)=>{
