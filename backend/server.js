@@ -31,6 +31,7 @@ const io = new Server(server, {
   cors: {
     origin: '*'
   },
+  transports: ["websocket"], 
   pingInterval: 25000,  
   pingTimeout: 15000
 });
