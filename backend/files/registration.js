@@ -236,6 +236,33 @@ router.get('/userprofile',async(req,res)=>{
   users.participation = participationArray.slice(-5);
   return res.json(users)
 })
+router.get('/userprofilehistory', async (req, res) => {
+  const { username, limit, offset } = req.query;
+  const user = await UsersCollection.findOne({ username });
+
+  if (!user) {
+    return res.status(404).json({ error: "User not found" });
+  }
+
+  const bio = {
+    username: user.username,
+    icon: user.icon,
+    role: user.role,
+    total: user.total
+  };
+
+  const participationArray = Array.isArray(user.participation) ? user.participation : [];
+  const start = parseInt(offset) || 0;
+  const end = start + (parseInt(limit) || 5);
+  const parray = participationArray.slice(start, end);
+  const len = participationArray.length;
+
+  return res.json({
+    biometrics: bio,
+    participate: parray,
+    arraylen: len
+  });
+});
 router.post('/adddetails',async(req,res)=>{
   try{
   const {username,icon}=req.body;

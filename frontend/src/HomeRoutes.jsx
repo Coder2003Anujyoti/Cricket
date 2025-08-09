@@ -19,6 +19,7 @@ import Online from "./online/Online.jsx"
 import PlayerSearch from "./users/PlayerSearch.jsx"
 import News from "./users/News.jsx"
 import Chat from "./bot/Chat.jsx"
+import ProfileHistory from "./profile/ProfileHistory.jsx"
 import Warning from "./Warning.jsx";
 import Unauthorize from "./Unauthorize.jsx"
 const HomeRoutes = () => {
@@ -36,6 +37,7 @@ const HomeRoutes = () => {
       <Route path="/leaderboard" element={<Warning><Protected><LeaderBoard/></Protected></Warning>} />
       <Route path="/loginprofile" element={<Protected><Profile/></Protected>} />
  <Route path="/online" element={<Warning><Protected><Online /></Protected></Warning>} />
+  <Route path="/profilehistory" element={<Warning><Protected><ProfileHistory /></Protected></Warning>} />
 <Route path="/allleaderboard" element={<Warning><Protected><AllLeaderBoard /></Protected></Warning>} />
 <Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />
 <Route path="/playersearch" element={<Protected><PlayerSearch /></Protected>} />
