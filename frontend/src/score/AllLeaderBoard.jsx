@@ -35,15 +35,10 @@ const AllLeaderBoard = () => {
     try {
       const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/allusers`);
       let data = await response.json();
-      let impdata = data.user_data.map((i) => {
-        const total = (i.participation.length > 0) ?
-          i.participation.reduce((acc, it) => (acc += Number(it.score)), 0) : 0
-        return { name: i.username, role: i.role, icon: i.icon, score: total }
-      })
       if (!data.error) {
         setTimeout(() => {
           setLoading(false)
-          setItems(impdata)
+          setItems(data.user_data)
         }, 2000)
       }
     }
@@ -86,9 +81,9 @@ const AllLeaderBoard = () => {
         <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-6">Team Leaderboard</h1>
         <div className="w-full text-center flex justify-center flex-col">
           {
-            items.filter(it => it.role !== "admin" && it.score>0).length > 0 ? (
+            items.filter(it => it.role !== "admin" && it.total>0).length > 0 ? (
               items
-                .filter(it => it.role !== "admin" && it.score>0)
+                .filter(it => it.role !== "admin" && it.total>0)
                 .sort((a, b) => b.total - a.total)
                 .map((it) => (
                   <div
@@ -102,7 +97,7 @@ const AllLeaderBoard = () => {
                       ) : (
                         <img className="w-10 h-10" src={`Icons/cricket.webp`} alt="Default" />
                       )}
-                      <h1 className="text-base ml-2 font-bold text-white">{it.name}</h1>
+                      <h1 className="text-base ml-2 font-bold text-white">{it.username}</h1>
                     </div>
                     
                     <div className="flex w-full gap-2 justify-end items-center">

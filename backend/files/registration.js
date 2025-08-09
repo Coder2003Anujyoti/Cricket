@@ -232,6 +232,8 @@ router.get('/userparticipation', async (req, res) => {
 router.get('/userprofile',async(req,res)=>{
   const {username}=req.query;
   const users=await UsersCollection.findOne({username})
+  const participationArray = Array.isArray(users.participation) ? users.participation : [];
+  users.participation = participationArray.slice(-5);
   return res.json(users)
 })
 router.post('/adddetails',async(req,res)=>{
@@ -239,6 +241,8 @@ router.post('/adddetails',async(req,res)=>{
   const {username,icon}=req.body;
   const user=await UsersCollection.findOne({username})
   user.icon=icon;
+  const participationArray = Array.isArray(user.participation) ? user.participation : [];
+  user.participation = participationArray.slice(-5);
   await user.save();
    res.status(200).json(user);
   }
@@ -256,9 +260,6 @@ router.post('/addParticipation', async (req, res) => {
     if(tour.hasStarted==true || tour.winner!=""){
       return res.status(404).json({ message: "Tournament already started" })
     }
-if (user.participation.length >= 5) {
-    user.participation.shift();
-}
   user.participation.push(participationEntry);
     await user.save();
     res.status(200).json({ message: "Participation added", user });
