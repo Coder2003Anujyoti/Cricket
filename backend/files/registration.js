@@ -150,8 +150,8 @@ router.get('/allusers', async (req, res) => {
   const topUsers = users.filter((i)=>i.role!="admin").map(user => {
 const totalScore = user.participation.length>0
 ? user.participation.reduce((acc, it) => acc + Number(it.score || 0), 0) : 0;
-return { username: user.username,icon: user.icon,role:user.role,totalScore, participation: user.participation};
-}).sort((a, b) => b.totalScore - a.totalScore).slice(0,5);
+return { username: user.username,icon: user.icon,role:user.role,totalScore, participation: user.participation,total:user.total};
+}).sort((a, b) => b.total - a.total).slice(0,5);
     return res.json({ user_data: topUsers });
   } catch (err) {
     console.error("Error fetching top users:", err);

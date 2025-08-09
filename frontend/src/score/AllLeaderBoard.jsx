@@ -89,7 +89,7 @@ const AllLeaderBoard = () => {
             items.filter(it => it.role !== "admin" && it.score>0).length > 0 ? (
               items
                 .filter(it => it.role !== "admin" && it.score>0)
-                .sort((a, b) => b.score - a.score)
+                .sort((a, b) => b.total - a.total)
                 .map((it) => (
                   <div
                     key={it.name}
@@ -106,7 +106,7 @@ const AllLeaderBoard = () => {
                     </div>
                     
                     <div className="flex w-full gap-2 justify-end items-center">
-                      <h1 className="text-base font-bold text-white">{it.score}</h1>
+                      <h1 className="text-base font-bold text-white">{it.total}</h1>
                       <img src="Icons/coin.png" className="w-8 h-8 mr-2" alt="coin" />
                     </div>
                   </div>
