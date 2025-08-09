@@ -105,7 +105,7 @@ const Play = () => {
         </div>
 <div className="flex flex-wrap gap-y-14  justify-center items-center text-white gap-x-10">
 <div className="flex flex-col items-center gap-y-4">
-  <img src={items.filter((i,ind)=>i.captain==true).map((i)=>i.image)}  className="w-28 h-28" />
+  <img src={items.filter((i,ind)=>ind==0).map((i)=>i.image)}  className="w-28 h-28" />
  <img src={`Logos/${teamId}.webp`} className="w-16 h-16" />
 </div>
 <motion.span
@@ -116,7 +116,7 @@ const Play = () => {
   V/S
 </motion.span>
   <div className="flex flex-col items-center gap-y-4">
- <img src={oppos.filter((i,ind)=>i.captain===true).map((i)=>i.image)} loading="lazy"  className="w-28 h-28" />
+ <img src={oppos.filter((i,ind)=>ind==0).map((i)=>i.image)} loading="lazy"  className="w-28 h-28" />
   <img src={`Logos/${oppositionteam}.webp`}  className="w-16 h-16" />
  </div>
  </div>

@@ -37,8 +37,8 @@ if (capitalWords.length === 2) {
   newsMatch = await NewsCollection.findOne({
     posttype: "news",
     $or: [
-      { playerteam: capitalWords[1], computerteam: capitalWords[2] },
-      { playerteam: capitalWords[2], computerteam: capitalWords[1] }
+      { playerteam: capitalWords[1], computerteam: capitalWords[3] },
+      { playerteam: capitalWords[3], computerteam: capitalWords[1] }
     ]
   }).sort({ _id: -1 });
 }
@@ -59,14 +59,25 @@ if (!newsMatch) {
     word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
   );
 
-  const tournamentMatch = await TournamentsCollection.findOne({
+  let tournamentMatch;
+
+if (capitalWords.length === 2) {
+  tournamentMatch = await TournamentsCollection.findOne({
     winner: { $ne: "" },
     $or: [
-      { playerteam: { $in: capitalWords } },
-      { computerteam: { $in: capitalWords } }
+      { playerteam: capitalWords[1] },
+      { computerteam: capitalWords[1] }
     ]
   }).sort({ _id: -1 });
-
+} else if (capitalWords.length >= 3) {
+  tournamentMatch = await TournamentsCollection.findOne({
+    winner: { $ne: "" },
+    $or: [
+      { playerteam: capitalWords[1], computerteam: capitalWords[3] },
+      { playerteam: capitalWords[3], computerteam: capitalWords[1] }
+    ]
+  }).sort({ _id: -1 });
+}
   if (!tournamentMatch) {
     return res.json({ message: "Sorry I am unable to find any tournaments", type: "error", role: "ai" });
   }
