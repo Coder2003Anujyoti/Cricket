@@ -73,7 +73,7 @@ const histogramOptions = {
 </div>
 
   <div className="w-full  my-6 flex justify-center">
-    <h1 className="text-xl font-extrabold text-slate-400">Top Batters</h1>
+    <h1 className="text-base font-extrabold text-slate-400">Top Batters</h1>
   </div>
    <div className="w-full flex p-4 flex-wrap flex-row justify-center gap-2 my-4">
      {
@@ -100,7 +100,7 @@ const histogramOptions = {
       <Bar data={histogramRuns} options={histogramOptions} />
     </div>
       <div className="w-full  flex justify-center">
-    <h1 className="text-xl font-extrabold text-slate-400">Top Bowlers</h1>
+    <h1 className="text-base font-extrabold text-slate-400">Top Bowlers</h1>
   </div>
    <div className="w-full flex p-4 flex-wrap flex-row justify-center gap-2 my-4">
      {
