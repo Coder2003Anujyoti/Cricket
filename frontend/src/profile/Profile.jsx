@@ -333,7 +333,7 @@ const handle=async(icon)=>{
   </div>
   </div>
 { raul!=="admin" && <>
-  <div className="w-full flex flex-col justify-start items-start my-6 md:hidden">
+  <div className="w-full flex flex-col justify-center items-center my-6 md:hidden">
        <h1 className="text-green-400 text-lg font-bold shadow-green-400 ml-6">Ongoing Participations</h1>
 { items[0].participation.length>0  && <>
     <div className="overflow-x-auto scroll-smooth max-w-full px-3 py-4">
@@ -375,7 +375,7 @@ const handle=async(icon)=>{
   }
   {raul=="user" && <> <div className="w-full flex items-center justify-center md:justify-start md:ml-6 md:mt-6">
   <button onClick={handDelete}
-    className="w-36 py-2 my-7 font-bold text-white bg-slate-800 rounded-md transition">
+    className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition my-6">
     Delete Account
   </button>
   </div></>}

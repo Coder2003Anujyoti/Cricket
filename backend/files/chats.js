@@ -24,17 +24,24 @@ if ((question.some(word => word.includes("news")) && question.some(word => word.
     const capitalWords = question.map(
   word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase()
 );
-  const newsMatch = await NewsCollection.findOne({
-  $and: [
-    { posttype: "news" },
-    {
-      $or: [
-        { playerteam: { $in: capitalWords } },
-        { computerteam: { $in: capitalWords } }
-      ]
-    }
-  ]
-}).sort({ _id: -1 });
+  let newsMatch;
+if (capitalWords.length === 2) {
+  newsMatch = await NewsCollection.findOne({
+    posttype: "news",
+    $or: [
+      { playerteam: capitalWords[1] },
+      { computerteam: capitalWords[1] }
+    ]
+  }).sort({ _id: -1 });
+} else if (capitalWords.length >= 3) {
+  newsMatch = await NewsCollection.findOne({
+    posttype: "news",
+    $or: [
+      { playerteam: capitalWords[1], computerteam: capitalWords[2] },
+      { playerteam: capitalWords[2], computerteam: capitalWords[1] }
+    ]
+  }).sort({ _id: -1 });
+}
 if (!newsMatch) {
       return res.json({ message: "Sorry I am unable to find any news", type: "error", role: "ai" });
     }

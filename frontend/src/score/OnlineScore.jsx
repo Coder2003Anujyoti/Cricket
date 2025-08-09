@@ -38,10 +38,39 @@ const [histruns,setHistruns]=useState({});
     try{
      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/specifictournament?id=${matchID}`);
     let data=await response.json()
+  let pl=data.tournaments_data;
+    const filterruns=pl[0].players.sort((a,b)=>b.runs-a.runs).filter((i,ind)=>ind<6);
+    const filterwickets=pl[0].players.sort((a,b)=>b.wickets-a.wickets).filter((i,ind)=>ind<6);
+    const histogramRuns = {
+  labels: filterruns.map((batter)=> batter.name),
+  datasets: [
+    {
+      label: "Runs Scored",
+      data: filterruns.map((batter) => batter.runs),
+      backgroundColor: "#3b82f6", // Blue color
+      borderWidth: 1,
+      borderRadius: 5,
+    },
+  ],
+};
+const histogramWickets = {
+  labels: filterwickets.map((batter) => batter.name),
+  datasets: [
+    {
+      label: "Wickets Scored",
+      data: filterwickets.map((batter) => batter.wickets),
+      backgroundColor: "#3b82f6", // Blue color
+      borderWidth: 1,
+      borderRadius: 5,
+    },
+  ],
+};
     if(!data.error){
      setTimeout(()=>{
       setLoading(false)
       setItems(data.tournaments_data)
+      setHistruns(histogramRuns);
+  setHistwickets(histogramWickets);
     },2000)
     }
   }
@@ -78,38 +107,6 @@ const [histruns,setHistruns]=useState({});
           
   },
 };
-useEffect(()=>{
-if(items.length>0){
-    const filterruns=items[0].players.sort((a,b)=>b.runs-a.runs).filter((i,ind)=>ind<6);
-    const filterwickets=items[0].players.sort((a,b)=>b.wickets-a.wickets).filter((i,ind)=>ind<6);
-    const histogramRuns = {
-  labels: filterruns.map((batter)=> batter.name),
-  datasets: [
-    {
-      label: "Runs Scored",
-      data: filterruns.map((batter) => batter.runs),
-      backgroundColor: "#3b82f6", // Blue color
-      borderWidth: 1,
-      borderRadius: 5,
-    },
-  ],
-};
-const histogramWickets = {
-  labels: filterwickets.map((batter) => batter.name),
-  datasets: [
-    {
-      label: "Wickets Scored",
-      data: filterwickets.map((batter) => batter.wickets),
-      backgroundColor: "#3b82f6", // Blue color
-      borderWidth: 1,
-      borderRadius: 5,
-    },
-  ],
-};
-  setHistruns(histogramRuns);
-  setHistwickets(histogramWickets);
-  }
-},[items])
   return (
  <>
      {loading == true && <>
@@ -214,7 +211,7 @@ const histogramWickets = {
      }
      </div>
       <div className="w-full py-4 flex justify-center">
-    <h1 className="text-xl font-extrabold text-slate-400">Top Batters</h1>
+    <h1 className="text-base font-extrabold text-slate-400">Top Batters</h1>
   </div>
   <div className="w-full flex flex-row flex-wrap justify-center gap-4 ">
     
@@ -236,7 +233,7 @@ const histogramWickets = {
       <Bar data={histruns} options={histogramOptions} />
     </div>
     <div className="w-full py-4 flex justify-center">
-    <h1 className="text-xl font-extrabold text-slate-400">Top Bowlers</h1>
+    <h1 className="text-base font-extrabold text-slate-400">Top Bowlers</h1>
   </div>
   <div className="w-full flex flex-row flex-wrap justify-center gap-4 ">
     {

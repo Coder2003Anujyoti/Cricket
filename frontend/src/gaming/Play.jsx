@@ -2,9 +2,12 @@ import React,{useState,useEffect} from "react";
 import {useSearchParams} from "react-router-dom"
 import PlayerFirst from './PlayerFirst.jsx';
 import ComputerFirst from './ComputerFirst.jsx';
+import { motion } from "framer-motion";
 const Play = () => {
   const [searchParams] = useSearchParams();
   const [oppositionteam,setOppositionteam]=useState("")
+  const [oppos,setOppos]=useState([])
+  const [choice,setChoice]=useState(-1)
   const [load,setLoad]=useState(true);
   const [items,setItems]=useState([]);
   const [oppositionplayers,setOppositionplayers]=useState([])
@@ -13,18 +16,26 @@ const Play = () => {
     const [toss,setToss]=useState("");
     const [toggle,setToggle]=useState("");
   const [playerfirst,setPlayerfirst]=useState(false);
+  const [subload,setSubload]=useState([])
   const [computerfirst,setComputerfirst]=useState(false);
   const teamId = searchParams.get("team"); 
   const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
   const get_Players=async()=>{
-    const res=await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/players?team=${teamId}`)
+    const res=await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/`)
     const data=await res.json();
-    setItems(data);
+    const pl=data.data.filter((i)=>i.team==teamId)
+    const co=data.data.filter((i)=>i.team!=teamId)
+    setTimeout(()=>{
+      setItems(pl);
+    setSubload(co)
     setLoad(false);
+    },2000)
   }
-  const get_Opposition_Players=async()=>{
-    const res=await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/players?team=${oppositionteam}`)
-    const data=await res.json();
+  const get_Opposition_Players=(i)=>{
+  const data=subload.filter((it)=>it.team==i)
+  setOppositionteam(i)
+    setChoice(0)
+    setOppos(data)
     setOppositionplayers(data.slice(0,10));
   }
   const add_Players=(i)=>{
@@ -35,10 +46,6 @@ const Play = () => {
   useEffect(()=>{
     get_Players();
   },[])
-  useEffect(()=>{
-    if(oppositionteam!='')
-    get_Opposition_Players();
-  },[oppositionteam])
   const get_Toss=()=>{
     let options=Math.floor(Math.random()*2);
     if(options==0){
@@ -56,14 +63,32 @@ const Play = () => {
   }
   return (
     <>
-      {oppositionteam==='' && 
+         {load == true && <>
+     <div className="w-full flex flex-col items-center justify-center py-40 md:py-48">
+    <img src="Logos/Logo.webp" className="w-30 h-24 md:w-60 md:h-32" />
+   <div className="w-full flex justify-center gap-y-2  text-center flex-col p-4 mt-4">
+
+    <div className="mt-4 flex flex-row flex-wrap justify-center gap-x-12 gap-y-12 ">
+  {new Array(4).fill("").map((i,ind)=>{
+  return(
+  <div className="text-center">
+    <img src={`sponsor/sponsor${ind+1}.png`} className="w-22 h-14 md:w-20 md:h-16"></img>
+    </div>
+    )
+  })}
+</div>
+    </div>
+    </div>
+  </>}
+{ load==false && <>
+      {(oppositionteam==='' && oppositionplayers.length==0 && choice==-1) && 
       <>
 <div className="w-full py-8 flex justify-center"><h1 className="text-green-400 text-2xl font-bold shadow-green-400">Select Opposition Team</h1></div>
 <div className="w-full  flex flex-wrap gap-x-6 gap-y-4 items-center justify-center flex-row ">
   {teams.map((i)=>{
   if(i!=teamId)
   return(
-  <div className="text-center rounded-lg  bg-slate-800" onClick={()=>setOppositionteam(i)}>
+  <div className="text-center rounded-lg  bg-slate-800" onClick={()=>get_Opposition_Players(i)}>
     <img src={`Logos/${i}.webp`} className="w-24 h-24"></img>
     <h4 className="text-lg text-slate-400 font-bold">{i.toUpperCase()}</h4>
     </div>
@@ -72,7 +97,36 @@ const Play = () => {
 </div>
 </>
 }
-{ oppositionteam!=''&&<>
+{
+  oppositionteam!='' && oppositionplayers.length>0 && choice==0 && <>
+    <div className="flex flex-col gap-y-6 my-32">
+   <div className="w-full flex flex-col justify-center text-center gap-y-6 my-2">
+   <h1 className="font-bold text-yellow-400 ml-2 mr-2">Welcome to Quick Play</h1>
+        </div>
+<div className="flex flex-wrap gap-y-14  justify-center items-center text-white gap-x-10">
+<div className="flex flex-col items-center gap-y-4">
+  <img src={items.filter((i,ind)=>i.captain==true).map((i)=>i.image)}  className="w-28 h-28" />
+ <img src={`Logos/${teamId}.webp`} className="w-16 h-16" />
+</div>
+<motion.span
+  animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
+  transition={{ repeat: Infinity, duration: 1.2 }}
+  className="text-xl font-bold bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent"
+>
+  V/S
+</motion.span>
+  <div className="flex flex-col items-center gap-y-4">
+ <img src={oppos.filter((i,ind)=>i.captain===true).map((i)=>i.image)} loading="lazy"  className="w-28 h-28" />
+  <img src={`Logos/${oppositionteam}.webp`}  className="w-16 h-16" />
+ </div>
+ </div>
+ <div className="w-full flex justify-center items-center">
+  <button onClick={()=>setChoice(1)} className="text-sm  text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Start Playing</button>
+  </div>
+ </div>
+  </>
+}
+{ oppositionteam!=''&& oppositionplayers.length>0 && choice==1 &&<>
   {
   load==true && <>
     <div className="w-full flex flex-col items-center justify-center py-40">
@@ -228,6 +282,8 @@ const Play = () => {
 }
 {
   computerfirst===true && <ComputerFirst players={players} oppositionplayers={oppositionplayers} />
+}
+</>
 }
 </>
   );

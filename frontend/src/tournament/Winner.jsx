@@ -347,7 +347,7 @@ const histogramWickets = {
      }
      </div>
   <div className="w-full py-4 flex justify-center">
-    <h1 className="text-xl font-extrabold text-slate-400">Top Batters</h1>
+    <h1 className="text-base font-extrabold text-slate-400">Top Batters</h1>
   </div>
   <div className="w-full flex flex-row flex-wrap justify-center gap-4 ">
     
@@ -369,7 +369,7 @@ const histogramWickets = {
       <Bar data={histruns} options={histogramOptions} />
     </div>
     <div className="w-full py-4 flex justify-center">
-    <h1 className="text-xl font-extrabold text-slate-400">Top Bowlers</h1>
+    <h1 className="text-base font-extrabold text-slate-400">Top Bowlers</h1>
   </div>
   <div className="w-full flex flex-row flex-wrap justify-center gap-4 ">
     {
