@@ -21,7 +21,7 @@ const Play = () => {
   const teamId = searchParams.get("team"); 
   const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
   const get_Players=async()=>{
-    const res=await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/`)
+    const res=await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/allplayers`)
     const data=await res.json();
     const pl=data.data.filter((i)=>i.team==teamId)
     const co=data.data.filter((i)=>i.team!=teamId)

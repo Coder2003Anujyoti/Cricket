@@ -16,7 +16,7 @@ const { GFGCollection, Collection, ResultCollection }= require('../schemas/index
    await ResultCollection.deleteMany();
     await ResultCollection.insertMany(result);
 }
-//addDataToMongodb();
+addDataToMongodb();
 router.get('/', async (req, res) => {
   try {
     const [data, details] = await Promise.all([
@@ -30,6 +30,15 @@ router.get('/', async (req, res) => {
     res.status(500).send("Internal Server Error");
   }
 });
+router.get('/allplayers',async (req, res) => {
+  try {
+    const data = await GFGCollection.find();
+    res.status(200).json({ data});
+  } catch (err) {
+    console.error("Error fetching data:", err);
+    res.status(500).send("Internal Server Error");
+  }
+})
 router.get('/standings',async(req,res)=>{
   try{
     const details=await Collection.find();

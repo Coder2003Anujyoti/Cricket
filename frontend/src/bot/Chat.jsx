@@ -23,7 +23,7 @@ const [text,setText]=useState("")
 const [val,setVal]=useState("")
 const [subload,setSubload]=useState(false)
 const [messages,setMessages]=useState([{
-  message: "Hello, I am Cricko an AI agent! Ask me about players, teams, tournaments, or latest news",
+  message: "Hello, I am Cricko an AI agent! Ask me about players, teams, tournaments, or latest news.",
 type: "about",
  role: "ai"
 }])
@@ -262,7 +262,7 @@ return(<>
 }
 {
   mode=="guidelines" && <>
-<ul className="text-yellow-400 text-sm list-disc pl-5 space-y-4 my-16 ml-2 mr-4 font-semibold">
+<ul className="text-yellow-400 text-sm list-disc pl-5 space-y-4 my-8 ml-2 mr-4 font-semibold">
   <li>
     For searching latest news and tournaments just write <strong>latest news</strong> and <strong>latest tournaments</strong>.
   </li>
@@ -273,6 +273,12 @@ return(<>
     <strong>News → "News Mi"</strong><br />
     <strong>Team → "Team Mi"</strong><br />
     <strong>Player → "Player Hardik Pandya"</strong>
+  </li>
+  <li>
+    For searching latest news and tournaments about any match write  — for example:
+    <br />
+    <strong>Tournament Mi vs Gt</strong><br />
+    <strong>News Mi vs Gt</strong>
   </li>
   <li>
     Avoid using nicknames like <strong>Thala</strong>, <strong>Hitman</strong>, and do not include numbers or special characters in your search queries.
