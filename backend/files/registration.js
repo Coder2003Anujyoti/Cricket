@@ -31,7 +31,7 @@ router.post('/signup', async (req, res) => {
   const existing = await UsersCollection.findOne({ username });
   if (existing) return res.status(400).json({ error: 'User already exists' });
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = new UsersCollection({ username, password, hasheduserpassword:hashedPassword, role: 'user', icon,
+  const user = new UsersCollection({ username, password, hasheduserpassword:hashedPassword, role: 'user',total:0, icon,
     participation}); 
   await user.save();
   return res.json({ message: 'User registered', user: { username: user.username, role: user.role } });
