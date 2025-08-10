@@ -251,7 +251,7 @@ router.get('/userprofilehistory', async (req, res) => {
     total: user.total
   };
 
-  const participationArray = Array.isArray(user.participation) ? user.participation : [];
+  const participationArray = Array.isArray(user.participation) ? user.participation.slice().reverse(): [];
   const start = parseInt(offset) || 0;
   const end = start + (parseInt(limit) || 5);
   const parray = participationArray.slice(start, end);
