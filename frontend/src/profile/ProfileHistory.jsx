@@ -144,7 +144,7 @@ const go=()=>{
 {selectedTeams.includes(team) && (
 <FontAwesomeIcon icon={faCheckCircle} className="absolute top-0 right-0 text-green-500 bg-white rounded-full" size="lg" />)}  </div> ))}
 </div> </div>
-<div className="w-full mt-6 text-center flex justify-center items-center gap-4 flex-col">
+<div className="w-full my-2 text-center flex justify-center items-center gap-4 flex-col">
 {items.map((t, idx) => {
 if (selectedTeams.length === 0 ||selectedTeams.includes(t.playerteam) ||selectedTeams.includes(t.computerteam)) {
  return (

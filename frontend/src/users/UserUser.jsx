@@ -30,6 +30,7 @@ const token=get_data()
 const tomorrow = new Date();
 tomorrow.setDate(today.getDate() + 1);
   const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
+  const [view,setView]=useState(false)
   const [isOpen, setIsOpen] = useState(false);
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
@@ -313,7 +314,13 @@ This version focuses purely on the display of player names, ideal for an app whe
 { (show==t.matchID && ( t.target!=0 || target!=0)) &&  <h2 className="text-base font-bold">Target-: {(target!=0 && show==t.matchID) ? target : t.target}</h2>}
 </>
 }
-{ ((winner!="" && show==t.matchID) || t.winner!="")  && <h2 className="text-base font-bold">{ (winner!="" && show==t.matchID) ? winner : t.winner}</h2>}
+{ ((winner!="" && show==t.matchID) || t.winner!="")  &&<>
+<div className="w-full flex flex-col gap-1 text-center items-center">
+ <img src="Icons/trophy.png" className=" w-8 h-8"/>
+<h2 className="text-base font-bold">{ (winner!="" && show==t.matchID) ? winner : t.winner}</h2>
+</div>
+  </>
+}
 </div>
 <div className="text-center flex flex-col">
 <h2 className="text-base font-bold">{t.name}</h2>

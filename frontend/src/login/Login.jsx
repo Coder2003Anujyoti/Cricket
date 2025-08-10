@@ -25,11 +25,11 @@ export default function Login() {
   },[])
   const handSubmit = async () => {
     let valid = true;
-    if (username.trim()=="" || password.trim()=="") {
-      toast.error("Invalid input");
-      valid = false;
-      setLock(false)
-    }
+if ( username.trim() === "" || password.trim() === "" ) {
+  toast.error("Invalid input");
+  valid = false;
+  setLock(false);
+}
     if (!valid) return;
       if (valid) {
       try{
@@ -140,7 +140,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
             type="text"
             placeholder="Username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => setUsername(e.target.value.replace(/\s/g,""))}
             className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none"
           />
 

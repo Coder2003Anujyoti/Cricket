@@ -38,11 +38,22 @@ const Profile = () => {
   const raul=get_raul()
   const password=get_password()
   const navigate = useNavigate();
+  const [deleted,setDeleted]=useState(false)
   const [isOpen, setIsOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
   const [score,setScore]=useState(0)
+  useEffect(() => {
+  if (deleted) {
+    requestAnimationFrame(() => {
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth"
+      });
+    });
+  }
+}, [deleted]);
   const handleDeleteAccount=async()=>{
     try{
   const response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/deleteaccount",{
@@ -374,22 +385,37 @@ const handle=async(icon)=>{
   </>
   }
   {raul=="user" && <> <div className="w-full flex items-center p-4 justify-center md:justify-start md:ml-6 md:mt-6 gap-4">
-  <button onClick={handDelete}
+  <button onClick={()=>{
+  window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
+  setDeleted(true)}}
     className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition">
     Delete Account
   </button>
-{ items[0].participation.length>0 && <>
 <HashLink smooth to="/profilehistory">
     <button 
     className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition md:hidden">
     Users History
   </button>
   </HashLink>
-  </>
-  }
   </div></>}
 </div>
 </div>
+    {
+  deleted==true && <>
+  <div className="w-full flex flex-col text-center justify-center p-6 gap-4 items-center">
+  <h1 className="text-sm font-bold text-white">Are you want to delete your account</h1>
+  <div className="w-full flex justify-center items-center gap-6">
+  <button className="flex items-center px-6 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition" onClick={handDelete}>Yes</button>
+  <button className="flex items-center px-6 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition" onClick={()=>{
+  window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+  setDeleted(false)}}>No</button>
+  </div>
+  </div>
+  </>
+  }
     </>
   }
     </>

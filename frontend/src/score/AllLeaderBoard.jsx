@@ -81,13 +81,13 @@ const AllLeaderBoard = () => {
         <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-6">Team Leaderboard</h1>
         <div className="w-full text-center flex justify-center flex-col">
           {
-            items.filter(it => it.role !== "admin" && it.total>0).length > 0 ? (
+            items.filter(it => it.role !== "admin" && it.totalScore>0).length > 0 ? (
               items
-                .filter(it => it.role !== "admin" && it.total>0)
-                .sort((a, b) => b.total - a.total)
+                .filter(it => it.role !== "admin" && it.totalScore>0)
+                .sort((a, b) => b.totalScore - a.totalScore)
                 .map((it) => (
                   <div
-                    key={it.name}
+                    key={it.username}
                     className="flex items-center justify-center px-6 py-4 mt-1 w-full bg-slate-800"
                   >
                      
@@ -101,7 +101,7 @@ const AllLeaderBoard = () => {
                     </div>
                     
                     <div className="flex w-full gap-2 justify-end items-center">
-                      <h1 className="text-base font-bold text-white">{it.total}</h1>
+                      <h1 className="text-base font-bold text-white">{it.totalScore}</h1>
                       <img src="Icons/coin.png" className="w-8 h-8 mr-2" alt="coin" />
                     </div>
                   </div>
