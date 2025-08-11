@@ -30,6 +30,7 @@ const token=get_data2()
  const [value,setValue]=useState([]);
  const [isOpen, setIsOpen] = useState(false);
  const [logos,setLogos]=useState([])
+ const [closed,setClosed]=useState(false)
  const [toggle,setToggle]=useState(false);
  const scrollRef = useRef(null);
  const imageRef=useRef(null)
@@ -44,6 +45,14 @@ const get_data=async()=>{
     setLoad(true)
     get_data();
   },[])
+  useEffect(() => {
+  if(closed==false){
+    document.body.style.overflow = "hidden"; 
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [closed]);
   const scroll = (direction) => {
     const container = scrollRef.current;
     if (container) {
@@ -85,6 +94,31 @@ const get_data=async()=>{
     </div>
   </>}
 { load===false && <>
+{ closed==false && <>
+<div className="fixed md:hidden inset-0 flex items-center justify-center z-[100] overflow-hidden">
+  {/* Blurred Background */}
+  <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
+
+  {/* Image Container */}
+{/* Image Container */}
+<div className="relative z-[101] max-w-[90%] max-h-[90%]">
+  {/* Close Button */}
+  <button onClick={()=>setClosed(!closed)}
+    className="absolute -top-4 -right-4 bg-gray-900  text-white rounded-full px-3 py-2 shadow-lg text-center font-bold transition-all duration-200"
+  >
+    <FontAwesomeIcon icon={faTimes} className="text-lg text-white font-bold" />
+  </button>
+
+  {/* Image */}
+  <img
+    src={`Floats/float${Math.floor(Math.random()*2)+1}.webp`}
+    alt="Preview"
+    className="rounded-lg max-w-full max-h-full object-contain shadow-lg"
+  />
+</div>
+</div>
+</>
+}
 {/* //& Navbar for mobile */}
   <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 z-50 lg:hidden md:px-4 md:py-3">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} />

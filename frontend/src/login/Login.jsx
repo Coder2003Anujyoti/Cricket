@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { EyeIcon, EyeSlashIcon } from '@heroicons/react/24/outline';
 import { isMobile } from "react-device-detect";
+import { faInfoCircle } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { useMediaQuery } from "react-responsive";
 import { toast, Toaster } from 'react-hot-toast';
 import { useNavigate } from "react-router-dom";
@@ -10,10 +13,14 @@ export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [closed,setClosed]=useState(false)
   const [deletelock,setDeletelock]=useState(false)
   const [lock,setLock]=useState(false)
   const { login } = useAutho();
   const navigate = useNavigate();
+  useEffect(() => {
+    document.body.style.overflow = "hidden"; 
+  }, []);
   const isMobileView = useMediaQuery({ query: "(max-width: 425px)" });
     const shouldShowMobile = isMobile || isMobileView;
    useEffect(()=>{
@@ -25,7 +32,7 @@ export default function Login() {
   },[])
   const handSubmit = async () => {
     let valid = true;
-if ( username.trim() === "" || password.trim() === "" || username.trim().length>=15 || !/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(password) ) {
+if ( username.trim() === "" || password.trim() === "" || username.trim().length>=15 ) {
   toast.error("Invalid input");
   valid = false;
   setLock(false);
@@ -101,7 +108,7 @@ if ( username.trim() === "" || password.trim() === "" || username.trim().length>
     }
   };
 const handleSubmit = (e) => {
-  e.preventDefault(); 
+  e.preventDefault();
   if (!lock) {
     setLock(true);
     handSubmit();
@@ -113,7 +120,30 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 },[])
   return (
   <>
-   <div className="flex  items-center justify-center">
+  { closed==false && <>
+<div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50">
+  <div className="relative bg-gray-900 text-white p-5 rounded-xl shadow-xl max-w-md w-full mx-4 animate-fadeIn">
+  <button onClick={()=>setClosed(!closed)}
+    className="absolute -top-0 -right-0  text-white px-3 py-2 text-center font-bold transition-all duration-200"
+  >
+    <FontAwesomeIcon icon={faTimes} className="text-xl text-white font-bold" />
+  </button>
+
+        <h3 className="text-lg font-bold mb-3">Signup Guidelines</h3>
+        <ul className="list-disc font-semibold list-inside text-sm space-y-2">
+          <li>⚠ If user already exists, choose another username</li>
+          <li>✏ Username must be less than 15 characters</li>
+          <li>🔒 Password must be strong</li>
+          <li>🌍 Respect community rules and avoid spam</li>
+          <li>🛡 Do not share your credentials with anyone</li>
+          <li>📜 All actions are subject to our platform policy</li>
+        </ul>
+      </div>
+    </div>
+  </>
+  }
+
+   <div className="min-h-screen overflow-y-hidden flex items-center justify-center">
          <Toaster
       position="top-center"
       toastOptions={{
@@ -138,19 +168,19 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
           <input
             type="text"
-          placeholder="Username(Less than 15 characters)"
+          placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value.replace(/\s/g,""))}
-            className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none placeholder:text-sm"
+            className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none placeholder:text-sm md:placeholder:text-lg"
           />
 
           <div className="relative w-full mb-4">
             <input
-              type={showPassword ? 'email' : 'password'}
-              placeholder={mode === 'forgot' ? "New Password(Gmail only)" : "Password(Gmail only)"}
+              type={showPassword ? 'text' : 'password'}
+              placeholder={mode === 'forgot' ? "New Password" : "Password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full cursor-pointer px-4 py-2 border rounded-md font-semibold focus:outline-none  pr-10 placeholder:text-sm"
+              className="w-full cursor-pointer px-4 py-2 border rounded-md font-semibold focus:outline-none  pr-10 placeholder:text-sm md:placeholder:text-lg"
             />
             <button
               type="button"
