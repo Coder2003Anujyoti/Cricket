@@ -83,12 +83,10 @@ const Profile = () => {
    navigate("/login",{ replace: true })
    handleDeleteAccount()
   }
-  useEffect(()=>{
-    if(deletestats==true){
+  const handDeleteStats=()=>{
     navigate("/login",{ replace: true })
    handleDeleteStats()  
     }
-  },[deletestats])
     const show_data=async()=>{
       try{
        const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/userprofile?username=${role}`);
@@ -428,6 +426,22 @@ const handle=async(icon)=>{
   }
 </div>
 </div>
+{
+    deletestats==true && <>
+  <div className="w-full flex flex-col text-center justify-center p-6 gap-4 items-center">
+  <h1 className="text-sm font-bold text-white">Are you want to delete tournaments stats</h1>
+  <div className="w-full flex justify-center items-center gap-6">
+  <button className="flex items-center px-6 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition" onClick={handDeleteStats}>Yes</button>
+  <button className="flex items-center px-6 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition" onClick={()=>{
+  window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
+  setDeletestats(false)}}>No</button>
+  </div>
+  </div>
+  </>
+}
     {
   deleted==true && <>
   <div className="w-full flex flex-col text-center justify-center p-6 gap-4 items-center">
