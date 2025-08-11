@@ -474,9 +474,9 @@ const handleEdit= () => {
 
           <td className="px-6 py-4 whitespace-nowrap w-1/3 text-xs">
             <span className={`px-3 py-1 rounded-full  font-medium ${
-              user.role === 'admin' ? 'bg-red-100 text-red-700'
-              : user.role === 'user' ? 'bg-blue-100 text-blue-700'
-              : 'bg-green-100 text-green-700'
+              user.role === 'admin' ? 'bg-red-100 text-red-700 text-xs'
+              : user.role === 'user' ? 'bg-blue-100 text-blue-700 text-xs'
+              : 'bg-green-100 text-green-700 text-xs'
             }`}>
               {user.role[0].toUpperCase()+user.role.slice(1)}
             </span>

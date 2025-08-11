@@ -191,7 +191,7 @@ const PlayerSearch = () => {
 <FontAwesomeIcon icon={faCheckCircle} className="absolute top-0 right-0 text-green-500 bg-white rounded-full" size="lg"/>)}
 </div>))}</div> </div>
 <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Players Details</h1>
-<div className="w-full p-2 justify-start items-start flex flex-row gap-4 lg:px-12 flex-wrap md:gap-6 lg:gap-10 md:ml-4 md:my-4">
+<div className="w-full px-3 p-2 justify-start items-start flex flex-row gap-4 lg:px-12 flex-wrap md:gap-6 lg:gap-10 md:ml-4 md:my-4">
  {items
   .sort((a, b) => a.name.localeCompare(b.name))
   .map((i, index) =>
