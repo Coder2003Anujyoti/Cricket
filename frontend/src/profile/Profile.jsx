@@ -44,6 +44,7 @@ const Profile = () => {
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
   const [score,setScore]=useState(0)
+  const [deletestats,setDeletestats]=useState(false)
   useEffect(() => {
   if (deleted) {
     requestAnimationFrame(() => {
@@ -68,10 +69,26 @@ const Profile = () => {
    toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
     }
   }
+  const handleDeleteStats=async()=>{
+    try{
+  const response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/resetdata",{ method:'POST',})
+ const data=await response.json();
+      }
+    catch(err){
+    console.log(err)
+   toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+    }
+  }
   const handDelete=()=>{
    navigate("/login",{ replace: true })
    handleDeleteAccount()
   }
+  useEffect(()=>{
+    if(deletestats==true){
+    navigate("/login",{ replace: true })
+   handleDeleteStats()  
+    }
+  },[deletestats])
     const show_data=async()=>{
       try{
        const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/userprofile?username=${role}`);
@@ -398,6 +415,17 @@ const handle=async(icon)=>{
   </button>
   </HashLink>
   </div></>}
+  {
+    raul=="admin" && <>
+  <div className="w-full flex items-center p-4 justify-center md:justify-start my-4 md:ml-6 md:mt-6 gap-4 md:hidden">
+  <button onClick={()=>{
+  setDeletestats(true)}}
+    className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition">
+    Delete Stats
+  </button>
+  </div>
+    </>
+  }
 </div>
 </div>
     {

@@ -25,7 +25,7 @@ export default function Login() {
   },[])
   const handSubmit = async () => {
     let valid = true;
-if ( username.trim() === "" || password.trim() === "" ) {
+if ( username.trim() === "" || password.trim() === "" || username.trim().length>=15 || !/^[a-zA-Z0-9._%+-]+@gmail\.com$/.test(password) ) {
   toast.error("Invalid input");
   valid = false;
   setLock(false);
@@ -113,7 +113,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 },[])
   return (
   <>
-   <div className="flex items-center justify-center">
+   <div className="flex  items-center justify-center">
          <Toaster
       position="top-center"
       toastOptions={{
@@ -138,19 +138,19 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         <form onSubmit={handleSubmit} className="w-full flex flex-col items-center">
           <input
             type="text"
-            placeholder="Username"
+          placeholder="Username(Less than 15 characters)"
             value={username}
             onChange={(e) => setUsername(e.target.value.replace(/\s/g,""))}
-            className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none"
+            className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none placeholder:text-sm"
           />
 
           <div className="relative w-full mb-4">
             <input
-              type={showPassword ? 'text' : 'password'}
-              placeholder={mode === 'forgot' ? "New Password" : "Password"}
+              type={showPassword ? 'email' : 'password'}
+              placeholder={mode === 'forgot' ? "New Password(Gmail only)" : "Password(Gmail only)"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full cursor-pointer px-4 py-2 border rounded-md font-semibold focus:outline-none  pr-10"
+              className="w-full cursor-pointer px-4 py-2 border rounded-md font-semibold focus:outline-none  pr-10 placeholder:text-sm"
             />
             <button
               type="button"

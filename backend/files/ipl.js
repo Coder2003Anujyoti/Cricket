@@ -7,7 +7,14 @@ const app = express();
 const router = express.Router();
 const bodyParser=require('body-parser');
 const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
 const { GFGCollection, Collection, ResultCollection }= require('../schemas/index.js');
+const TournamentsCollection= require('../schemas/tournaments');
+const UsersCollection= require('../schemas/users.js');
+const NewsCollection= require('../schemas/news.js');
+const news=require("../data/News.json")
+const users= require('../data/Users.json');
+const tours=require("../data/Tournaments.json")
    const addDataToMongodb = async() => {
     await GFGCollection.deleteMany();
     await GFGCollection.insertMany(data);
@@ -15,8 +22,29 @@ const { GFGCollection, Collection, ResultCollection }= require('../schemas/index
     await Collection.insertMany(history);
    await ResultCollection.deleteMany();
     await ResultCollection.insertMany(result);
+  await UsersCollection.deleteMany();
+    const hashedUsers = await Promise.all(
+    users.map(async (user) => ({
+      ...user,
+      hasheduserpassword: await bcrypt.hash(user.password, 10)
+    }))
+  );
+    await UsersCollection.insertMany(hashedUsers);
+  await TournamentsCollection.deleteMany();
+  await TournamentsCollection.insertMany(tours);
+    await NewsCollection.deleteMany();
+    await NewsCollection.insertMany(news);
 }
 //addDataToMongodb();
+router.post("/resetdata", async (req, res) => {
+  try {
+    await addDataToMongodb();
+    res.json({ success: true, message: "Data reset successfully" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ success: false, message: "Error resetting data" });
+  }
+});
 router.get('/', async (req, res) => {
   try {
     const [data, details] = await Promise.all([
