@@ -131,7 +131,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 
         <h3 className="text-lg font-bold mb-3">Signup Guidelines</h3>
         <ul className="list-disc font-semibold list-inside text-sm space-y-2">
-          <li>⚠ If user already exists, choose another username</li>
+          <li>⚠ If user exists, choose another username</li>
           <li>✏ Username must be less than 15 characters</li>
           <li>🔒 Password must be strong</li>
           <li>🌍 Respect community rules and avoid spam</li>
