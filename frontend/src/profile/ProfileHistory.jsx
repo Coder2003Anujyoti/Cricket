@@ -126,7 +126,7 @@ const go=()=>{
   <img className="w-24 h-24 lg:w-64 lg:h-64" src={user[0].icon} alt="Logo" /> :
   <img className="w-20 h-20 lg:w-60 lg:h-60" src={`Icons/cricket.webp`} />}
 </div>
-<div className="w-1/2 flex flex-col items-start justify-start text-white text-base font-bold flex-wrap">
+<div className="w-1/2 flex flex-col items-start justify-start text-white text-sm font-bold flex-wrap">
 <h1>{user[0].username}</h1>
 <h1>{"*".repeat(password.length)}</h1>
 <h1>Welcome {user[0].username}</h1>
@@ -135,7 +135,7 @@ const go=()=>{
     </div>
 {
   items.length>0 ? <>
-<h1 className="text-green-400 text-lg font-bold shadow-green-400 ml-6 text-center">{user[0].username}'s History</h1>
+<h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6 text-center">{user[0].username}'s History</h1>
 <div className="overflow-x-auto scroll-smooth px-3 py-4 my-2">
 <div className="flex gap-4 w-max">
 {teams.map((team) => (

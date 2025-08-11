@@ -22,14 +22,6 @@ const tours=require("../data/Tournaments.json")
     await Collection.insertMany(history);
    await ResultCollection.deleteMany();
     await ResultCollection.insertMany(result);
-  await UsersCollection.deleteMany();
-    const hashedUsers = await Promise.all(
-    users.map(async (user) => ({
-      ...user,
-      hasheduserpassword: await bcrypt.hash(user.password, 10)
-    }))
-  );
-    await UsersCollection.insertMany(hashedUsers);
   await TournamentsCollection.deleteMany();
   await TournamentsCollection.insertMany(tours);
     await NewsCollection.deleteMany();

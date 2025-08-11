@@ -46,7 +46,7 @@ const Profile = () => {
   const [score,setScore]=useState(0)
   const [deletestats,setDeletestats]=useState(false)
   useEffect(() => {
-  if (deleted) {
+  if (deleted || deletestats) {
     requestAnimationFrame(() => {
       window.scrollTo({
         top: document.body.scrollHeight,
@@ -54,7 +54,7 @@ const Profile = () => {
       });
     });
   }
-}, [deleted]);
+}, [deleted,deletestats]);
   const handleDeleteAccount=async()=>{
     try{
   const response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/deleteaccount",{
@@ -328,16 +328,16 @@ const handle=async(icon)=>{
   <div className="md:w-1/2 md:p-6 lg:mt-6" >
   <div className="w-full flex text-center justify-center items-center mt-4 gap-2 md:justify-start md:ml-12 ">
   <FontAwesomeIcon icon={faHandPaper} className="text-yellow-400 w-8 h-8 animate-wave" />
-  <p className="font-bold text-white text-lg">Hello {items[0].username}</p>
+  <p className="font-bold text-white text-base">Hello {items[0].username}</p>
   </div>
   <div className="w-full flex flex-col text-center justify-start items-start mt-4 md:mt-6">
-  <p className="font-bold ml-6 text-white text-lg">Username</p>
-  <div className="w-64 h-10 rounded-lg flex justify-start items-center bg-slate-800 text-white ml-6">
-    <p className="font-bold ml-4 text-white text-lg">{items[0].username}</p>
+  <p className="font-bold ml-6 text-white text-base">Username</p>
+  <div className="w-64 h-10 rounded-lg flex justify-start items-center bg-slate-800 text-white ml-6 mt-1">
+    <p className="font-bold ml-4 text-white text-sm md:text-base">{items[0].username}</p>
   </div>
-    <p className="font-bold ml-6 text-white text-lg mt-4 md:mt-6">Password</p>
-<div className="w-64 h-10 rounded-lg flex justify-between items-center bg-slate-800 text-white ml-6 px-4">
-      <p className="font-bold text-white text-lg">
+    <p className="font-bold ml-6 text-white text-base mt-4 md:mt-6">Password</p>
+<div className="w-64 h-10 rounded-lg flex justify-between items-center bg-slate-800 text-white ml-6 mt-1 px-4">
+      <p className="font-bold text-white text-sm md:text-base">
         {showPassword ? items[0].password : '*'.repeat(items[0].password.length)}
       </p>
       <button
@@ -349,7 +349,7 @@ const handle=async(icon)=>{
     </div>
   </div>
   <div className="flex w-full flex-col justify-start items-start mt-4 md:mt-6">
-  <p className="font-bold ml-6 text-white text-lg">Choose Icons</p>
+  <p className="font-bold ml-6 text-white text-base">Choose Icons</p>
   <div className="w-full flex flex-row flex-wrap justify-start items-center gap-4 mt-3 px-6 ">
     {
       new Array(5).fill(0).map((_, ind) => (
@@ -360,7 +360,7 @@ const handle=async(icon)=>{
   </div>
 { raul!=="admin" && <>
   <div className="w-full flex flex-col justify-center items-center my-6 md:hidden">
-       <h1 className="text-green-400 text-lg font-bold shadow-green-400 ml-6">Ongoing Participations</h1>
+       <h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6">Ongoing Participations</h1>
 { items[0].participation.length>0  && <>
     <div className="overflow-x-auto scroll-smooth max-w-full px-3 py-4">
   <div className="flex gap-4">
@@ -415,7 +415,7 @@ const handle=async(icon)=>{
   </div></>}
   {
     raul=="admin" && <>
-  <div className="w-full flex items-center p-4 justify-center md:justify-start my-4 md:ml-6 md:mt-6 gap-4 md:hidden">
+  <div className="w-full flex items-center p-4 justify-center md:justify-start my-6 md:ml-6 md:mt-6 gap-4 md:hidden">
   <button onClick={()=>{
   setDeletestats(true)}}
     className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition">
