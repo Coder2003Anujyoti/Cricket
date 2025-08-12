@@ -171,7 +171,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
           placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value.replace(/\s/g,""))}
-            className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none placeholder:text-sm md:placeholder:text-lg"
+            className="w-full cursor-pointer px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none placeholder:text-base"
           />
 
           <div className="relative w-full mb-4">
@@ -180,7 +180,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
               placeholder={mode === 'forgot' ? "New Password" : "Password"}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="w-full cursor-pointer px-4 py-2 border rounded-md font-semibold focus:outline-none  pr-10 placeholder:text-sm md:placeholder:text-lg"
+              className="w-full cursor-pointer px-4 py-2 border rounded-md font-semibold focus:outline-none  pr-10 placeholder:text-base"
             />
             <button
               type="button"
