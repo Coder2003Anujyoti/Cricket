@@ -96,7 +96,7 @@ const get_data=async()=>{
   </>}
 { load===false && <>
 { closed==false && <>
-<div className="fixed md:hidden inset-0 flex items-center justify-center z-[100] overflow-hidden">
+<div className="fixed  inset-0 flex items-center justify-center z-[100] overflow-hidden">
   {/* Blurred Background */}
   <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm"></div>
 
