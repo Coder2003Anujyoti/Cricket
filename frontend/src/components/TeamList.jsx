@@ -105,7 +105,7 @@ const get_data=async()=>{
 <div className={`relative z-[101] max-w-[90%] max-h-[90%] ${imageLoaded ? 'block' : 'hidden'}`}>
   {/* Close Button */}
   <button onClick={()=>setClosed(!closed)}
-    className="absolute -top-4 -right-4 bg-gray-900  text-white rounded-full px-3 py-2 shadow-lg text-center font-bold transition-all duration-200 flex items-center justify-center"
+    className="absolute md:right-8 md:-top-2-top-4 -right-4 bg-gray-900  text-white rounded-full px-3 py-2 shadow-lg text-center font-bold transition-all duration-200 flex items-center justify-center"
   >
     <FontAwesomeIcon icon={faTimes} className="text-lg text-white font-bold" />
   </button>
@@ -113,7 +113,7 @@ const get_data=async()=>{
   {/* Image */}
   <img onLoad={() => setImageLoaded(true)}
     src={`Floats/float${Math.floor(Math.random()*2)+1}.webp`}
-    className="rounded-lg max-w-full max-h-full object-contain shadow-lg"
+    className="md:w-96 md:rounded-md md:h-96 rounded-lg max-w-full max-h-full object-contain shadow-lg"
   />
 </div>
 </div>

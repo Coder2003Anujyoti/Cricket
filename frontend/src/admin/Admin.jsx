@@ -382,7 +382,7 @@ const handleEdit= () => {
         />
       </div>
        <div className="hidden md:flex items-center gap-4 space-x-6">
-      <Link to="/admin" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
+      <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
       <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-blue-500" />
       <span>Home</span>
       </Link>
