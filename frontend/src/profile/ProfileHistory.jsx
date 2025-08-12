@@ -135,7 +135,7 @@ const go=()=>{
     </div>
 {
   items.length>0 ? <>
-<h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6 text-center">{user[0].username}'s History</h1>
+<h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6 text-center">Participations History</h1>
 <div className="overflow-x-auto scroll-smooth px-3 py-4 my-2">
 <div className="flex gap-4 w-max">
 {teams.map((team) => (
