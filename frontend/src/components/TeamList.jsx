@@ -111,7 +111,7 @@ const get_data=async()=>{
 
   {/* Image */}
   <img onLoad={() => setImageLoaded(true)}
-    src={`Floats/float${Math.floor(Math.random()*2)+1}.webp`}
+    src="Floats/float1.webp"
     className="md:w-96 md:rounded-md md:h-96 rounded-lg max-w-full max-h-full object-contain shadow-lg"
   />
 </div>
