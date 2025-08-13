@@ -244,8 +244,8 @@ const histogramWickets = {
         return(<>
  <div className="p-4 flex flex-col gap-1 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
    <img src={i.image} className="w-16 h-16"/>
-  <div className="flex justify-center items-center"><h2 className="text-xs font-extrabold text-slate-400 ">{i.name}</h2></div>
-    <div className="flex justify-center items-center"> <h2 className="text-xs font-extrabold text-slate-400 ">Runs-:{i.runs}</h2></div>
+  <div className="flex justify-center items-center"><h2 className="text-xs font-bold text-slate-400 ">{i.name}</h2></div>
+    <div className="flex justify-center items-center"> <h2 className="text-xs font-bold text-slate-400 ">Runs-:{i.runs}</h2></div>
    </div>
         </>)
       })
@@ -265,8 +265,8 @@ const histogramWickets = {
         return(<>
  <div className="p-4 flex flex-col gap-1 rounded-lg bg-slate-800 text-center justify-center items-center transition duration-300 ease-in-out transform hover:bg-slate-800  hover:scale-105">
    <img src={i.image} className="w-16 h-16"/>
-  <div className="flex justify-center items-center"><h2 className="text-xs font-extrabold text-slate-400 ">{i.name}</h2></div>
-    <div className="flex justify-center items-center"> <h2 className="text-xs font-extrabold text-slate-400 ">Wickets-:{i.wickets}</h2></div>
+  <div className="flex justify-center items-center"><h2 className="text-xs font-bold text-slate-400 ">{i.name}</h2></div>
+    <div className="flex justify-center items-center"> <h2 className="text-xs font-bold text-slate-400 ">Wickets-:{i.wickets}</h2></div>
    </div>
         </>)
       })
