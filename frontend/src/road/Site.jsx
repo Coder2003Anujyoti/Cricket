@@ -237,7 +237,6 @@ const barChartData = {
       width={window.innerWidth}
       height={window.innerHeight}
       numberOfPieces={250}
-      recycle={false}
     />
   )}
 
