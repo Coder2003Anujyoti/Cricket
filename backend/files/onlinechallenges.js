@@ -107,6 +107,11 @@ router.get('/getchallenges', async (req, res) => {
     res.status(500).json({ error: "Error fetching Challenges" });
   }
 });
+router.get('/specificchallenge',async(req,res)=>{
+  const {id}=req.query
+  const data=await ChallengesCollection.findOne({challengeID:id})
+  return res.json({challenges_data:data})
+})
 router.post('/addparticipatechallenge', async (req, res) => {
   const {id,username,points,players} = req.body;
   try {
