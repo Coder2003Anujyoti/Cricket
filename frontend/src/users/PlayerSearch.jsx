@@ -14,6 +14,7 @@ import {
   faTrophy,
   faNewspaper,
   faGamepad,
+  faFlagCheckered,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
@@ -110,6 +111,10 @@ const PlayerSearch = () => {
           <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
           <span>News</span>
         </Link>     
+       <Link to="/userchallenge" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500 md:hidden">
+            <FontAwesomeIcon icon={faFlagCheckered} className="w-5 h-5 text-blue-500" />
+            <span>Challenge</span>
+          </Link>
          <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
                       <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
                       <span>Profile</span>

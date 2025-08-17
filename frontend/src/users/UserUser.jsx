@@ -12,6 +12,7 @@ import {
   faHouse,
   faTrophy,
   faNewspaper,
+  faFlagCheckered,
   faGamepad
 } from '@fortawesome/free-solid-svg-icons';
 import { Link } from "react-router-dom";
@@ -199,7 +200,10 @@ const [winner,setWinner]=useState("")
           <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
           <span>News</span>
         </Link>     
-
+          <Link to="/userchallenge" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500 md:hidden">
+            <FontAwesomeIcon icon={faFlagCheckered} className="w-5 h-5 text-blue-500" />
+            <span>Challenge</span>
+          </Link>
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>

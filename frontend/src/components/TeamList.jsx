@@ -192,7 +192,11 @@ const get_data=async()=>{
           <Link to="/news" className="flex items-center space-x-3 text-white font-medium hover:text-yellow-500">
           <FontAwesomeIcon icon={faNewspaper} className="w-5 h-5 text-yellow-500" />
           <span>News</span>
-        </Link>         
+        </Link>        
+          <Link to="/userchallenge" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500 md:hidden">
+            <FontAwesomeIcon icon={faFlagCheckered} className="w-5 h-5 text-blue-500" />
+            <span>Challenge</span>
+          </Link>
          <Link to="/loginprofile" className="hidden items-center space-x-3 text-white font-medium hover:text-pink-500 md:flex">
           <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
           <span>Profile</span>

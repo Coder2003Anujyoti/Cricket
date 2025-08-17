@@ -21,6 +21,7 @@ import News from "./users/News.jsx"
 import Chat from "./bot/Chat.jsx"
 import ProfileHistory from "./profile/ProfileHistory.jsx"
 import AdminChallenge from "./admin/AdminChallenge.jsx"
+import UserChallenge from "./users/UserChallenge.jsx"
 import Warning from "./Warning.jsx";
 import Unauthorize from "./Unauthorize.jsx"
 const HomeRoutes = () => {
@@ -43,6 +44,7 @@ const HomeRoutes = () => {
 <Route path="/allleaderboard" element={<Warning><Protected><AllLeaderBoard /></Protected></Warning>} />
 <Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />
 <Route path="/playersearch" element={<Protected><PlayerSearch /></Protected>} />
+<Route path="/userchallenge" element={<Protected><UserChallenge /></Protected>} />
 <Route path="/news" element={<Protected><News /></Protected>} />
 <Route path="/chat" element={<Warning><Protected><Chat /></Protected></Warning>} />
 <Route path="/unauthorize" element={<Unauthorize />} />

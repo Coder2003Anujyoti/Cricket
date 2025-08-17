@@ -78,7 +78,7 @@ router.delete('/deletechallenge', authenticateToken, authorizeRoles('admin'), as
     res.status(500).json({ error: "Server error" });
   }
 });
-router.get('/getchallenges', async (req, res) => {
+router.post('/getchallenges', async (req, res) => {
   const offset = parseInt(req.query.offset) || 0;
   const limit = parseInt(req.query.limit) || 5;
   const { username } = req.body;  // username from body
