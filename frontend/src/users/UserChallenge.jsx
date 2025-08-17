@@ -14,6 +14,7 @@ import {
   faRotateRight,
   faGamepad,
   faFlagCheckered,
+  faNewspaper,
   faUser
 } from '@fortawesome/free-solid-svg-icons';
 import { toast, Toaster } from 'react-hot-toast';
@@ -46,6 +47,7 @@ const UserChallenge = () => {
   const token=get_data()
   const role=get_role()
   const name=get_name()
+  const [participate,setParticipate]=useState([])
   const [isOpen, setIsOpen] = useState(false);
   const [items,setItems]=useState([])
   const [loading,setLoading]=useState(true)
@@ -71,6 +73,7 @@ const [len,setLen]=useState(-1)
       setLen(data.total)
       setOffset(offset+5)
       setItems(data.challenges_data)
+      setParticipate(data.participatedIds)
     },2000)
     }
     else if(!data.error && offset > 0){
@@ -175,6 +178,70 @@ window.scrollTo({ top: 0, behavior: "smooth" });
     </div>
   )}
 </div>
+  <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Ongoing Challenges</h1>
+  { items.length>0 && <>
+ <div className="flex flex-col ml-2 mr-2 gap-4 my-4 justify-center items-center lg:px-20 md:justify-center md:items-center md:py-3 lg:ml-16 lg:gap-10 lg:items-start lg:justify-start lg:flex-row lg:flex-wrap">
+ {items.map((i)=>{
+    return(<>
+    <div className="w-72 h-72 bg-slate-800 flex flex-col rounded-md flex-wrap lg:w-96 lg:h-90 md:w-96 md:h-84">
+ <div className="w-full mt-2 flex flex-row">
+ <div className="w-2/5 ml-2 gap-1 flex flex-col items-center justify-center">
+ <img src={i.playerimage} className="w-auto h-auto" />
+  <img src={`Logos/${i.playerteam}.webp`} className="w-12 h-12"/>
+ </div>
+  <div className="w-1/5 ml-2 mr-2 flex flex-col items-center justify-center">
+<h1 className="text-base text-white font-bold">V/S</h1>
+ </div>
+ <div className="w-2/5 gap-1 mr-2 flex flex-col items-center justify-center">
+ <img src={i.computerimage} className="w-auto h-auto" />
+  <img src={`Logos/${i.computerteam}.webp`} className="w-12 h-12"/>
+ </div>
+    </div>
+<div className="w-full text-center text-white font-bold flex-col text-center">
+<h1 className="text-sm">{i.name}</h1>
+<p className="text-xs">{i.time}</p>
+</div>
+<div className="flex flex-row justify-center gap-3 mt-4">
+{ !participate.includes(i.challengeID) &&
+<HashLink smooth to={`/userplay?player=${encodeURIComponent(i.playerteam)}&&computer=${encodeURIComponent(i.computerteam)}&&id=${encodeURIComponent(i.challengeID)}&&name=${encodeURIComponent(i.name)}`}>
+<button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md"> Play</button>
+  </HashLink>
+}
+<HashLink smooth to={`/leaderboard?id=${i.challengeID}`}>
+  <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Leaderboard</button>
+    </HashLink>
+        </div>
+    </div>
+    </>)
+  })}
+  </div>
+</>}
+{
+  items.length==0 && 
+    <h1 className="font-bold text-white text-center my-48">No Challenges Found</h1>
+}
+                {
+        offset<len && <>
+        {
+          subload==false && <>
+      <div className="w-full flex justify-center">
+<button
+  onClick={go}
+  className="flex items-center  gap-2 px-5 py-2.5 rounded-lg bg-slate-800 text-slate-400 text-sm font-bold shadow-md hover:shadow-lg hover:scale-105 hover:text-white transition-all duration-300 ease-in-out"
+>
+  <span>More Challenges</span>
+  <FontAwesomeIcon icon={faChevronDown} />
+</button>
+      </div>
+          </>
+        }
+        {
+          subload==true && <>
+          <div className="w-full flex items-center justify-center text-center text-slate-400 text-sm font-bold my-4"><p>Loading...</p></div>
+          </>
+        }
+        </>
+      }
     </>
     }
     </>

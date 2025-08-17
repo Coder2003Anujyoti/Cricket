@@ -129,7 +129,7 @@ router.post('/addparticipatechallenge', async (req, res) => {
   computerteam:challenge.computerteam,
   matchname:challenge.name,
   matchtime:challenge.time,
-      score: 0
+      score:points
   });
     await user.save();
     res.status(200).json({ message: "Participation added", user });
