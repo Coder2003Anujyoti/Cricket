@@ -107,11 +107,36 @@ router.get('/getchallenges', async (req, res) => {
     res.status(500).json({ error: "Error fetching Challenges" });
   }
 });
-router.get('/specificchallenge',async(req,res)=>{
-  const {id}=req.query
-  const data=await ChallengesCollection.findOne({challengeID:id})
-  return res.json({challenges_data:data})
-})
+router.get('/specificchallenge', async (req, res) => {
+  try {
+    const { id, username } = req.query;
+
+    if (!id || !username) {
+      return res.status(400).json({ error: "id and username are required" });
+    }
+
+    const user = await UsersCollection.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    if (!Array.isArray(user.participation)) {
+      return res.json({ challenges_data: [] });
+    }
+
+    const filtered = user.participation.filter((i) => i.id == id);
+
+    if (filtered.length === 0) {
+      return res.status(404).json({ message: "No participation found for this challenge" });
+    }
+
+    return res.json({ challenges_data: filtered });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Error fetching specific challenge" });
+  }
+});
 router.post('/addparticipatechallenge', async (req, res) => {
   const {id,username,points,players} = req.body;
   try {
@@ -128,15 +153,17 @@ router.post('/addparticipatechallenge', async (req, res) => {
     if (alreadyParticipated) {
       return res.status(400).json({ message: "User already participated in this challenge" });
     }
-  challenge.players=players;
   user.total+=points
   user.participation.push({
     id:challenge.challengeID,
    playerteam:challenge.playerteam,
   computerteam:challenge.computerteam,
+  playerimage:challenge.playerimage,
+  computerimage:challenge.computerimage,
+  players,
   matchname:challenge.name,
   matchtime:challenge.time,
-      score:points
+  score:points
   });
   await Promise.all([
   user.save(),
