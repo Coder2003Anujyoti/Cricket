@@ -60,11 +60,8 @@ const [len,setLen]=useState(-1)
         console.log("error")
         return;
       }
-     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getchallenges?offset=${offset}&&limit=${limit}`, {
-      method: "POST",
-      body: JSON.stringify({
-      username:name
-  }),
+     const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/getchallenges?offset=${offset}&&limit=${limit}&&username=${encodeURIComponent(name)}`, {
+      method: "GET",
     });
     let data=await response.json()
     if(!data.error && offset==0){
