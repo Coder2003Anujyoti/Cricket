@@ -78,17 +78,34 @@ router.delete('/deletechallenge', authenticateToken, authorizeRoles('admin'), as
     res.status(500).json({ error: "Server error" });
   }
 });
-router.get('/getchallenges',async(req,res)=>{
+router.get('/getchallenges', async (req, res) => {
   const offset = parseInt(req.query.offset) || 0;
-const limit = parseInt(req.query.limit) || 5;
-try {
-const total = await ChallengesCollection.countDocuments();
-const data = await ChallengesCollection.find().sort({ _id: -1 }).skip(offset).limit(limit);
-res.json({ total,challenges_data: data,});
+  const limit = parseInt(req.query.limit) || 5;
+  const { username } = req.body;  // username from body
+
+  try {
+    const [total, data, user] = await Promise.all([
+      ChallengesCollection.countDocuments(),
+      ChallengesCollection.find().sort({ _id: -1 }).skip(offset).limit(limit),
+      UsersCollection.findOne({ username }) // fetch user
+    ]);
+
+    let participatedIds = [];
+    if (user && Array.isArray(user.participation)) {
+      participatedIds = user.participation.map(entry => entry.id);
+    }
+
+    res.json({
+      total,
+      challenges_data: data,
+      participatedIds
+    });
+
   } catch (err) {
+    console.error(err);
     res.status(500).json({ error: "Error fetching Challenges" });
   }
-})
+});
 router.post('/addparticipatechallenge', async (req, res) => {
   const {id,username,points} = req.body;
   try {

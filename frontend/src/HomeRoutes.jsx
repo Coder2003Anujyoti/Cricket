@@ -20,6 +20,7 @@ import PlayerSearch from "./users/PlayerSearch.jsx"
 import News from "./users/News.jsx"
 import Chat from "./bot/Chat.jsx"
 import ProfileHistory from "./profile/ProfileHistory.jsx"
+import AdminChallenge from "./admin/AdminChallenge.jsx"
 import Warning from "./Warning.jsx";
 import Unauthorize from "./Unauthorize.jsx"
 const HomeRoutes = () => {
@@ -29,6 +30,7 @@ const HomeRoutes = () => {
     <Route path="/login" element={<Login />} />
     <Route path="/admin" element={<Protected allowedRoles={['admin']} ><Admin /></Protected>} />
     <Route path="/create" element={<Protected allowedRoles={['admin']}><Create /></Protected>} />
+      <Route path="/adminchallenge" element={<Protected allowedRoles={['admin']}><AdminChallenge /></Protected>} />
     <Route path="/adminuser" element={<Warning><Protected allowedRoles={['admin']}><AdminUser /></Protected></Warning>} />
     <Route path="/useruser" element={<Warning><Protected><UserUser /></Protected></Warning>} />
    <Route path="/adminplay" element={<Warning><Protected allowedRoles={['admin']}><AdminPlay /></Protected></Warning>} />

@@ -11,6 +11,7 @@ import {
   faTrophy,
   faRotateRight,
   faGamepad,
+  faFlagCheckered,
   faUser,
 } from '@fortawesome/free-solid-svg-icons';
 import { faLock, faUnlock } from "@fortawesome/free-solid-svg-icons";
@@ -330,7 +331,7 @@ const handleEdit= () => {
 
   {/* Mobile Nav Links - Dropdown */}
   {isOpen && (
-    <div className="absolute top-full left-0 w-full bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
+    <div className="absolute top-full left-0 w-full  bg-slate-800 shadow-md backdrop-blur-md px-4 py-2 z-40">
       <div className="flex flex-col space-y-4">
         <Link to="/" className="flex items-center space-x-3 text-white font-medium hover:text-blue-500">
           <FontAwesomeIcon icon={faHouse} className="w-5 h-5 text-blue-500" />
@@ -346,7 +347,12 @@ const handleEdit= () => {
             <span>Admin</span>
           </Link>
         )}
-
+        {role === "admin" && (
+          <Link to="/adminchallenge" className="flex items-center space-x-3 text-white font-medium hover:text-sky-500 md:hidden">
+            <FontAwesomeIcon icon={faFlagCheckered} className="w-5 h-5 text-sky-500" />
+            <span>Challenge</span>
+          </Link>
+        )}
         <Link to="/adminuser" className="flex items-center space-x-3 text-white font-medium hover:text-green-500 md:hidden">
           <FontAwesomeIcon icon={faUserShield} className="w-5 h-5 text-green-500" />
           <span>User</span>
