@@ -128,7 +128,7 @@ const handDelete = async() => {
     'Authorization': `Bearer ${token}`  // ✅ correctly placed
   },
   body: JSON.stringify({
-    matchID:deletenewsID
+    matchID:deletenewsID.trim()
   }),
 });
     const data=await response.json();
@@ -174,10 +174,10 @@ const handDelete = async() => {
     'Authorization': `Bearer ${token}`  // ✅ correctly placed
   },
   body: JSON.stringify({
-    name: tournamentName,
+    name: tournamentName.trim(),
     playerteam: userTeam.name,
     computerteam: computerTeam.name,
-    matchID: matchID,
+    matchID: matchID.trim(),
     time:new Date(matchDate).toDateString()
   }),
 });
@@ -224,7 +224,7 @@ const handDelete = async() => {
     'Authorization': `Bearer ${token}`  // ✅ correctly placed
   },
   body: JSON.stringify({
-    matchID: editmatchID,
+    matchID: editmatchID.trim(),
     time:new Date(editmatchDate).toDateString()
   }),
 });

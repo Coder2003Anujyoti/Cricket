@@ -4,6 +4,7 @@ import PlayerFirst from './PlayerFirst.jsx';
 import ComputerFirst from './ComputerFirst.jsx';
 import { motion } from "framer-motion";
 const Play = () => {
+ const [spot,setSpot]=useState(true)
   const [searchParams] = useSearchParams();
   const [oppositionteam,setOppositionteam]=useState("")
   const [oppos,setOppos]=useState([])
@@ -61,6 +62,14 @@ const Play = () => {
       setToss("Player");
     }
   }
+  useEffect(() => {
+  if (oppositionteam !== '' && oppositionplayers.length > 0) {
+    const timer = setTimeout(() => {
+      setSpot(false); 
+    }, 3000);
+    return () => clearTimeout(timer);
+  }
+}, [oppositionteam, oppositionplayers]);
   return (
     <>
          {load == true && <>
@@ -98,7 +107,79 @@ const Play = () => {
 </>
 }
 {
-  oppositionteam!='' && oppositionplayers.length>0 && choice==0 && <>
+  spot==true && oppositionteam!='' && oppositionplayers.length>0  && <>
+    <div className="fixed inset-0 bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center z-50 overflow-hidden">
+      {/* Moving spotlights */}
+      <motion.div
+        className="absolute w-[150%] h-[150%] bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent)]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+      />
+
+      {/* Lightning flash */}
+      <motion.div
+        className="absolute inset-0 bg-white"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{
+          repeat: Infinity,
+          duration: 0.2,
+          repeatDelay: 1.7
+        }}
+      />
+
+      {/* Spark particles */}
+      {Array.from({ length: 20 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-yellow-400 rounded-full"
+          initial={{
+            x: Math.random() * window.innerWidth - window.innerWidth / 2,
+            y: Math.random() * window.innerHeight - window.innerHeight / 2,
+            opacity: 0
+          }}
+          animate={{
+            y: [null, (Math.random() - 0.5) * 200],
+            opacity: [0, 1, 0]
+          }}
+          transition={{
+            duration: 1.5,
+            delay: Math.random() * 2,
+            repeat: Infinity
+          }}
+        />
+      ))}
+
+      {/* Logos + V/S */}
+      <div className="flex flex-col items-center gap-6 sm:gap-10 z-10">
+        <motion.img
+         src={`Logos/${teamId}.webp`}
+          className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 drop-shadow-[0_0_20px_gold]"
+          initial={{ x: -300, opacity: 0, rotate: -30 }}
+          animate={{ x: 0, opacity: 1, rotate: 0 }}
+          transition={{ duration: 1 }}
+        />
+        <motion.span
+          className="text-4xl sm:text-5xl md:text-6xl font-bold text-white glow"
+          initial={{ scale: 0 }}
+          animate={{ scale: [0, 1.3, 1] }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          V/S
+        </motion.span>
+        <motion.img
+          src={`Logos/${oppositionteam}.webp`}
+          className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 drop-shadow-[0_0_20px_skyblue]"
+          initial={{ x: 300, opacity: 0, rotate: 30 }}
+          animate={{ x: 0, opacity: 1, rotate: 0 }}
+          transition={{ duration: 1 }}
+        />
+      </div>
+    </div>
+  </>
+}
+{
+  oppositionteam!='' && oppositionplayers.length>0 && choice==0 && spot==false && <>
     <div className="flex flex-col gap-y-6 my-32">
    <div className="w-full flex flex-col justify-center text-center gap-y-6 my-2">
    <h1 className="font-bold text-yellow-400 ml-2 mr-2">Welcome to Quick Play</h1>

@@ -125,7 +125,7 @@ const handDelete = async() => {
     'Authorization': `Bearer ${token}`  // ✅ correctly placed
   },
   body: JSON.stringify({
-    challengeID:deletenewsID
+    challengeID:deletenewsID.trim()
   }),
 });
     const data=await response.json();
@@ -171,10 +171,10 @@ const handDelete = async() => {
     'Authorization': `Bearer ${token}`  // ✅ correctly placed
   },
   body: JSON.stringify({
-    name: tournamentName,
+    name: tournamentName.trim(),
     playerteam: userTeam.name,
     computerteam: computerTeam.name,
-    challengeID: matchID,
+    challengeID: matchID.trim(),
     time:new Date(matchDate).toDateString()
   }),
 });
@@ -508,6 +508,9 @@ onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter Challenge ID"
  {items.map((i)=>{
     return(<>
     <div className="w-72 h-72 bg-slate-800 flex flex-col rounded-md flex-wrap lg:w-96 lg:h-90 md:w-96 md:h-84">
+  <div className="w-full flex justify-end">
+  <h1 className="text-white text-xs mt-2 ml-2 mr-2 font-bold">{i.challengeID}</h1>
+  </div>
  <div className="w-full mt-2 flex flex-row">
  <div className="w-2/5 ml-2 gap-1 flex flex-col items-center justify-center">
  <img src={i.playerimage} className="w-auto h-auto" />
@@ -527,7 +530,9 @@ onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter Challenge ID"
 </div>
 <div className="flex flex-row justify-center gap-3 mt-4">
 { role!= "admin" && <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md"> Play</button>}
+<HashLink smooth to={`/leaderboard?id=${i.challengeID}`}>
   <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Leaderboard</button>
+</HashLink>
         </div>
     </div>
     </>)

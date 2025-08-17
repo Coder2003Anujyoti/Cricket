@@ -225,7 +225,7 @@ const histogramWickets = {
     </>
   }
  <div className="w-full flex justify-center items-center py-12">
-     <button className="p-4 rounded-lg text-lg text-slate-400 font-bold bg-slate-800">Match Summary</button>
+     <button className="p-4 rounded-lg text-base text-slate-400 font-bold bg-slate-800">Match Summary</button>
    </div>
   <div className="w-full flex justify-center items-center">
    <h1 className="text-lg font-bold text-slate-400">Scorecard</h1>

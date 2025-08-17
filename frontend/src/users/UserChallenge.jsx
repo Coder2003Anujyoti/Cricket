@@ -208,7 +208,9 @@ window.scrollTo({ top: 0, behavior: "smooth" });
   </HashLink>
 }
 { participate.includes(i.challengeID) &&
+<HashLink smooth to={`/userscore?id=${i.challengeID}`}>
 <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Score</button>
+</HashLink>
 }
 <HashLink smooth to={`/leaderboard?id=${i.challengeID}`}>
   <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Leaderboard</button>

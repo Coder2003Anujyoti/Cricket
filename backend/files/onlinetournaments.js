@@ -72,6 +72,7 @@ res.json({ total,tournaments_data: data,});
 router.get('/specifictournament',async(req,res)=>{
   const {id}=req.query
   const data=await TournamentsCollection.find({matchID:id})
+  console.log(data)
   return res.json({tournaments_data:data})
 })
 router.post('/addtournament',authenticateToken, authorizeRoles("admin"),async(req,res)=>{

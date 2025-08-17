@@ -156,8 +156,8 @@ const [newsSubload, setNewsSubload] = useState(false);
     'Authorization': `Bearer ${token}`  // ✅ correctly placed
   },
   body: JSON.stringify({
-    newsID:newsID,
-    content:content
+    newsID:newsID.trim(),
+    content:content.trim()
   }),
 });
     const data=await response.json();
@@ -198,7 +198,7 @@ const [newsSubload, setNewsSubload] = useState(false);
     'Authorization': `Bearer ${token}`  // ✅ correctly placed
   },
   body: JSON.stringify({
-    newsID:deletenewsID
+    newsID:deletenewsID.trim()
   }),
 });
     const data=await response.json();
@@ -238,8 +238,8 @@ const [newsSubload, setNewsSubload] = useState(false);
     'Authorization': `Bearer ${token}`  // ✅ correctly placed
   },
   body: JSON.stringify({
-    newsID:editnewsID,
-    content:editcontent
+    newsID:editnewsID.trim(),
+    content:editcontent.trim()
   }),
 });
     const data=await response.json();
