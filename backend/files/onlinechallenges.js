@@ -50,7 +50,8 @@ if (exists) {
       computerteam,
       playerimage,
       computerimage,
-      time
+      time,
+      players:[]
     });
     await newChallenge.save();
     res.status(201).json({ message: "Challenge added successfully", challenge: newChallenge });
@@ -107,7 +108,7 @@ router.get('/getchallenges', async (req, res) => {
   }
 });
 router.post('/addparticipatechallenge', async (req, res) => {
-  const {id,username,points} = req.body;
+  const {id,username,points,players} = req.body;
   try {
     const [user,challenge] = await Promise.all([
   UsersCollection.findOne({ username }),
@@ -122,6 +123,7 @@ router.post('/addparticipatechallenge', async (req, res) => {
     if (alreadyParticipated) {
       return res.status(400).json({ message: "User already participated in this challenge" });
     }
+  challenge.players=players;
   user.total+=points
   user.participation.push({
     id:challenge.challengeID,
@@ -131,7 +133,10 @@ router.post('/addparticipatechallenge', async (req, res) => {
   matchtime:challenge.time,
       score:points
   });
-    await user.save();
+  await Promise.all([
+  user.save(),
+  challenge.save()
+]);
     res.status(200).json({ message: "Participation added", user });
   } catch (error) {
     res.status(500).json({ error: error.message });

@@ -68,13 +68,13 @@ const computerswickets=yourteam.reduce((total,i)=>{
 const wicketMargin = Math.max(0, computerswickets - playerswickets);  
 const margin = runMargin + wicketMargin * 10; 
   if(winner===yourteam[0].team){
-   send_data({id:matchid,username:user,points:playertotals>=computertotals ? (100+margin) : 50})
+   send_data({id:matchid,username:user,points:playertotals>=computertotals ? (100+margin) : 50,players:yourteam.concat(opposteam)})
   }
  else if(winner===opposteam[0].team){
-     send_data({id:matchid,username:user,points:playertotals>=computertotals ? (100+margin) : 50})
+     send_data({id:matchid,username:user,points:playertotals>=computertotals ? (100+margin) : 50,players:yourteam.concat(opposteam)})
   }
   else{
-   send_data({id:matchid,username:user,points:playertotals>=computertotals ? (100+margin) : 50})
+   send_data({id:matchid,username:user,points:playertotals>=computertotals ? (100+margin) : 50,players:yourteam.concat(opposteam)})
   }
   setTimeout(()=>{
     setLoad(false)

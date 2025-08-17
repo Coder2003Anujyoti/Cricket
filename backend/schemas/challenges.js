@@ -6,7 +6,8 @@ const ChallengesSchema = new mongoose.Schema({
   playerimage: { type: String, default:""},
   computerimage: { type: String, default:""},
   name: { type: String, default:""},
-  time: { type: String, default:""}
+  time: { type: String, default:""},
+  players: { type: Array, default:[]}
 });
 const ChallengesCollection = mongoose.model('Challenges', ChallengesSchema);
 module.exports = ChallengesCollection;
