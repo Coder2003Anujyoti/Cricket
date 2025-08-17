@@ -9,6 +9,7 @@ const adminRoutes=require("./files/onlinetournaments.js")
 const newsRoutes=require("./files/showingnews.js")
 const chatsRoutes=require("./files/chats.js")
 const geminiRoutes=require("./files/gemini.js")
+const challengeRoutes=require("./files/onlinechallenges.js")
 const cors=require('cors');
 const app = express();
 const  connectDB = require('./db/config.js');
@@ -26,6 +27,7 @@ app.use(adminRoutes);
 app.use(newsRoutes);
 app.use(chatsRoutes)
 app.use(geminiRoutes)
+app.use(challengeRoutes)
 const server = http.createServer(app);
 const io = new Server(server, {
   cors: {

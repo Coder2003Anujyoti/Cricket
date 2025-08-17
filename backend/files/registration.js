@@ -304,8 +304,10 @@ router.post('/adddetails',async(req,res)=>{
 router.post('/addParticipation', async (req, res) => {
   const { username, participationEntry } = req.body;
   try {
-    const user = await UsersCollection.findOne({ username });
-    const tour=await TournamentsCollection.findOne({matchID:participationEntry.id})
+    const [user, tour] = await Promise.all([
+  UsersCollection.findOne({ username }),
+  TournamentsCollection.findOne({ matchID: participationEntry.id })
+]);
     if (!user) return res.status(404).json({ message: "User not found" });
     if(tour.hasStarted==true || tour.winner!=""){
       return res.status(404).json({ message: "Tournament already started" })
