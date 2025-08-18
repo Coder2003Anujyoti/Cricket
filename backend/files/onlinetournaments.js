@@ -7,6 +7,7 @@ const bodyParser=require('body-parser');
 const mongoose = require('mongoose');
 const TournamentsCollection= require('../schemas/tournaments');
 const NewsCollection= require('../schemas/news.js');
+const UsersCollection= require('../schemas/users.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware.js")
@@ -126,15 +127,32 @@ router.delete('/deletetournaments', authenticateToken, authorizeRoles('admin'), 
   }
 
   try {
-    const [deletedTournament, deletedNews] = await Promise.all([
+    const [deletedTournament, deletedNews,users] = await Promise.all([
       TournamentsCollection.findOneAndDelete({ matchID }),
-      NewsCollection.findOneAndDelete({ newsID: matchID })
+      NewsCollection.findOneAndDelete({ newsID: matchID }),
+       UsersCollection.find({ "participation.id": matchID })
     ]);
 
     if (!deletedTournament) {
       return res.status(404).json({ error: "Tournament not found." });
     }
-
+await Promise.all(
+  users.map(async (user) => {
+    let modified = false;
+    for (const p of user.participation) {
+      if (p.id === matchID) {
+        p.id=""
+        p.selected=[]
+        p.players=[]
+        modified = true;
+      }
+    }
+    if (modified) {
+      user.markModified("participation"); 
+      await user.save();
+    }
+  })
+);
     res.status(200).json({
       message: "Tournament and related news (if any) deleted successfully.",
       deleted_tournament: deletedTournament,

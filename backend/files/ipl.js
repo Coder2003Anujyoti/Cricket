@@ -34,10 +34,10 @@ const users = await UsersCollection.find({});
     users.map(async (user) => {
       let modified = false;
       for (const p of user.participation) {
-        if (Array.isArray(p.players) && p.players.length > 0) {
-          p.players = [];
-          modified = true;
-        }
+        p.id=""
+        p.selected=[]
+        p.players = [];
+      modified = true;
       }
       if (modified) {
         user.markModified("participation");

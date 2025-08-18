@@ -77,6 +77,7 @@ router.delete('/deletechallenge', authenticateToken, authorizeRoles('admin'), as
     let modified = false;
     for (const p of user.participation) {
       if (p.id === challengeID) {
+        p.id=""
         p.players = [];
         modified = true;
       }
