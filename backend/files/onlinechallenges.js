@@ -73,13 +73,20 @@ router.delete('/deletechallenge', authenticateToken, authorizeRoles('admin'), as
       return res.status(404).json({ error: "Challenge not found." });
     }
   await Promise.all(
-    users.map(async (user) => {
-  for (const p of user.participation) {
-   if (p.id === challengeID) {
-     p.players = [];  }}
-   await user.save();
-        })
-      );
+  users.map(async (user) => {
+    let modified = false;
+    for (const p of user.participation) {
+      if (p.id === challengeID) {
+        p.players = [];
+        modified = true;
+      }
+    }
+    if (modified) {
+      user.markModified("participation"); 
+      await user.save();
+    }
+  })
+);
     res.status(200).json({
       message: "Challenge deleted successfully.",
       deleted_challenge: deletedChallenge,
