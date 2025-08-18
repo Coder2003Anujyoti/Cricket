@@ -1,5 +1,6 @@
 import React,{useState,useEffect} from "react";
 import Fire from './Fire';
+import { motion } from "framer-motion";
 import { Bar } from "react-chartjs-2";
 import { Chart as ChartJS, BarElement, CategoryScale, LinearScale, Tooltip, Legend } from "chart.js";
 ChartJS.register(BarElement, CategoryScale, LinearScale, Tooltip, Legend);
@@ -98,17 +99,16 @@ const computerwickets=playerdata.reduce((total,i)=>{
   useEffect(()=>{
   if(winner===yourteam[0].team){
    //send_data({data:array},{winner:yourteam,loser:opposteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Winner",oppstatus:"Loser"})
-   setLoad(false)
   }
  else if(winner===opposteam[0].team){
    //send_data({data:array},{winner:opposteam,loser:yourteam,draw:false},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Loser",oppstatus:"Winner"})
-   setLoad(false)
   }
   else{
    // send_data({data:array},{winner:yourteam,loser:opposteam,draw:true},{team:yourteam[0].team,opposteam:opposteam[0].team,yourstatus:"Draw",oppstatus:"Draw"})
-    setLoad(false)
   }
-  
+  setTimeout(()=>{
+    setLoad(false)
+  },3000)
   },[])
   useEffect(()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -134,7 +134,6 @@ const computerwickets=playerdata.reduce((total,i)=>{
     localStorage.setItem('winlist',JSON.stringify([...winarray,{win:winner,player:yourteam[0].team,computer:opposteam[0].team}]))
     localStorage.setItem('winnerlist',JSON.stringify([...winnerarray,{win:winner,player:yourteam[0].team,computer:opposteam[0].team}]))
     localStorage.setItem('oppos',JSON.stringify(m));
-   setLoad(false)
   }
  else if(winner===opposteam[0].team){
    const m=teams.filter((i)=>i!=opposteam[0].team);
@@ -156,7 +155,6 @@ const computerwickets=playerdata.reduce((total,i)=>{
     localStorage.setItem('winlist',JSON.stringify([...winarray,{win:winner,player:yourteam[0].team,computer:opposteam[0].team}]))
     localStorage.setItem('winnerlist',JSON.stringify([...winnerarray,{win:winner,player:yourteam[0].team,computer:opposteam[0].team}]))
     localStorage.setItem('oppos',JSON.stringify(m));
-   setLoad(false)
   }
   else{
     if(winarray.length<9){
@@ -179,7 +177,6 @@ const computerwickets=playerdata.reduce((total,i)=>{
     localStorage.setItem('winlist',JSON.stringify([...winarray,{win:winner,player:yourteam[0].team,computer:opposteam[0].team}]))
     localStorage.setItem('winnerlist',JSON.stringify([...winnerarray,{win:winner,player:yourteam[0].team,computer:opposteam[0].team}]))
     localStorage.setItem('oppos',JSON.stringify(m));
-    setLoad(false)
     }
     else{
       const m=teams.filter((i)=>i!=opposteam[0].team);
@@ -200,7 +197,6 @@ const computerwickets=playerdata.reduce((total,i)=>{
   localStorage.setItem('user',JSON.stringify(roy));
     localStorage.setItem('winlist',JSON.stringify([...winarray,{win:winner,player:yourteam[0].team,computer:opposteam[0].team}]))
     localStorage.setItem('oppos',JSON.stringify(m));
-    setLoad(false)
     }
   }
   },[])
@@ -258,6 +254,78 @@ const histogramWickets = {
 },[])
   return (
     <>
+        {
+      load==true && <>
+    <div className="fixed inset-0 bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center z-50 overflow-hidden">
+      {/* Moving spotlights */}
+      <motion.div
+        className="absolute w-[150%] h-[150%] bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent)]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+      />
+
+      {/* Lightning flash */}
+      <motion.div
+        className="absolute inset-0 bg-white"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{
+          repeat: Infinity,
+          duration: 0.2,
+          repeatDelay: 1.7
+        }}
+      />
+
+      {/* Spark particles */}
+      {Array.from({ length: 20 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-yellow-400 rounded-full"
+          initial={{
+            x: Math.random() * window.innerWidth - window.innerWidth / 2,
+            y: Math.random() * window.innerHeight - window.innerHeight / 2,
+            opacity: 0
+          }}
+          animate={{
+            y: [null, (Math.random() - 0.5) * 200],
+            opacity: [0, 1, 0]
+          }}
+          transition={{
+            duration: 1.5,
+            delay: Math.random() * 2,
+            repeat: Infinity
+          }}
+        />
+      ))}
+
+      {/* Logos + V/S */}
+      <div className="flex flex-col items-center gap-6 sm:gap-10 z-10">
+        <motion.img
+        src={`Logos/${playerdata[0].team}.webp`}
+          className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 drop-shadow-[0_0_20px_gold]"
+          initial={{ x: -300, opacity: 0, rotate: -30 }}
+          animate={{ x: 0, opacity: 1, rotate: 0 }}
+          transition={{ duration: 1 }}
+        />
+        <motion.span
+          className="text-3xl sm:text-3xl md:text-6xl font-bold text-white glow"
+          initial={{ scale: 0 }}
+          animate={{ scale: [0, 1.3, 1] }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          V/S
+        </motion.span>
+        <motion.img
+          src={`Logos/${computerdata[0].team}.webp`}
+          className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 drop-shadow-[0_0_20px_skyblue]"
+          initial={{ x: 300, opacity: 0, rotate: 30 }}
+          animate={{ x: 0, opacity: 1, rotate: 0 }}
+          transition={{ duration: 1 }}
+        />
+      </div>
+    </div>
+      </>
+    }
 { load==false && <>
       { winnerarray.length===9 && <>
         <div className="w-full flex flex-col justify-center text-center gap-y-6 py-6">

@@ -78,7 +78,7 @@ const margin = runMargin + wicketMargin * 10;
   }
   setTimeout(()=>{
     setLoad(false)
-  },2000)
+  },3000)
   },[])
   const histogramOptions = {
   responsive: true,
@@ -188,7 +188,7 @@ const histogramWickets = {
           transition={{ duration: 1 }}
         />
         <motion.span
-          className="text-4xl sm:text-5xl md:text-6xl font-bold text-white glow"
+          className="text-3xl sm:text-3xl md:text-6xl font-bold text-white glow"
           initial={{ scale: 0 }}
           animate={{ scale: [0, 1.3, 1] }}
           transition={{ duration: 0.8, delay: 1 }}

@@ -122,7 +122,7 @@ const Playgame = () => {
       id.length<10 && choose===false && spot==false && <>
   <div className="flex flex-col gap-y-6 my-32">
    <div className="w-full flex flex-col justify-center text-center gap-y-6 my-2">
-   <h1 className="font-bold text-yellow-400 ml-2 mr-2">Welcome to One v/s One Series</h1>
+   <h1 className="font-bold text-yellow-400 ml-2 mr-2">Welcome to One v/s One League</h1>
         </div>
 <div className="flex flex-wrap gap-y-14  justify-center items-center text-white gap-x-10">
 <div className="flex flex-col items-center gap-y-4">
