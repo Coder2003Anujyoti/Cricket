@@ -109,8 +109,8 @@ const res = data.map((i) => {
       </div>
     )
 }
-{ items.filter((i) => i.participation.length > 0).length > 0 && <>
 <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-6">Team Leaderboard</h1>
+{ items.filter((i) => i.participation.length > 0).length > 0 && <>
       <div className="w-full text-center flex justify-center flex-col">
         {
           items.sort((a,b)=>b.participation[0].score-a.participation[0].score)

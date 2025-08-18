@@ -23,6 +23,9 @@ const get_data2=()=>{
 const get_role=()=>{
   return JSON.parse(sessionStorage.getItem("role"))
 }
+const get_close=()=>{
+  return JSON.parse(sessionStorage.getItem("userclose"))
+}
 const TeamList = () => {
 const token=get_data2()
   const role=get_role()
@@ -32,7 +35,7 @@ const [imageLoaded, setImageLoaded] = useState(false);
  const [value,setValue]=useState([]);
  const [isOpen, setIsOpen] = useState(false);
  const [logos,setLogos]=useState([])
- const [closed,setClosed]=useState(false)
+ const [closed,setClosed]=useState(()=>get_close()||false)
  const [toggle,setToggle]=useState(false);
  const scrollRef = useRef(null);
  const imageRef=useRef(null)
@@ -105,7 +108,9 @@ const get_data=async()=>{
 {/* Image Container */}
 <div className={`relative z-[101] max-w-[90%] max-h-[90%] ${imageLoaded ? 'block' : 'hidden'}`}>
   {/* Close Button */}
-  <button onClick={()=>setClosed(!closed)}
+  <button onClick={()=>{
+  sessionStorage.setItem("userclose",JSON.stringify(true))
+  setClosed(!closed)}}
     className={`absolute md:right-8 md:-top-2 -top-4 -right-4 bg-gray-900  text-white rounded-full px-3 py-2 shadow-lg text-center font-bold transition-all duration-200 ${imageLoaded ? 'flex' : 'hidden'} items-center justify-center`}>
     <FontAwesomeIcon icon={faTimes} className="text-lg text-white font-bold" />
   </button>

@@ -58,11 +58,7 @@ const computerwickets=playerdata.reduce((total,i)=>{
  }
   }
   useEffect(() => {
-  if (!load) return; // Don't run if already loaded
-  if (winner && motm && matchid) {
     socket.emit("adddata", { id: matchid, players: motm });
-
-    // Send to backend
     if (winner === yourteam[0].team) {
       send_data(
         { data: array },
@@ -102,8 +98,7 @@ const computerwickets=playerdata.reduce((total,i)=>{
     setLoad(false)
     window.scrollTo({ top: 0, behavior: "smooth" });
   },3000)
-  }
-}, [winner, motm, matchid]);
+}, []);
   const histogramOptions = {
   responsive: true,
   scales: {

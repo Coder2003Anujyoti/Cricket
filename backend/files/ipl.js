@@ -12,6 +12,8 @@ const { GFGCollection, Collection, ResultCollection }= require('../schemas/index
 const TournamentsCollection= require('../schemas/tournaments');
 const UsersCollection= require('../schemas/users.js');
 const NewsCollection= require('../schemas/news.js');
+const chs= require('../data/Challenges.json');
+const ChallengesCollection= require('../schemas/challenges.js');
 const news=require("../data/News.json")
 const users= require('../data/Users.json');
 const tours=require("../data/Tournaments.json")
@@ -26,7 +28,9 @@ const tours=require("../data/Tournaments.json")
   await TournamentsCollection.insertMany(tours);
     await NewsCollection.deleteMany();
     await NewsCollection.insertMany(news);
-}
+await ChallengesCollection.deleteMany();
+await ChallengesCollection.insertMany(chs);
+   }
 //addDataToMongodb();
 router.post("/resetdata", async (req, res) => {
   try {

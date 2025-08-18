@@ -29,6 +29,7 @@ export default function Login() {
   sessionStorage.removeItem("userpassword")
   sessionStorage.removeItem("user")
   sessionStorage.removeItem("role")
+  sessionStorage.removeItem("userclose")
   },[])
   const handSubmit = async () => {
     let valid = true;
@@ -142,8 +143,19 @@ window.scrollTo({ top: 0, behavior: "smooth" });
     </div>
   </>
   }
-
-   <div className="min-h-screen overflow-y-hidden flex items-center justify-center">
+<div className="absolute inset-0 w-full h-full overflow-hidden z-0">
+  <video
+    src="Icons/Cricket.webm"
+    autoPlay
+    loop
+    muted
+    playsInline
+    className="w-full h-full object-cover"
+  />
+  {/* Blur Overlay */}
+  <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
+</div>
+   <div className="min-h-screen relative z-10 overflow-y-hidden flex items-center justify-center">
          <Toaster
       position="top-center"
       toastOptions={{
@@ -151,7 +163,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         duration:2000,
       }}
     />
-  <div className="w-full my-28 lg:my-36 md:my-20 max-w-md max-h-full overflow-y-auto bg-slate-800 rounded-2xl shadow-lg p-8 flex flex-col items-center m-4">
+  <div className="w-full my-28 lg:my-36 md:my-20 max-w-md max-h-full overflow-y-auto rounded-2xl p-8 flex flex-col items-center m-4">
         <video
           src="Icons/movable.webm"
           autoPlay
@@ -191,7 +203,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
             </button>
           </div>
 
-          <button type="submit" disabled={lock} className="w-full py-2 mb-2  font-bold text-white bg-gray-900 rounded-md transition">
+          <button type="submit" disabled={lock} className="w-full py-2 mb-2  font-bold text-white bg-sky-600 rounded-md transition">
             {mode === 'login' ? 'Login' : mode === 'signup' ? 'Sign Up' : 'Reset Password'}
           </button>
         </form>
