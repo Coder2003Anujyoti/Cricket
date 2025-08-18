@@ -35,7 +35,6 @@ const users = await UsersCollection.find({});
       let modified = false;
       for (const p of user.participation) {
         if (Array.isArray(p.players) && p.players.length > 0) {
-          p.id=""
           p.players = [];
           modified = true;
         }
