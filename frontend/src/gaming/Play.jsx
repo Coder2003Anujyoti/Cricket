@@ -160,7 +160,7 @@ const Play = () => {
           transition={{ duration: 1 }}
         />
         <motion.span
-          className="text-4xl sm:text-5xl md:text-6xl font-bold text-white glow"
+          className="text-3xl sm:text-3xl md:text-6xl font-bold text-white glow"
           initial={{ scale: 0 }}
           animate={{ scale: [0, 1.3, 1] }}
           transition={{ duration: 0.8, delay: 1 }}
@@ -189,20 +189,14 @@ const Play = () => {
   <img src={items.filter((i,ind)=>ind==0).map((i)=>i.image)}  className="w-28 h-28" />
  <img src={`Logos/${teamId}.webp`} className="w-16 h-16" />
 </div>
-<motion.span
-  animate={{ scale: [1, 1.3, 1], opacity: [0.7, 1, 0.7] }}
-  transition={{ repeat: Infinity, duration: 1.2 }}
-  className="text-xl font-bold bg-gradient-to-r from-cyan-500 to-blue-500 bg-clip-text text-transparent"
->
-  V/S
-</motion.span>
+<h1 className="text-base font-bold text-white">V/S </h1>
   <div className="flex flex-col items-center gap-y-4">
  <img src={oppos.filter((i,ind)=>ind==0).map((i)=>i.image)} loading="lazy"  className="w-28 h-28" />
   <img src={`Logos/${oppositionteam}.webp`}  className="w-16 h-16" />
  </div>
  </div>
  <div className="w-full flex justify-center items-center">
-  <button onClick={()=>setChoice(1)} className="text-sm  text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Start Playing</button>
+  <button onClick={()=>setChoice(1)} className="text-sm  text-white font-bold px-4 py-3 bg-sky-600 rounded-md">Start Playing</button>
   </div>
  </div>
   </>

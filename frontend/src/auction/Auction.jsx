@@ -345,12 +345,12 @@ const localremove=()=>{
 {
   playerteam!='' && computerteam!='' && retaincount===0  && <>
          <div className="flex p-4 my-24 flex-col justify-center items-center text-center gap-4">
-     <h1 className="text-lg text-green-400 font-bold">Mode of Play</h1>
+     <h1 className="text-lg text-white font-bold">Mode of Play</h1>
            <div className="w-full py-2 flex-row flex-wrap gap-x-8 flex justify-center items-center text-center">
-    <div className="py-4 flex-col items-center flex-wrap flex  justify-center"><button onClick={make_team} className="text-sm text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Start Game</button></div>
+    <div className="py-4 flex-col items-center flex-wrap flex  justify-center"><button onClick={make_team} className="text-sm  text-white font-bold px-4 py-3 bg-sky-600 rounded-md">Start Game</button></div>
         <div className="py-4 flex-col items-center flex-wrap flex  justify-center"><button onClick={()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
-      setRetaincount(3)}} className="text-sm text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Auction Mode</button></div>
+      setRetaincount(3)}} className="text-sm  text-white font-bold px-4 py-3 bg-sky-600 rounded-md">Auction Mode</button></div>
   </div>
     <h2 className="font-bold text-sm text-yellow-400">*In Start Game there is predefined set of players and you need not participate in auction.</h2>
    <h2 className="font-bold text-sm text-yellow-400">*In Auction Mode you need to buy players and you need to buy players from auction.</h2>

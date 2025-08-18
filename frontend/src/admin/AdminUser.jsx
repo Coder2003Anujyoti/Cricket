@@ -248,8 +248,10 @@ This version focuses purely on the display of player names, ideal for an app whe
         <ul className="mt-4 flex flex-row flex-wrap justify-center gap-x-6 gap-y-4">
         {teams.map((i)=>{
           return(<>
+       <Link to={`/history?team=${i}`}>
           <li>
 <img className="w-12 h-12" src={`Logos/${i}.webp`}/></li>
+</Link>
           </>)
         })}
         </ul>

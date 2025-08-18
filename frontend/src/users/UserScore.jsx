@@ -164,7 +164,7 @@ const histogramWickets = {
      <div  className="relative w-full bg-slate-800 flex items-center lg:hidden md:px-4 md:py-3 justify-between p-2  z-50">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
   </div>
-<div className="w-full flex mt-4 justify-center items-center">
+<div className="w-full flex flex-col mt-4 justify-center items-center">
       <div className="w-full flex flex-col  rounded-md flex-wrap lg:w-96 lg:h-90 md:w-96 md:h-84">
  <div className="w-full mt-2 flex flex-row">
  <div className="w-2/5 ml-2 gap-1 flex flex-col items-center justify-center">
@@ -179,6 +179,10 @@ const histogramWickets = {
   <img src={`Logos/${items[0].computerteam}.webp`} className="w-12 h-12"/>
  </div>
     </div>
+</div>
+<div className="w-full text-center text-white font-bold flex-col text-center">
+<h1 className="text-sm">{items[0].matchname}</h1>
+<p className="text-xs">{items[0].matchtime}</p>
 </div>
 </div>
     {playertotal!=computertotal && 

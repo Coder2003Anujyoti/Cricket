@@ -261,7 +261,7 @@ const barChartData = {
   <div className="my-6">
     <button
       onClick={() => setShowCelebration(false)}
-      className="text-sm text-white font-extrabold px-6 py-3 bg-orange-600 rounded-lg"
+      className="text-sm  text-white font-bold px-4 py-3 bg-sky-600 rounded-md"
     >
       Start Playing
     </button>
@@ -321,7 +321,7 @@ const barChartData = {
   <div className="w-full flex justify-center mt-12">
     <button
       onClick={() => setShowCelebration(false)}
-      className="text-sm text-white font-extrabold px-6 py-3 bg-orange-600 rounded-tl-lg rounded-tr-lg rounded-bl-lg"
+      className="text-sm  text-white font-bold px-4 py-3 bg-sky-600 rounded-md"
     >
       Start Playing
     </button>
@@ -490,7 +490,7 @@ const barChartData = {
     </div>
     </>}
     <div className="w-full py-2 my-8 flex-col flex justify-center items-center text-center">
-    <div className="w-full py-4 flex-col items-center flex-wrap flex  justify-center"><button onClick={remove} className="text-sm text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">New Tournament</button></div>
+    <div className="w-full py-4 flex-col items-center flex-wrap flex  justify-center"><button onClick={remove} className="text-sm  text-white font-bold px-4 py-3 bg-sky-600 rounded-md">New Tournament</button></div>
   </div>
       <footer className="bg-black text-white">
       <div className="w-full flex justify-center  text-center flex-col p-4 mt-4">

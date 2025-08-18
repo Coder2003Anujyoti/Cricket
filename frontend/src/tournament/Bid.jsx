@@ -594,14 +594,14 @@ it.players.map((i)=>{
 {
   playerteam!='' && retains.length>0 && retaincount===0 && open==false && <>
          <div className="flex p-4 my-24 flex-col justify-center items-center text-center gap-4">
-     <h1 className="text-lg text-green-400 font-bold">Mode of Auction</h1>
+     <h1 className="text-lg text-white font-bold">Mode of Auction</h1>
            <div className="w-full py-2 flex-row flex-wrap gap-x-8 flex justify-center items-center text-center">
     <div className="py-4 flex-col items-center flex-wrap flex  justify-center"><button onClick={()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
-    setOpen(true)}} className="text-sm text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Mini Auction</button></div>
+    setOpen(true)}} className="text-sm  text-white font-bold px-4 py-3 bg-sky-600 rounded-md">Mini Auction</button></div>
         <div className="py-4 flex-col items-center flex-wrap flex  justify-center"><button onClick={()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
-      setRetaincount(3)}} className="text-sm text-white font-extrabold p-4 bg-orange-600 rounded-bl-lg rounded-tl-lg rounded-tr-lg">Mega Auction</button></div>
+      setRetaincount(3)}} className="text-sm  text-white font-bold px-4 py-3 bg-sky-600 rounded-md">Mega Auction</button></div>
   </div>
     <h2 className="font-bold text-sm text-yellow-400">*In Mega Auction you need to buy all 15 players and there is no chance to retain any player.</h2>
    <h2 className="font-bold text-sm text-yellow-400">*In Mini Auction you need to buy players and there is having chance to retain 3 or less than 3 players.</h2>

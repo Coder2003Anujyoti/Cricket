@@ -65,15 +65,25 @@ router.delete('/deletechallenge', authenticateToken, authorizeRoles('admin'), as
     return res.status(400).json({ error: "challengeID is required." });
   }
   try {
-    const [deletedChallenge] = await Promise.all([
-      ChallengesCollection.findOneAndDelete({ challengeID })
+    const [deletedChallenge,users] = await Promise.all([
+      ChallengesCollection.findOneAndDelete({ challengeID }),
+      UsersCollection.find({ "participation.id": challengeID })
     ]);
     if (!deletedChallenge) {
       return res.status(404).json({ error: "Challenge not found." });
     }
+  await Promise.all(
+    users.map(async (user) => {
+  for (const p of user.participation) {
+   if (p.id === challengeID) {
+     p.players = [];  }}
+   await user.save();
+        })
+      );
     res.status(200).json({
       message: "Challenge deleted successfully.",
-      deleted_challenge: deletedChallenge
+      deleted_challenge: deletedChallenge,
+      users_updated: users.length
     });
   } catch (error) {
     res.status(500).json({ error: "Server error" });
