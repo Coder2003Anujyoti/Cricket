@@ -264,7 +264,7 @@ return(<>
   mode=="guidelines" && <>
 <ul className="text-yellow-400 text-sm list-disc pl-5 space-y-4 my-8 ml-2 mr-4 font-semibold">
   <li>
-    For searching latest news and tournaments just write <strong>latest news</strong> and <strong>latest tournaments</strong>.
+    For searching latest news and tournaments just write <strong>latest news</strong> and <strong>latest tournament</strong>.
   </li>
   <li>
     For searching news, team stats and tournaments based on any team — for example: 
