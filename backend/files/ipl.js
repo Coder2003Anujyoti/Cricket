@@ -15,7 +15,6 @@ const NewsCollection= require('../schemas/news.js');
 const chs= require('../data/Challenges.json');
 const ChallengesCollection= require('../schemas/challenges.js');
 const news=require("../data/News.json")
-const users= require('../data/Users.json');
 const tours=require("../data/Tournaments.json")
    const addDataToMongodb = async() => {
     await GFGCollection.deleteMany();
@@ -30,6 +29,22 @@ const tours=require("../data/Tournaments.json")
     await NewsCollection.insertMany(news);
 await ChallengesCollection.deleteMany();
 await ChallengesCollection.insertMany(chs);
+const users = await UsersCollection.find({});
+  await Promise.all(
+    users.map(async (user) => {
+      let modified = false;
+      for (const p of user.participation) {
+        if (Array.isArray(p.players) && p.players.length > 0) {
+          p.players = [];
+          modified = true;
+        }
+      }
+      if (modified) {
+        user.markModified("participation");
+        await user.save();
+      }
+    })
+  );
    }
 //addDataToMongodb();
 router.post("/resetdata", async (req, res) => {
