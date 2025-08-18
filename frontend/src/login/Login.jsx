@@ -145,7 +145,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
   }
 <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
   <video
-    src="Icons/Cricket.webm"
+    src="Icons/Crickets.webm"
     autoPlay
     loop
     muted
