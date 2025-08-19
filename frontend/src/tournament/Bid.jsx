@@ -605,7 +605,7 @@ it.players.map((i)=>{
   </div>
     <h2 className="font-bold text-sm text-yellow-400">*In Mega Auction you need to buy all 15 players and there is no chance to retain any player.</h2>
    <h2 className="font-bold text-sm text-yellow-400">*In Mini Auction you need to buy players and there is having chance to retain 3 or less than 3 players.</h2>
-     <h2 className="font-bold text-sm text-yellow-400">*In Reset Game you reset the game and along with the players it resets the tournament data.</h2>
+     <h2 className="font-bold text-sm text-yellow-400">*In Restart Game you reset the game and along with the players it resets the tournament data.</h2>
 {original===false && <> <div className="py-4 flex-col items-center flex-wrap flex  justify-center"><button onClick={clears} className="text-sm  text-white font-bold px-4 py-3 bg-sky-600 rounded-md">Restart Game</button></div> </>}
   </div>
   </>
