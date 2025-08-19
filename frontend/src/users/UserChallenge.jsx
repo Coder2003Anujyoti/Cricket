@@ -3,6 +3,7 @@ import { FaArrowUp } from "react-icons/fa";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   faMagnifyingGlass,
   faSignOutAlt,
@@ -48,6 +49,7 @@ const UserChallenge = () => {
   const role=get_role()
   const name=get_name()
   const [participate,setParticipate]=useState([])
+  const [selectedTeams, setSelectedTeams] = useState([]);
   const [isOpen, setIsOpen] = useState(false);
   const [items,setItems]=useState([])
   const [loading,setLoading]=useState(true)
@@ -55,6 +57,15 @@ const UserChallenge = () => {
    const [offset,setOffset]=useState(0)
 const [limit,setLimit]=useState(5)
 const [len,setLen]=useState(-1)
+const teams = ["Mi", "Csk", "Rr", "Kkr", "Gt", "Pbks", "Rcb", "Lsg", "Dc", "Srh"];
+
+  const handleSelect = (team) => {
+    if (selectedTeams.includes(team)) {
+      setSelectedTeams(selectedTeams.filter((t) => t !== team));
+    } else {
+      setSelectedTeams([...selectedTeams, team]);
+    }
+  };
    const location = useLocation();
    const show_data=async()=>{
     try{
@@ -178,10 +189,23 @@ window.scrollTo({ top: 0, behavior: "smooth" });
     </div>
   )}
 </div>
+{
+  items.length>0 && <>
+  <div className="overflow-x-auto scroll-smooth px-3 py-4 my-4 lg:flex lg:justify-center lg:items-center lg:py-6">
+<div className="flex gap-4 w-max md:justify-center md:items-center lg:gap-10">
+{teams.map((team) => (
+<div key={team} onClick={() => handleSelect(team)} className="relative cursor-pointer">
+<img src={`Logos/${team}.webp`} className="w-16 h-16 p-2 rounded-full border border-slate-800 lg:w-24 lg:h-24" />
+{selectedTeams.includes(team) && (
+<FontAwesomeIcon icon={faCheckCircle} className="absolute top-0 right-0 text-green-500 bg-white rounded-full" size="lg"/>)}
+</div>))}</div></div>
+  </>
+}
   <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Ongoing Challenges</h1>
   { items.length>0 && <>
  <div className="flex flex-col ml-2 mr-2 gap-4 my-4 justify-center items-center lg:px-20 md:justify-center md:items-center md:py-3 lg:ml-16 lg:gap-10 lg:items-start lg:justify-start lg:flex-row lg:flex-wrap">
  {items.map((i)=>{
+  if(selectedTeams.length === 0 || selectedTeams.includes(i.playerteam) || selectedTeams.includes(i.computerteam)){
     return(<>
     <div className="w-72 h-72 bg-slate-800 flex flex-col rounded-md flex-wrap lg:w-96 lg:h-90 md:w-96 md:h-84">
  <div className="w-full mt-2 flex flex-row">
@@ -218,6 +242,10 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         </div>
     </div>
     </>)
+    }
+    else{
+      return null
+    }
   })}
   </div>
 </>}
@@ -226,7 +254,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
     <h1 className="font-bold text-white text-center my-48">No Challenges Found</h1>
 }
                 {
-        offset<len && <>
+  offset<len  && selectedTeams.length==0  && <>
         {
           subload==false && <>
       <div className="w-full flex justify-center">
