@@ -358,7 +358,7 @@ const handle=async(icon)=>{
     }
   </div>
   </div>
-{ raul!=="admin" && <>
+{ (raul==="admin" || raul=="user") && <>
   <div className="w-full flex flex-col justify-center items-center my-6 md:hidden">
        <h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6">Ongoing Participations</h1>
 { items[0].participation.length>0  && <>
@@ -415,7 +415,7 @@ const handle=async(icon)=>{
   </div></>}
   {
     raul=="admin" && <>
-  <div className="w-full flex items-center p-4 justify-center md:justify-start my-6 md:ml-6 md:mt-6 gap-4 md:hidden">
+  <div className="w-full flex items-center p-4 justify-center md:justify-start  md:ml-6 md:mt-6 gap-4 md:hidden">
   <button onClick={()=>{
   setDeletestats(true)}}
     className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition">

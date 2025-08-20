@@ -32,7 +32,7 @@ router.post('/signup', async (req, res) => {
   if (existing) return res.status(400).json({ error: 'User already exists' });
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new UsersCollection({ username, password, hasheduserpassword:hashedPassword, role: 'user',total:0, icon,
-    participation}); 
+    participation,rooms:[]}); 
   await user.save();
   return res.json({ message: 'User registered', user: { username: user.username, role: user.role } });
 })
@@ -181,6 +181,9 @@ router.get('/allusers', async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
+router.get('/getrooms',async(req,res)=>{
+  
+})
 router.get('/specificuser', async (req, res) => {
   const { id, name } = req.query;
 
@@ -319,6 +322,59 @@ router.post('/addParticipation', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+router.get("/getrooms", async (req, res) => {
+  try {
+    const { username } = req.query;
+    if (!username) {
+      return res.status(400).json({ error: "username is required" });
+    }
+    const user = await UsersCollection.findOne(
+      { username },
+      { participation: 0 } );
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.json(user);
+  } catch (err) {
+    console.error("Error fetching rooms:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+router.post("/addroom", async (req, res) => {
+  try {
+    const { player, computer, playerteam, computerteam } = req.body;
+    if (!player || !computer || !playerteam || !computerteam) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+    const baseRoom = {
+      player,
+      computer,
+      playerteam,
+      computerteam,
+      createdAt: new Date()
+    };
+    const [playerUser, computerUser] = await Promise.all([
+      UsersCollection.findOne({ username: player }),
+      UsersCollection.findOne({ username: computer })
+    ]);
 
+    if (!playerUser || !computerUser) {
+      return res.status(404).json({ error: "One or both users not found" });
+    }
+    playerUser.rooms.unshift({ ...baseRoom, created: player }); 
+    if (playerUser.rooms.length > 5) {
+      playerUser.rooms.pop();
+    }
+    computerUser.rooms.unshift({ ...baseRoom, created: computer }); 
+    if (computerUser.rooms.length > 5) {
+      computerUser.rooms.pop(); 
+    }
+    await Promise.all([playerUser.save(), computerUser.save()]);
+    res.json({ message: "Room added successfully" });
+  } catch (err) {
+    console.error("Error adding room:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 //Export
 module.exports = router;

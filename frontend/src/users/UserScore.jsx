@@ -1,5 +1,6 @@
 import React,{useEffect,useState} from "react";
 import Fire from './Fire';
+import { motion } from "framer-motion";
 import { useSearchParams } from "react-router-dom";
 import { FaArrowUp } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -44,6 +45,8 @@ const [playerwicket, setPlayerwicket] = useState(0);
 const [computerwicket, setComputerwicket] = useState(0);
 const [motm, setMotm] = useState([]);
 const matchID=searchParams.get("id")
+const pteam=searchParams.get("player")
+const cteam=searchParams.get("computer")
 const histogramOptions = {
   responsive: true,
   scales: {
