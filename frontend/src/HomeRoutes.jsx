@@ -9,6 +9,7 @@ import AdminUser from "./admin/AdminUser.jsx"
 import UserUser from "./users/UserUser.jsx"
 import AdminPlay from "./liveplay/AdminPlay.jsx"
 import OnlineScore from "./score/OnlineScore.jsx"
+import OnlineDual from "./online/OnlineDual.jsx"
 import LeaderBoard from "./score/LeaderBoard.jsx"
 import AllLeaderBoard from "./score/AllLeaderBoard.jsx"
 import AllTournaments from "./score/AllTournaments.jsx"
@@ -42,6 +43,7 @@ const HomeRoutes = () => {
       <Route path="/leaderboard" element={<Warning><Protected><LeaderBoard/></Protected></Warning>} />
       <Route path="/loginprofile" element={<Protected><Profile/></Protected>} />
  <Route path="/online" element={<Warning><Protected><Online /></Protected></Warning>} />
+  <Route path="/onlinedual" element={<Warning><Protected><OnlineDual /></Protected></Warning>} />
   <Route path="/profilehistory" element={<Warning><Protected><ProfileHistory /></Protected></Warning>} />
 <Route path="/allleaderboard" element={<Warning><Protected><AllLeaderBoard /></Protected></Warning>} />
 <Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />

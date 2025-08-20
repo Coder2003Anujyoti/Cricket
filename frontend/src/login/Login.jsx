@@ -92,6 +92,7 @@ if ( username.trim() === "" || password.trim() === "" || username.trim().length>
       }
     if (mode === "login" && response.ok) {
   login({ username: data.username });
+  window.scrollTo(0, 0);
     navigate("/",{ replace: true })
   sessionStorage.setItem("token",data.token)
   sessionStorage.setItem("username",JSON.stringify(data.username))
@@ -119,6 +120,11 @@ useEffect(()=>{
 window.scrollTo({ top: 0, behavior: "smooth" });
   toast.dismiss();
 },[])
+useEffect(()=>{
+if(mode=="login"){
+window.scrollTo({ top: 0, behavior: "smooth" });
+}
+},[mode])
   return (
   <>
   { closed==false && <>

@@ -430,7 +430,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         placeholder="Enter Tournament Name"
         className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none"
         value={tournamentName}
-        onChange={(e) => setTournamentName(e.target.value)}
+        onChange={(e) => setTournamentName(e.target.value.replace(/\s/g,""))}
       />
 
       <input
@@ -438,7 +438,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         placeholder="Enter Match ID"
         className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"
         value={matchID}
-        onChange={(e) => setMatchID(e.target.value)}
+        onChange={(e) => setMatchID(e.target.value.replace(/\s/g,""))}
       />
       <div className="relative md:hidden">
   {!matchDate && (
@@ -566,7 +566,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
         placeholder="Enter Match ID"
         className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"
         value={editmatchID}
-        onChange={(e) => setEditmatchID(e.target.value)}
+        onChange={(e) => setEditmatchID(e.target.value.replace(/\s/g,""))}
       />
 <div className="relative md:hidden">
   {!editmatchDate && (
@@ -605,7 +605,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
     <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl  space-y-6">
 <h2 className="text-xl font-bold text-center text-white ">Delete Tournament</h2>
 <input type="text" value={deletenewsID}
-onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter Match ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
+onChange={(e)=>setDeletenewsID(e.target.value.replace(/\s/g,""))} placeholder="Enter Match ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
 <button disabled={deletelock} onClick={handleDelete} className="w-full bg-slate-800 text-white font-bold  py-2 px-4 rounded-md  transition duration-300">
       Delete
       </button>

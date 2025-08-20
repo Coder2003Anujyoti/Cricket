@@ -345,7 +345,7 @@ router.get("/getprofilerooms", async (req, res) => {
     res.status(500).json({ error: "Internal server error" });
   }
 });
-router.post("/addroom", async (req, res) => {
+router.post("/addprofilerooms", async (req, res) => {
   try {
     const { player, computer, playerteam, computerteam } = req.body;
     if (!player || !computer || !playerteam || !computerteam) {

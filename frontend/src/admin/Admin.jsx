@@ -521,8 +521,8 @@ const handleEdit= () => {
 <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl md:shadow-lg space-y-6">
 <h2 className="text-xl font-bold text-center text-white">Create Announcement</h2>
 <input type="text" value={newsID}
-onChange={(e)=>setNewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
-<textarea style={{ resize: "none" }} value={content} onChange={(e)=>setContent(e.target.value)} placeholder="Enter Announcement"
+onChange={(e)=>setNewsID(e.target.value.replace(/\s/g,""))} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
+<textarea style={{ resize: "none" }} value={content} onChange={(e)=>setContent(e.target.value.replace(/\s/g,""))} placeholder="Enter Announcement"
 className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none"/>
 <button disabled={lock} onClick={handleSubmit} className="w-full bg-slate-800 text-white font-bold py-2 px-4 rounded-md transition duration-300">
         Create
@@ -531,7 +531,7 @@ className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm 
 <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl space-y-6">
 <h2 className="text-xl font-bold text-center text-white">Delete Announcement</h2>
 <input type="text" value={deletenewsID}
-onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
+onChange={(e)=>setDeletenewsID(e.target.value.replace(/\s/g,""))} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
 <button disabled={deletelock} onClick={handleDelete} className="w-full bg-slate-800 text-white font-bold py-2 px-4 rounded-md transition duration-300">
       Delete
       </button>
@@ -543,7 +543,7 @@ onChange={(e)=>setDeletenewsID(e.target.value)} placeholder="Enter News ID" clas
   <div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl space-y-6">
 <h2 className="text-xl font-bold text-center text-white">Edit Announcement</h2>
 <input type="text" value={editnewsID}
-onChange={(e)=>setEditnewsID(e.target.value)} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
+onChange={(e)=>setEditnewsID(e.target.value.replace(/\s/g,""))} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
 <textarea value={editcontent} style={{ resize: "none" }} onChange={(e)=>setEditcontent(e.target.value)} placeholder="Enter Announcement"
 className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none"/>
 <button disabled={editlock} onClick={handleEdit} className="w-full bg-slate-800 text-white font-bold  py-2 px-4 rounded-md transition duration-300">

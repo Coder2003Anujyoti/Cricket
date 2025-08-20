@@ -2,13 +2,16 @@ import React,{useState,useEffect,useRef} from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaPaperPlane } from 'react-icons/fa';
 import { FaArrowUp } from "react-icons/fa";
 import {HashLink} from 'react-router-hash-link'
+import { useSearchParams } from "react-router-dom";
+import { motion } from "framer-motion";
 import {socket} from "../socket/socket"
 const get_name=()=>{
   return JSON.parse(sessionStorage.getItem("username"))
 }
-const Handcricket = () => {
+const OnlineDual = () => {
 const name=get_name()
-const [load,setLoad]=useState(false)
+const [searchParams] = useSearchParams();
+const [load,setLoad]=useState(true)
 const [text,setText]=useState("")
 const [msg,setMsg]=useState("")
 const [start,setStart]=useState(false)
@@ -20,7 +23,16 @@ const buttons=[1,2,3,4,5,6]
 const inactivityTimeout = useRef(null);
 const countdownInterval = useRef(null);
 const [timer, setTimer] = useState(20);
-const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
+const teamicons=[{team:"Csk",image:"Csk/Gaikwad.webp"},{team:"Dc",image:"Dc/Pant.webp"},{team:"Kkr",image:"Kkr/S.Iyer.webp"},{team:"Mi",image:"Mi/Hardik.webp"},{team:"Rr",image:"Rr/Samson.webp"},{team:"Gt",image:"Gt/Gill.webp"},{team:"Pbks",image:"Pbks/Dhawan.webp"},{team:"Rcb",image:"Rcb/Duplesis.webp"},{team:"Srh",image:"Srh/Cummins.webp"},{team:"Lsg",image:"Lsg/KL Rahul.webp"}]
+const id = searchParams.get("id");
+const admin=searchParams.get("player");
+const adminteam=searchParams.get("playerteam");
+const idteam = searchParams.get("computerteam");
+useEffect(()=>{
+  setTimeout(()=>{
+    setLoad(false)
+  },3000)
+},[])
   const triggerInactivity = () => {
     setImp('Connection issues...');
     socket.disconnect()
@@ -49,16 +61,16 @@ useEffect(()=>{
    window.scrollTo({ top: 0, behavior: "smooth" });
  },[])
   useEffect(() => {
-    socket.on('wait', (message) => {
+    socket.on('dualwait', (message) => {
     setMsg(message);
   });
 
-  socket.on('startGame', (message) => {
+  socket.on('dualstartGame', (message) => {
     setStart(true);
     setMsg("")
     setData(message);
   });
-  socket.on('choiceturn',(ms)=>{
+  socket.on('dualchoiceturn',(ms)=>{
     if(ms=="Your Turn"){
     setMsg(ms)
     setOpt(0)
@@ -71,22 +83,22 @@ useEffect(()=>{
     setTimer(0)
     }
   })
-  socket.on('makescore',(mesg)=>{
+  socket.on('dualmakescore',(mesg)=>{
   if(mesg.game.result!=''){
   clearInterval(countdownInterval.current);
     clearTimeout(inactivityTimeout.current);
   }
     setData(mesg)
   })
-  socket.on('Left',(mseg)=>{
+  socket.on('dualLeft',(mseg)=>{
   clearInterval(countdownInterval.current);
   clearTimeout(inactivityTimeout.current);
     setImp(mseg)
   
   })
   return () => {
-    socket.off('wait')
-    socket.off('Left')
+    socket.off('dualwait')
+    socket.off('dualLeft')
     socket.disconnect()// Clean up
     clearInterval(countdownInterval.current);
     clearTimeout(inactivityTimeout.current);
@@ -102,15 +114,15 @@ useEffect(() => {
     socket.connect();
   }
 }, []);
-const add_Name=(i)=>{
+const add_Name=(i,it)=>{
   if (disable==false) {
-  socket.emit('joinRoom', {name:name,team:i});
+  socket.emit('dualjoinRoom', {name:name,team:i,player:it});
     setDisable(true)
     }
 }
 const optio=(i)=>{
   if(opt==0){
-   socket.emit('gomove',i)
+   socket.emit('dualgomove',i)
   clearInterval(countdownInterval.current);
   clearTimeout(inactivityTimeout.current);
   setOpt(i)
@@ -119,22 +131,115 @@ const optio=(i)=>{
 
   return (
   <>
+       {load == true && <>
+    <div className="fixed inset-0 bg-gradient-to-b from-black via-gray-900 to-black flex items-center justify-center z-50 overflow-hidden">
+      {/* Moving spotlights */}
+      <motion.div
+        className="absolute w-[150%] h-[150%] bg-[radial-gradient(circle,rgba(255,255,255,0.08),transparent)]"
+        animate={{ rotate: 360 }}
+        transition={{ duration: 8, repeat: Infinity, ease: "linear" }}
+      />
+
+      {/* Lightning flash */}
+      <motion.div
+        className="absolute inset-0 bg-white"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: [0, 1, 0] }}
+        transition={{
+          repeat: Infinity,
+          duration: 0.2,
+          repeatDelay: 1.7
+        }}
+      />
+
+      {/* Spark particles */}
+      {Array.from({ length: 20 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-1 h-1 bg-yellow-400 rounded-full"
+          initial={{
+            x: Math.random() * window.innerWidth - window.innerWidth / 2,
+            y: Math.random() * window.innerHeight - window.innerHeight / 2,
+            opacity: 0
+          }}
+          animate={{
+            y: [null, (Math.random() - 0.5) * 200],
+            opacity: [0, 1, 0]
+          }}
+          transition={{
+            duration: 1.5,
+            delay: Math.random() * 2,
+            repeat: Infinity
+          }}
+        />
+      ))}
+
+      {/* Logos + V/S */}
+      <div className="flex flex-col items-center gap-6 sm:gap-10 z-10">
+        <motion.img
+         src={`Logos/${adminteam}.webp`}
+          className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 drop-shadow-[0_0_20px_gold]"
+          initial={{ x: -300, opacity: 0, rotate: -30 }}
+          animate={{ x: 0, opacity: 1, rotate: 0 }}
+          transition={{ duration: 1 }}
+        />
+        <motion.span
+          className="text-3xl sm:text-3xl md:text-6xl font-bold text-white glow"
+          initial={{ scale: 0 }}
+          animate={{ scale: [0, 1.3, 1] }}
+          transition={{ duration: 0.8, delay: 1 }}
+        >
+          V/S
+        </motion.span>
+        <motion.img
+          src={`Logos/${idteam}.webp`} 
+          className="w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 drop-shadow-[0_0_20px_skyblue]"
+          initial={{ x: 300, opacity: 0, rotate: 30 }}
+          animate={{ x: 0, opacity: 1, rotate: 0 }}
+          transition={{ duration: 1 }}
+        />
+      </div>
+    </div>
+  </>}
   { load==false && <>
 { start===false && imp=='' && <>
 { msg=='' && 
 <>
-<div className="w-full mt-2 flex justify-center">
-   <h1 className="text-green-400 text-2xl font-bold shadow-green-400">Select your Team</h1></div>
-<div className="w-full mt-4 flex flex-wrap gap-x-6 gap-y-4 items-center justify-center  p-2 flex-row">
-  {teams.map((i)=>{
-  return(
-  <div className="text-center rounded-lg  bg-slate-800" onClick={()=>add_Name(i)}>
-    <img src={`Logos/${i}.webp`} className="w-24 h-24"></img>
-    <h4 className="text-lg text-slate-400 font-bold">{i.toUpperCase()}</h4>
+ <div className="flex flex-col ml-2 mr-2 gap-4 my-4 justify-center items-center lg:px-20 md:justify-center md:items-center md:py-3 lg:ml-16 lg:gap-10 lg:items-start lg:justify-start lg:flex-row lg:flex-wrap">
+    <div className="w-72 h-54 p-2 flex flex-col rounded-md flex-wrap lg:w-96 lg:h-90 md:w-96 md:h-84">
+ <div className="w-full mt-2 flex flex-row">
+ <div className="w-2/5 ml-2 gap-1 flex flex-col items-center justify-center">
+ <img src={teamicons.filter((it)=>it.team==adminteam)[0].image} className="w-auto h-auto" />
+  <img src={`Logos/${adminteam}.webp`} className="w-12 h-12"/>
+ </div>
+  <div className="w-1/5 ml-2 mr-2 flex flex-col items-center justify-center">
+<h1 className="text-base text-white font-bold">V/S</h1>
+ </div>
+ <div className="w-2/5 gap-1 mr-2 flex flex-col items-center justify-center">
+ <img src={teamicons.filter((it)=>it.team==idteam)[0].image} className="w-auto h-auto" />
+  <img src={`Logos/${idteam}.webp`} className="w-12 h-12"/>
+ </div>
     </div>
-    )
-  })}
+    </div>
 </div>
+{
+  id==admin && <>
+  <div className="w-full items-center flex  flex-col justify-center">
+  <img src={teamicons.filter((i)=>i.team==adminteam)[0].image} className="w-36 h-36"/>
+    <img src={`Logos/${adminteam}.webp`} className="w-12 h-12 my-2" />
+<button onClick={()=>add_Name(adminteam,teamicons.filter((i)=>i.team==adminteam)[0].image)} className="bg-slate-800 my-12 text-white text-base px-6 py-2 font-bold rounded-md shadow-md"> Play Game</button>
+  </div>
+  </>
+}
+{
+  id!=admin && <>
+  <div className="w-full flex flex-col items-center justify-center">
+  <img src={teamicons.filter((i)=>i.team==idteam)[0].image} className="w-36 h-36"/>
+    <img src={`Logos/${idteam}.webp`} className="w-12 h-12 my-2" />
+    <button onClick={()=>add_Name(idteam,teamicons.filter((i)=>i.team==idteam)[0].image)} className="bg-slate-800 text-white text-base px-6 py-2 my-12 font-bold rounded-md shadow-md"> Play Game</button>
+  </div>
+  </>
+}
 </>
 }
 { msg!="" &&
@@ -154,11 +259,11 @@ const optio=(i)=>{
 { data.game.result=="" && <h1 className="font-bold text-white text-center my-2">{data.game.turn} start to Bat </h1>}
 <div className="w-full flex justify-center flex-wrap gap-6 my-6">
   {data.players.map((i, idx) => (
-    <div key={idx} className="flex w-36 h-60 flex-col items-center bg-black rounded-lg p-4 transition duration-300 ease-in-out transform hover:scale-105">
+    <div key={idx} className="flex w-40 h-72 flex-col items-center bg-black rounded-lg p-4 transition duration-300 ease-in-out transform hover:scale-105">
       <h1 className="text-slate-400 text-lg font-bold mb-2">{i.team.toUpperCase()}</h1>
-      <img src={`Logos/${i.team}.webp`} className="w-20 h-20 rounded-md" />
-      <p className="my-2 text-xs font-bold text-slate-400">{i.name}</p>
-      <div className="mt-2 bg-black rounded-b-sm px-4 py-2">
+      <img src={i.player} className="w-auto h-auto" />
+      <p className="my-4 text-xs font-bold text-slate-400">{i.name}</p>
+      <div className=" bg-black rounded-b-sm px-4 py-2">
         <p className="text-slate-400 text-xl font-bold">{i.choice}</p>
       </div>
     </div>
@@ -237,4 +342,4 @@ const optio=(i)=>{
 };
 
 
-export default Handcricket;
+export default OnlineDual;
