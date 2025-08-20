@@ -145,6 +145,11 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 },[])
 const handSubmit = async() => {
     if (tournamentName && matchID && userTeam && computerTeam) {
+    if(tournamentName!=name){
+      toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Wrong Username</strong>);
+      setLock(false);
+    }
+    else{
    try{
       const response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/addprofilerooms", {
   method: 'POST',
@@ -160,7 +165,7 @@ const handSubmit = async() => {
 });
     const data=await response.json();
     if(!response.ok){
-        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
     }
     else if(response.ok){
       toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Room created successfully</strong>);
@@ -178,6 +183,7 @@ const handSubmit = async() => {
       setUserDropdownOpen(false)
       setComputerDropdownOpen(false)
       setMatchID("")
+    }
     }
     } else {
        toast.error("Invalid input");
@@ -381,11 +387,12 @@ const handleCreate = () => {
 
         <h3 className="text-lg font-bold mb-3">Room Creation Guidelines</h3>
         <ul className="list-disc font-semibold list-inside text-sm space-y-2">
-          <li>⚠ Rooms are stored temporarily</li>
-          <li>🗑 More than 5 rooms automatically removed the old ones</li>
-          <li>🔒 Active rooms are linked to your account only</li>
-          <li>🌍 Respect fair play rules while using rooms</li>
-          <li>🛡 The platform is not responsible for expired rooms</li>
+<li>⚠ Rooms are stored temporarily</li>
+<li>🗑 More than 5 rooms automatically removed the old ones</li>
+<li>🔒 Active rooms are linked to your account only</li>
+<li>🌍 Respect fair play rules while using rooms</li>
+<li>🛡 The platform is not responsible for expired rooms</li>
+<li>👥 It is strictly Play-for-Friends mode</li>
         </ul>
       </div>
     </div>

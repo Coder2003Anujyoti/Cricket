@@ -4,5 +4,6 @@
     "role":"admin",
     "total":0,
     "icon":"",
-    "participation":[]
+    "participation":[],
+    "rooms":[]
 }]

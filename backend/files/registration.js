@@ -356,28 +356,95 @@ router.post("/addprofilerooms", async (req, res) => {
       computer,
       playerteam,
       computerteam,
-      createdAt: new Date()
+      created: player
     };
     const [playerUser, computerUser] = await Promise.all([
       UsersCollection.findOne({ username: player }),
       UsersCollection.findOne({ username: computer })
     ]);
-
     if (!playerUser || !computerUser) {
       return res.status(404).json({ error: "One or both users not found" });
     }
-    playerUser.rooms.unshift({ ...baseRoom, created: player }); 
-    if (playerUser.rooms.length > 5) {
-      playerUser.rooms.pop();
+    const roomExists = (user, room) =>
+      user.rooms.some(
+        r =>
+          r.player === room.player &&
+          r.computer === room.computer &&
+          r.playerteam === room.playerteam &&
+          r.computerteam === room.computerteam
+      );
+    let added = false;
+    if (!roomExists(playerUser, baseRoom)) {
+      playerUser.rooms.unshift(baseRoom);
+      if (playerUser.rooms.length > 5) {
+        playerUser.rooms.pop();
+      }
+      added = true;
     }
-    computerUser.rooms.unshift({ ...baseRoom, created: computer }); 
-    if (computerUser.rooms.length > 5) {
-      computerUser.rooms.pop(); 
+    if (!roomExists(computerUser, baseRoom)) {
+      computerUser.rooms.unshift(baseRoom);
+      if (computerUser.rooms.length > 5) {
+        computerUser.rooms.pop();
+      }
+      added = true;
     }
     await Promise.all([playerUser.save(), computerUser.save()]);
-    res.json({ message: "Room added successfully" });
+    if (added) {
+      return res.json({ message: "Room added successfully" });
+    } else {
+      return res.json({ message: "Room already exists, not added" });
+    }
   } catch (err) {
     console.error("Error adding room:", err);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+router.post("/deleteprofilerooms", async (req, res) => {
+  try {
+    const { player, computer, playerteam, computerteam } = req.body;
+    if (!player || !computer || !playerteam || !computerteam) {
+      return res.status(400).json({ error: "All fields are required" });
+    }
+
+    const [playerUser, computerUser] = await Promise.all([
+      UsersCollection.findOne({ username: player }),
+      UsersCollection.findOne({ username: computer })
+    ]);
+    if (!playerUser || !computerUser) {
+      return res.status(404).json({ error: "One or both users not found" });
+    }
+    const beforePlayerCount = playerUser.rooms.length;
+    playerUser.rooms = playerUser.rooms.filter(
+      r =>
+        !(
+          r.player === player &&
+          r.computer === computer &&
+          r.playerteam === playerteam &&
+          r.computerteam === computerteam
+        )
+    );
+    const afterPlayerCount = playerUser.rooms.length;
+    const beforeComputerCount = computerUser.rooms.length;
+    computerUser.rooms = computerUser.rooms.filter(
+      r =>
+        !(
+          r.player === player &&
+          r.computer === computer &&
+          r.playerteam === playerteam &&
+          r.computerteam === computerteam
+        )
+    );
+    const afterComputerCount = computerUser.rooms.length;
+    await Promise.all([playerUser.save(), computerUser.save()]);
+    if (
+      beforePlayerCount === afterPlayerCount &&
+      beforeComputerCount === afterComputerCount
+    ) {
+      return res.json({ message: "Room not found, nothing deleted" });
+    }
+    return res.json({ message: "Room deleted successfully" });
+  } catch (err) {
+    console.error("Error deleting room:", err);
     res.status(500).json({ error: "Internal server error" });
   }
 });
