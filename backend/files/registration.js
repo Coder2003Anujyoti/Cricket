@@ -322,19 +322,24 @@ router.post('/addParticipation', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-router.get("/getrooms", async (req, res) => {
+router.get("/getprofilerooms", async (req, res) => {
   try {
-    const { username } = req.query;
+    const  username  = req.query.username;
     if (!username) {
       return res.status(400).json({ error: "username is required" });
     }
-    const user = await UsersCollection.findOne(
-      { username },
-      { participation: 0 } );
+    const user = await UsersCollection.findOne({ username });
     if (!user) {
       return res.status(404).json({ error: "User not found" });
     }
-    res.json(user);
+  const datum={
+    username:user.username,
+    password:user.password,
+    icon:user.icon,
+    total:user.total,
+    rooms:user.rooms
+  }
+  return  res.json(datum);
   } catch (err) {
     console.error("Error fetching rooms:", err);
     res.status(500).json({ error: "Internal server error" });
