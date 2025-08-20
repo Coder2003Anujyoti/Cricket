@@ -4,6 +4,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
+import { useNavigate } from "react-router-dom";
 import {
   faMagnifyingGlass,
   faSignOutAlt,
@@ -67,7 +68,7 @@ const UserChallenge = () => {
    const [offset,setOffset]=useState(0)
 const [limit,setLimit]=useState(5)
 const [len,setLen]=useState(-1)
-
+const navigate = useNavigate();
   const filteredComputerTeams = userTeam
     ? teams.filter((team) => team.name !== userTeam.name)
     : teams;
@@ -196,6 +197,29 @@ const handleCreate = () => {
     handSubmit();
   }
 };
+const handleDelete=async(it)=>{
+    try{
+  const response=await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/deleteprofilerooms",{
+          method:'POST',
+          headers:{ 'Content-Type' : "application/json" },
+          body: JSON.stringify({
+          player:it.player,
+          computer:it.computer,
+          playerteam:it.playerteam,
+          computerteam:it.computerteam
+          }),
+        })
+ const data=await response.json();
+      }
+    catch(err){
+    console.log(err)
+   toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+    }
+  }
+const handDelete=(i)=>{
+navigate("/")
+  handleDelete(i);
+}
   return (
     <>
     {loading == true && <>
@@ -515,12 +539,23 @@ setComputerDropdownOpen(false);}}>
 <h1 className="text-sm font-bold text-white">{i.computer}</h1>
  </div>
     </div>
-<div className="flex flex-row mt-4 justify-center gap-3 ">
-{ !participate.includes(i.challengeID) &&
+  {i.created===name &&
+  <div className="w-full p-1.5 mt-2 flex justify-center items-center">
+  <h1 className="text-center text-xs font-bold text-white">You send an invite to {i.computer}</h1>
+  </div>
+}
+  {i.created!==name &&
+  <div className="w-full p-1.5 mt-2 flex justify-center items-center">
+  <h1 className="text-center text-xs font-bold text-white">Invited from {i.created}</h1>
+  </div>
+}
+<div className="flex flex-row mt-2 justify-center gap-3 ">
 <HashLink smooth to={`/onlinedual?id=${encodeURIComponent(name)}&&player=${encodeURIComponent(i.player)}&&playerteam=${encodeURIComponent(i.playerteam)}&&computerteam=${encodeURIComponent(i.computerteam)}`}>
 <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md"> Play</button>
   </HashLink>
-}
+  {i.created===name &&
+  <button onClick={()=>handDelete(i)} className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">Delete</button>
+  }
  </div>
     </div>
     </>)

@@ -544,7 +544,7 @@ onChange={(e)=>setDeletenewsID(e.target.value.replace(/\s/g,""))} placeholder="E
 <h2 className="text-xl font-bold text-center text-white">Edit Announcement</h2>
 <input type="text" value={editnewsID}
 onChange={(e)=>setEditnewsID(e.target.value.replace(/\s/g,""))} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
-<textarea value={editcontent} style={{ resize: "none" }} onChange={(e)=>setEditcontent(e.target.value)} placeholder="Enter Announcement"
+<textarea value={editcontent} style={{ resize: "none" }} onChange={(e)=>setEditcontent(e.target.value.replace(/\s/g,""))} placeholder="Enter Announcement"
 className="w-full p-3 border font-semibold border-gray-300 rounded-md shadow-sm focus:outline-none"/>
 <button disabled={editlock} onClick={handleEdit} className="w-full bg-slate-800 text-white font-bold  py-2 px-4 rounded-md transition duration-300">
         Edit

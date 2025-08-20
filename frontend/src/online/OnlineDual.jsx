@@ -206,7 +206,7 @@ const optio=(i)=>{
 { msg=='' && 
 <>
  <div className="flex flex-col ml-2 mr-2 gap-4 my-4 justify-center items-center lg:px-20 md:justify-center md:items-center md:py-3 lg:ml-16 lg:gap-10 lg:items-start lg:justify-start lg:flex-row lg:flex-wrap">
-    <div className="w-72 h-54 p-2 flex flex-col rounded-md flex-wrap lg:w-96 lg:h-90 md:w-96 md:h-84">
+    <div className="flex flex-col rounded-md flex-wrap lg:w-96 lg:h-90 md:w-96 md:h-84">
  <div className="w-full mt-2 flex flex-row">
  <div className="w-2/5 ml-2 gap-1 flex flex-col items-center justify-center">
  <img src={teamicons.filter((it)=>it.team==adminteam)[0].image} className="w-auto h-auto" />
