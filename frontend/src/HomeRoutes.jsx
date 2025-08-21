@@ -21,6 +21,8 @@ import PlayerSearch from "./users/PlayerSearch.jsx"
 import News from "./users/News.jsx"
 import Chat from "./bot/Chat.jsx"
 import ProfileHistory from "./profile/ProfileHistory.jsx"
+import OldProfileHistory from "./profile/OldProfileHistory.jsx"
+import Room from "./profile/Room.jsx"
 import AdminChallenge from "./admin/AdminChallenge.jsx"
 import UserChallenge from "./users/UserChallenge.jsx"
 import UserScore from "./users/UserScore.jsx"
@@ -45,6 +47,8 @@ const HomeRoutes = () => {
  <Route path="/online" element={<Warning><Protected><Online /></Protected></Warning>} />
   <Route path="/onlinedual" element={<Warning><Protected><OnlineDual /></Protected></Warning>} />
   <Route path="/profilehistory" element={<Warning><Protected><ProfileHistory /></Protected></Warning>} />
+    <Route path="/oldprofilehistory" element={<Warning><Protected><OldProfileHistory /></Protected></Warning>} />
+  <Route path="/room" element={<Warning><Protected><Room /></Protected></Warning>} />
 <Route path="/allleaderboard" element={<Warning><Protected><AllLeaderBoard /></Protected></Warning>} />
 <Route path="/alltournaments" element={<Warning><Protected><AllTournaments /></Protected></Warning>} />
 <Route path="/playersearch" element={<Protected><PlayerSearch /></Protected>} />

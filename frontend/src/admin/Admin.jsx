@@ -453,6 +453,8 @@ const handleEdit= () => {
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Username</th>
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Password</th>
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Role</th>
+ <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Participations</th>
+<th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Rooms</th>
       </tr>
     </thead>
     <tbody>
@@ -487,6 +489,8 @@ const handleEdit= () => {
               {user.role[0].toUpperCase()+user.role.slice(1)}
             </span>
           </td>
+            <td className="px-6 py-4 text-center text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">{user.participation.length}</td>
+                <td className="px-6 text-center py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">{user.rooms.length}</td>
         </tr>
       ))}
     </tbody>

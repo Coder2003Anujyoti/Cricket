@@ -9,6 +9,7 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const TournamentsCollection= require('../schemas/tournaments');
+const BackupCollection= require('../schemas/backup.js');
 const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware.js")
 app.use(express.json());
 const UsersCollection= require('../schemas/users.js');
@@ -48,7 +49,9 @@ router.post("/login",async(req,res)=>{
 router.delete("/deleteaccount", async (req, res) => {
   try {
     const { username, password } = req.body;
-    const user = await UsersCollection.findOne({ username });
+    const [user,backs] = await Promise.all([ UsersCollection.findOne({ username }),
+     BackupCollection.findOne({username})
+    ])
     if (!user) {
       return res.status(400).json({ error: "User not found" });
     }
@@ -56,7 +59,15 @@ router.delete("/deleteaccount", async (req, res) => {
     if (!isMatch) {
       return res.status(401).json({ error: "Invalid credentials" });
     }
+    if(!backs){
     await UsersCollection.deleteOne({ username });
+    }
+    else{
+      await Promise.all([
+      UsersCollection.deleteOne({ username }),
+      BackupCollection.deleteOne({ username })
+    ]);
+    }
     res.json({ message: "Account deleted successfully" });
   } catch (error) {
     console.error(error);
@@ -447,6 +458,30 @@ router.post("/deleteprofilerooms", async (req, res) => {
     console.error("Error deleting room:", err);
     res.status(500).json({ error: "Internal server error" });
   }
+});
+router.get('/userprofileoldhistory', async (req, res) => {
+  const { username, limit, offset } = req.query;
+  const user = await BackupCollection.findOne({ username });
+  if (!user) {
+    return res.json({
+      biometrics: {},
+      participate: [],
+      arraylen: 0
+    });
+  }
+  const bio = {
+    username: user.username
+  };
+  const participationArray = Array.isArray(user.participation) ? user.participation.slice().reverse() : [];
+  const start = parseInt(offset) || 0;
+  const end = start + (parseInt(limit) || 5);
+  const parray = participationArray.slice(start, end);
+  const len = participationArray.length;
+  return res.json({
+    biometrics: bio,
+    participate: parray,
+    arraylen: len
+  });
 });
 //Export
 module.exports = router;

@@ -251,7 +251,7 @@ const handDelete = async() => {
     
     } else {
        toast.error("Invalid input");
-       setLock(false)
+       setEditlock(false)
     }
   };
   const handleCreate = () => {

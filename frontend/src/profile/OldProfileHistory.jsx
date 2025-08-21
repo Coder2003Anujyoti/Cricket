@@ -34,7 +34,7 @@ const get_password=()=>{
 const get_role=()=>{
   return JSON.parse(sessionStorage.getItem("role"))
 }
-const ProfileHistory = () => {
+const OldProfileHistory = () => {
 const token=get_data()
   const role=get_role()
   const username=get_username()
@@ -197,4 +197,4 @@ else {return null }})}
   );
 };
 
-export default ProfileHistory;
+export default OldProfileHistory;

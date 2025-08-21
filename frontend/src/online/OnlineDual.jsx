@@ -306,7 +306,7 @@ const optio=(i)=>{
   {
     data.game.result!='' && 
         <div className="text-center flex flex-col gap-1 justify-center items-center text-white font-bold my-6">
-        <img src="Icons/trophy.png" className=" w-16 h-16"/>
+        <img src="Icons/trophy.png" className=" w-10 h-10"/>
     <h1>{data.game.result}</h1>
     {
       Object.entries(data.game.scores).map(([key,value])=>{

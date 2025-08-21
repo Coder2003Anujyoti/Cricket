@@ -107,7 +107,7 @@ const AllLeaderBoard = () => {
                   </div>
                 ))
             ) : (
-              <h1 className=" text-center text-base my-44 font-bold text-white">No participation</h1>
+              <h1 className=" text-center text-base my-44 font-bold text-white">No participations</h1>
             )
           }
         </div>

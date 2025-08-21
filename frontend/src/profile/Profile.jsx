@@ -399,7 +399,7 @@ const handle=async(icon)=>{
   </div>
   </>
   }
-  {raul=="user" && <> <div className="w-full flex items-center p-4 justify-center md:justify-start md:ml-6 md:mt-6 gap-4">
+  {raul=="user" && <> <div className="w-full flex items-center flex-wrap p-4 justify-center md:justify-start md:ml-6 md:mt-6 gap-4">
   <button onClick={()=>{
   window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   setDeleted(true)}}
@@ -412,6 +412,18 @@ const handle=async(icon)=>{
     Users History
   </button>
   </HashLink>
+<HashLink smooth to="/oldprofilehistory">
+      <button 
+    className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition md:hidden">
+    Old History
+  </button>
+</HashLink>
+<HashLink smooth to="/room">
+    <button 
+    className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition md:hidden">
+    Create Room
+  </button>
+</HashLink>
   </div></>}
   {
     raul=="admin" && <>
@@ -419,7 +431,7 @@ const handle=async(icon)=>{
   <button onClick={()=>{
   setDeletestats(true)}}
     className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition">
-    Delete Stats
+    Delete Records
   </button>
   </div>
     </>
@@ -429,7 +441,7 @@ const handle=async(icon)=>{
 {
     deletestats==true && <>
   <div className="w-full flex flex-col text-center justify-center p-6 gap-4 items-center">
-  <h1 className="text-sm font-bold text-white">Are you want to delete tournaments stats</h1>
+  <h1 className="text-sm font-bold text-white">Are you want to delete tournaments records</h1>
   <div className="w-full flex justify-center items-center gap-6">
   <button className="flex items-center px-6 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition" onClick={handDeleteStats}>Yes</button>
   <button className="flex items-center px-6 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition" onClick={()=>{
