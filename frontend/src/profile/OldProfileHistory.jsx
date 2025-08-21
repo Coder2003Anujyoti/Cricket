@@ -53,7 +53,7 @@ const teams = ["Mi", "Csk", "Rr", "Kkr", "Gt", "Pbks", "Rcb", "Lsg", "Dc", "Srh"
   const [selectedTeams, setSelectedTeams] = useState([]);
   const show_data=async()=>{
       try{
-       const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/userprofilehistory?username=${username}&&offset=${offset}&&limit=${limit}`);
+       const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/userprofileoldhistory?username=${username}&&offset=${offset}&&limit=${limit}`);
       let data=await response.json()
       if(!data.error){
        setTimeout(()=>{
@@ -110,30 +110,13 @@ const go=()=>{
     </div>
     </div>
   </>}
+  
   {
     loading==false && <>
     <div className="relative w-full bg-slate-800 md:flex items-center justify-between p-2 z-50 lg:hidden md:px-4 md:py-3">
       <img className="w-28 h-16" src={`Logos/Logo.webp`} />
       </div>
-    <div className=" my-4 ml-4 mr-4 flex rounded-md flex-col bg-slate-800 p-2">
-     <div className="w-full flex  justify-end items-center gap-2 md:hidden">
-  <img src="Icons/coin.png" className="w-8 h-8" />
-  <h1 className="font-bold text-white text-base">{user[0].total}</h1>
-  </div>
-<div className="w-full flex flex-row p-2">
-<div className="w-1/2 flex items-center justify-center">
-          { user[0].icon!= "" ?
-  <img className="w-24 h-24 lg:w-64 lg:h-64" src={user[0].icon} alt="Logo" /> :
-  <img className="w-20 h-20 lg:w-60 lg:h-60" src={`Icons/cricket.webp`} />}
-</div>
-<div className="w-1/2 flex flex-col items-start justify-start text-white text-sm font-bold flex-wrap">
-<h1>{user[0].username}</h1>
-<h1>{"*".repeat(password.length)}</h1>
-<h1>Welcome {user[0].username}</h1>
-</div>
-</div>
-    </div>
-<h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6 text-center">Participations History</h1>
+<h1 className="text-green-400 my-6 text-base font-bold shadow-green-400 ml-6 text-center">Old Participations History</h1>
 {
   items.length>0 ? <>
 <div className="overflow-x-auto scroll-smooth px-3 py-4 my-2">
@@ -189,7 +172,7 @@ else {return null }})}
       }
   </>
   :
-  <h1 className="text-center text-base my-28 font-bold text-white">No Recent Participations</h1>
+  <h1 className="text-center text-base my-44 font-bold text-white">No Old Participations</h1>
 }
   </>
   }

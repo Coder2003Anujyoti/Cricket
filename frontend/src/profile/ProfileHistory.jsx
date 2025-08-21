@@ -133,7 +133,7 @@ const go=()=>{
 </div>
 </div>
     </div>
-<h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6 text-center">Participations History</h1>
+<h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6 text-center">Recent Participations History</h1>
 {
   items.length>0 ? <>
 <div className="overflow-x-auto scroll-smooth px-3 py-4 my-2">

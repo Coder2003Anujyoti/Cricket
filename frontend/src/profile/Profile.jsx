@@ -392,7 +392,7 @@ const handle=async(icon)=>{
 {
   items[0].participation.length==0 && <>
 <div className="w-full flex justify-center items-center p-24">
- <h1 className=" text-center text-base font-bold text-white">No participation</h1>
+ <h1 className=" text-center text-base font-bold text-white">No participations</h1>
  </div>
   </>
 }
@@ -409,7 +409,7 @@ const handle=async(icon)=>{
 <HashLink smooth to="/profilehistory">
     <button 
     className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition md:hidden">
-    Users History
+    Recent History
   </button>
   </HashLink>
 <HashLink smooth to="/oldprofilehistory">
