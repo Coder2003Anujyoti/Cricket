@@ -1,6 +1,7 @@
 import React,{useState,useEffect} from 'react'
 import { FaArrowUp } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheckCircle } from "@fortawesome/free-solid-svg-icons";
 import {
   faMagnifyingGlass,
   faSignOutAlt,
@@ -30,6 +31,7 @@ const Admin = () => {
   const token=get_data()
   const role=get_role()
   const [showPassword, setShowPassword] = useState({});
+  const [selectedTeams, setSelectedTeams] = useState([]);
   const [mode, setMode] = useState("users");
   const [loading,setLoading]=useState(true)
   const [isOpen, setIsOpen] = useState(false);
@@ -51,7 +53,17 @@ const [userLimit, setUserLimit] = useState(5);
 const [newsLimit, setNewsLimit] = useState(5);
 const [userSubload, setUserSubload] = useState(false);
 const [newsSubload, setNewsSubload] = useState(false);
-
+const teams= [
+  "A","B","C","D","E","F","G","H","I","J","K","L","M",
+  "N","O","P","Q","R","S","T","U","V","W","X","Y","Z"
+];
+const handleSelectteam = (team) => {
+    if (selectedTeams.includes(team)) {
+      setSelectedTeams(selectedTeams.filter((t) => t !== team));
+    } else {
+      setSelectedTeams([...selectedTeams, team]);
+    }
+  };
     const show_data=async()=>{
     try{
      const response = await fetch(`https://intelligent-ailyn-handcricket-e8842259.koyeb.app/users?offset=0&&limit=5`, {
@@ -444,6 +456,14 @@ const handleEdit= () => {
   </button>
 </div>
 { mode=="users" && <>
+ <div className="overflow-x-auto scroll-smooth px-3 py-4 my-4 lg:flex lg:justify-center lg:items-center lg:py-6">
+<div className="flex gap-4 w-max md:justify-center md:items-center lg:gap-10">
+{teams.map((team) => (
+<div key={team} onClick={() => handleSelectteam(team)} className="relative bg-slate-800 rounded-full px-4 py-3 cursor-pointer">
+<h1 className="text-white font-bold text-sm">{team}</h1>
+{selectedTeams.includes(team) && (
+<FontAwesomeIcon icon={faCheckCircle} className="absolute top-0 right-0 text-green-500 bg-white rounded-full" size="xs"/>)}
+</div>))}</div></div>
   <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Users List</h1>
   <div className="w-full overflow-x-auto cursor-pointer">
   <table className="min-w-full table-fixed border-collapse">
@@ -455,49 +475,67 @@ const handleEdit= () => {
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Role</th>
  <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Participations</th>
 <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Rooms</th>
+<th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Score</th>
       </tr>
     </thead>
     <tbody>
-      {user.map((user, idx) => (
-        <tr key={idx} className={`${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b`}>
-                <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
-          { user.icon!= "" ?
-  <img className="w-7 h-7 md:w-10 md:h-10" src={user.icon} alt="Logo" /> :
-  <img className="w-7 h-7 md:w-10 md:h-10" src={`Icons/cricket.webp`} />}
+  {user.map((i, idx) => {
+  if (selectedTeams.length === 0 || selectedTeams.includes(i.username[0].toUpperCase())) {
+    return (
+      <tr key={idx} className={`${idx % 2 === 0 ? 'bg-gray-50' : 'bg-white'} border-b`}>
+        <td className="px-6 py-4 whitespace-nowrap w-1/3 font-semibold">
+          {i.icon !== "" ? (
+            <img className="w-7 h-7 md:w-10 md:h-10" src={i.icon} alt="Logo" />
+          ) : (
+            <img className="w-7 h-7 md:w-10 md:h-10" src={`Icons/cricket.webp`} />
+          )}
         </td>
-          <td className="px-6 py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">{user.username}</td>
+        <td className="px-6 py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">{i.username}</td>
 
-<td className="px-6 py-6 whitespace-nowrap w-1/3 flex items-center space-x-3 font-semibold text-xs md:text-sm text-center">
-  <FontAwesomeIcon
-    icon={showPassword[idx] ? faUnlock : faLock}
-    className="text-gray-500 text-xs md:text-sm cursor-pointer"
-    onClick={() => togglePassword(idx)}
-  />
-  <span>
-    {showPassword[idx]
-      ? user.password
-      : "*".repeat(user.password.length)}
-  </span>
-</td>
+        <td className="px-6 py-6 whitespace-nowrap w-1/3 flex items-center space-x-3 font-semibold text-xs md:text-sm text-center">
+          <FontAwesomeIcon
+            icon={showPassword[idx] ? faUnlock : faLock}
+            className="text-gray-500 text-xs md:text-sm cursor-pointer"
+            onClick={() => togglePassword(idx)}
+          />
+          <span>
+            {showPassword[idx] ? i.password : "*".repeat(i.password.length)}
+          </span>
+        </td>
 
-          <td className="px-6 py-4 whitespace-nowrap w-1/3 text-xs">
-            <span className={`px-3 py-1 rounded-full  font-medium ${
-              user.role === 'admin' ? 'bg-red-100 text-red-700 text-xs'
-              : user.role === 'user' ? 'bg-blue-100 text-blue-700 text-xs'
-              : 'bg-green-100 text-green-700 text-xs'
-            }`}>
-              {user.role[0].toUpperCase()+user.role.slice(1)}
-            </span>
-          </td>
-            <td className="px-6 py-4 text-center text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">{user.participation.length}</td>
-                <td className="px-6 text-center py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">{user.rooms.length}</td>
-        </tr>
-      ))}
+        <td className="px-6 py-4 whitespace-nowrap w-1/3 text-xs">
+          <span
+            className={`px-3 py-1 rounded-full font-medium ${
+              i.role === "admin"
+                ? "bg-red-100 text-red-700 text-xs"
+                : i.role === "user"
+                ? "bg-blue-100 text-blue-700 text-xs"
+                : "bg-green-100 text-green-700 text-xs"
+            }`}
+          >
+            {i.role[0].toUpperCase() + i.role.slice(1)}
+          </span>
+        </td>
+        <td className="px-6 py-4 text-center text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">
+          {i.participation.length}
+        </td>
+        <td className="px-6 text-center py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">
+          {i.rooms.length}
+        </td>
+        <td className="px-6 text-center py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">
+          {i.total}
+        </td>
+      </tr>
+    );
+  } else {
+    return null;
+  }
+})}
     </tbody>
   </table>
 </div>
  {
-  userOffset<userLen && <>
+  userOffset<userLen  && selectedTeams.length==0 && <>
         {
           userSubload==false && <>
       <div className="w-full flex justify-center">

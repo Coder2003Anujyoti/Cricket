@@ -421,8 +421,8 @@ router.post("/deleteprofilerooms", async (req, res) => {
       UsersCollection.findOne({ username: player }),
       UsersCollection.findOne({ username: computer })
     ]);
-    if (!playerUser || !computerUser) {
-      return res.status(404).json({ error: "One or both users not found" });
+    if (!playerUser) {
+      return res.status(404).json({ error: "Creator not found" });
     }
     const beforePlayerCount = playerUser.rooms.length;
     playerUser.rooms = playerUser.rooms.filter(

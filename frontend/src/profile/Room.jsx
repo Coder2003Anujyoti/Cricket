@@ -181,7 +181,7 @@ const handleDelete=async(it)=>{
   }
 const handDelete=(i)=>{
 navigate("/loginprofile")
-  handleDelete(i);
+handleDelete(i);
 }
   return (
     <>
