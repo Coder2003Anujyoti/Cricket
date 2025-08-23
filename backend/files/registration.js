@@ -416,16 +416,14 @@ router.post("/deleteprofilerooms", async (req, res) => {
     if (!player || !computer || !playerteam || !computerteam) {
       return res.status(400).json({ error: "All fields are required" });
     }
-
     const [playerUser, computerUser] = await Promise.all([
       UsersCollection.findOne({ username: player }),
       UsersCollection.findOne({ username: computer })
     ]);
     if (!playerUser) {
-      return res.status(404).json({ error: "Creator not found" });
+      return res.status(404).json({ error: "Player not found" });
     }
-    const beforePlayerCount = playerUser.rooms.length;
-    playerUser.rooms = playerUser.rooms.filter(
+    const newPlayerRooms = playerUser.rooms.filter(
       r =>
         !(
           r.player === player &&
@@ -434,25 +432,31 @@ router.post("/deleteprofilerooms", async (req, res) => {
           r.computerteam === computerteam
         )
     );
-    const afterPlayerCount = playerUser.rooms.length;
-    const beforeComputerCount = computerUser.rooms.length;
-    computerUser.rooms = computerUser.rooms.filter(
-      r =>
-        !(
-          r.player === player &&
-          r.computer === computer &&
-          r.playerteam === playerteam &&
-          r.computerteam === computerteam
-        )
-    );
-    const afterComputerCount = computerUser.rooms.length;
-    await Promise.all([playerUser.save(), computerUser.save()]);
-    if (
-      beforePlayerCount === afterPlayerCount &&
-      beforeComputerCount === afterComputerCount
-    ) {
+    const playerChanged = newPlayerRooms.length !== playerUser.rooms.length;
+    if (playerChanged) playerUser.rooms = newPlayerRooms;
+    let computerChanged = false;
+    if (computerUser) {
+      const newComputerRooms = computerUser.rooms.filter(
+        r =>
+          !(
+            r.player === player &&
+            r.computer === computer &&
+            r.playerteam === playerteam &&
+            r.computerteam === computerteam
+          )
+      );
+      computerChanged = newComputerRooms.length !== computerUser.rooms.length;
+      if (computerChanged) computerUser.rooms = newComputerRooms;
+    }
+    const saveOps = [];
+    if (playerChanged) saveOps.push(playerUser.save());
+    if (computerChanged) saveOps.push(computerUser.save());
+    await Promise.all(saveOps);
+
+    if (!playerChanged && !computerChanged) {
       return res.json({ message: "Room not found, nothing deleted" });
     }
+
     return res.json({ message: "Room deleted successfully" });
   } catch (err) {
     console.error("Error deleting room:", err);
