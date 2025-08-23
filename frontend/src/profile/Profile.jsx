@@ -1,7 +1,9 @@
 import React,{useEffect,useState} from "react";
 import { useSearchParams } from "react-router-dom";
+import { faQuestion } from '@fortawesome/free-solid-svg-icons';
 import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { faPen } from "@fortawesome/free-solid-svg-icons";
+import { motion } from "framer-motion";
 import { FaArrowUp } from "react-icons/fa";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -26,6 +28,9 @@ const get_data=()=>{
 const get_role=()=>{
   return JSON.parse(sessionStorage.getItem("username"))
 }
+const get_close=()=>{
+  return JSON.parse(sessionStorage.getItem("profileclose"))
+}
 const get_password=()=>{
   return JSON.parse(sessionStorage.getItem("userpassword"))
 }
@@ -41,12 +46,13 @@ const Profile = () => {
   const [deleted,setDeleted]=useState(false)
   const [isOpen, setIsOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
+  const [closed,setClosed]=useState(()=>get_close()||false)
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
   const [score,setScore]=useState(0)
   const [deletestats,setDeletestats]=useState(false)
 const badges = [
-  { name: "Rookie", min: 0, max: 999 },
+  { name: "Rookie", min: 1, max: 999 },
   { name: "Player", min: 1000, max: 9999 },
   { name: "Gambler", min: 10000, max: 49999 },
   { name: "Pro", min: 50000, max: 99999 },
@@ -153,6 +159,17 @@ const handle=async(icon)=>{
     handle(i)
     }
     }
+    useEffect(() => {
+  const hasAchievement = badges?.some(badge => items[0]?.total >= badge.min);
+  if (!closed && hasAchievement) {
+    document.body.style.overflow = "hidden";
+  } else {
+    document.body.style.overflow = "auto";
+  }
+  return () => {
+    document.body.style.overflow = "auto";
+  };
+}, [closed, badges, items]);
   return (
     <>
      {loading == true && <>
@@ -174,6 +191,50 @@ const handle=async(icon)=>{
   </>}
   {
     loading==false && <>
+{closed === false && (
+  badges.filter(badge => items[0].total >= badge.min).slice(-1)[0] && (
+ <div className="fixed inset-0 flex md:hidden items-center justify-center z-[100] overflow-hidden">
+  <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
+<motion.div initial={{ scale: 0, opacity: 0 }}
+ animate={{ scale: 1, opacity: 1 }}
+  transition={{ type: "spring", stiffness: 200, damping: 12 }}
+        className="relative z-[101] max-w-[80%] max-h-[80%] bg-gray-900 rounded-2xl p-6 shadow-2xl flex flex-col items-center"
+      >
+        {/* Close Button */}
+        <button
+          onClick={() => {
+            sessionStorage.setItem("profileclose", JSON.stringify(true));
+            setClosed(true);
+          }}
+          className="absolute -top-4 -right-4 bg-gray-700 text-white rounded-full px-3 py-2 shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-200"
+        >
+          <FontAwesomeIcon icon={faTimes} className="text-lg" />
+        </button>
+
+        {/* Title */}
+        <h2 className="text-xl  font-bold text-white text-center mb-4">
+         Achievement Unlocked !
+        </h2>
+
+        {/* Latest Badge */}
+        {badges
+          .filter(badge => items[0].total >= badge.min)
+          .slice(-1)
+          .map((badge, index) => (
+            <motion.img
+              key={index}
+              src={`Badges/${badge.name}.webp`}
+              alt={badge.name}
+              className="w-40 h-40 object-contain"
+              initial={{ scale: 0, rotate: 0 }}
+              animate={{ scale: 1, rotate: 360 }}
+              transition={{ type: "spring", stiffness: 150, damping: 10, duration: 1.5 }}
+            />
+          ))}
+      </motion.div>
+    </div>
+  )
+)}
     <div className="relative w-full bg-slate-800 md:flex hidden items-center justify-between p-2 z-50 lg:hidden md:px-4 md:py-3">
       <img className="w-28 h-16" src={`Logos/Logo.webp`} />
         <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
@@ -411,26 +472,39 @@ const handle=async(icon)=>{
   }
   <div className="w-full flex flex-col justify-center items-center my-6 md:hidden">
   <h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6">Achievements Unlocked</h1>
-  <div className="w-full mt-2 ml-2 mr-2 flex flex-row flex-wrap gap-2">
+  <div className="w-full mt-4 ml-2 mr-2 flex flex-row flex-wrap gap-2">
 <div className="flex flex-wrap gap-3">
   {raul=="admin" && badges.filter(badge => items[0].total <= badge.min).map((badge, idx, arr) => {
 return (
 <img key={idx} src={`Badges/${badge.name}.webp`} alt={badge.name} className="w-28 h-20 object-contain transition-all duration-300  drop-shadow-[0_0_5px_#facc15]"/>
       );
     })}
-  { raul==="user" && items[0].total!=0 && badges.filter(badge => items[0].total >= badge.min).map((badge, idx, arr) => {
-return (
-<img key={idx} src={`Badges/${badge.name}.webp`} alt={badge.name} className="w-28 h-20 object-contain transition-all duration-300 drop-shadow-[0_0_5px_#facc15]"/>
-      );
-    })}
+  { raul==="user" && 
+    badges.map((badge, idx) => {
+    const unlocked = items[0].total >= badge.min; // Check if unlocked
+    return (
+      <div key={idx} className="relative w-28 h-20">
+        {/* Badge Image */}
+        <img
+          src={`Badges/${badge.name}.webp`}
+          alt={badge.name}
+          className={`w-full h-full object-contain transition-all duration-300 drop-shadow-[0_0_5px_#facc15] ${
+            unlocked ? "" : "filter blur-sm"
+          }`}
+        />
+        {/* Question mark overlay if locked */}
+        {!unlocked && (
+          <div className="absolute inset-0 flex items-center justify-center">
+            <FontAwesomeIcon icon={faQuestion} className="text-white text-2xl drop-shadow-lg" />
+          </div>
+        )}
+      </div>
+    );
+  })
+  }
 </div>
 </div>
-{
-  items[0].total==0 && raul=="user" &&
-  <div className="w-full flex justify-center items-center p-24">
- <h1 className="text-center text-base font-bold text-white">No Achievements</h1>
- </div>
-}
+
 </div>
   {raul=="user" && <> <div className="w-full flex items-center flex-wrap p-4 justify-center md:justify-start md:ml-6 md:mt-6 gap-4">
   <button onClick={()=>{

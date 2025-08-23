@@ -30,6 +30,7 @@ export default function Login() {
   sessionStorage.removeItem("user")
   sessionStorage.removeItem("role")
   sessionStorage.removeItem("userclose")
+  sessionStorage.removeItem("profileclose")
   },[])
   const handSubmit = async () => {
     let valid = true;
