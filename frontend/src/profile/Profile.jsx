@@ -45,6 +45,16 @@ const Profile = () => {
   const [items,setItems]=useState([])
   const [score,setScore]=useState(0)
   const [deletestats,setDeletestats]=useState(false)
+const badges = [
+  { name: "Rookie", min: 0, max: 999 },
+  { name: "Player", min: 1000, max: 9999 },
+  { name: "Gambler", min: 10000, max: 49999 },
+  { name: "Pro", min: 50000, max: 99999 },
+  { name: "High Roller", min: 100000, max: 249999 },
+  { name: "Master", min: 250000, max: 499999 },
+  { name: "Champion", min: 500000, max: 749999 },
+  { name: "Legend", min: 750000, max: 1000000 }
+];
   useEffect(() => {
   if (deleted || deletestats) {
     requestAnimationFrame(() => {
@@ -399,6 +409,29 @@ const handle=async(icon)=>{
   </div>
   </>
   }
+  <div className="w-full flex flex-col justify-center items-center my-6 md:hidden">
+  <h1 className="text-green-400 text-base font-bold shadow-green-400 ml-6">Achievements Unlocked</h1>
+  <div className="w-full mt-2 ml-2 mr-2 flex flex-row flex-wrap gap-2">
+<div className="flex flex-wrap gap-3">
+  {raul=="admin" && badges.filter(badge => items[0].total <= badge.min).map((badge, idx, arr) => {
+return (
+<img key={idx} src={`Badges/${badge.name}.webp`} alt={badge.name} className="w-28 h-20 object-contain transition-all duration-300  drop-shadow-[0_0_5px_#facc15]"/>
+      );
+    })}
+  { raul==="user" && items[0].total!=0 && badges.filter(badge => items[0].total >= badge.min).map((badge, idx, arr) => {
+return (
+<img key={idx} src={`Badges/${badge.name}.webp`} alt={badge.name} className="w-28 h-20 object-contain transition-all duration-300 drop-shadow-[0_0_5px_#facc15]"/>
+      );
+    })}
+</div>
+</div>
+{
+  items[0].total==0 && raul=="user" &&
+  <div className="w-full flex justify-center items-center p-24">
+ <h1 className="text-center text-base font-bold text-white">No Achievements</h1>
+ </div>
+}
+</div>
   {raul=="user" && <> <div className="w-full flex items-center flex-wrap p-4 justify-center md:justify-start md:ml-6 md:mt-6 gap-4">
   <button onClick={()=>{
   window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });

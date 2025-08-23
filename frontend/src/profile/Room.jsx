@@ -66,6 +66,14 @@ const navigate = useNavigate();
     ? teams.filter((team) => team.name !== userTeam.name)
     : teams;
    const location = useLocation();
+   useEffect(() => {
+  if(closed==false){
+    document.body.style.overflow = "hidden"; 
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [closed]);
    const show_data=async()=>{
     try{
       if(!token){

@@ -2,6 +2,7 @@ const { v4: uuidv4 } = require('uuid');
 const rooms={}
 const turn={}
 const game={}
+const UsersCollection=require('../schemas/users');
 module.exports=(io,socket)=>{
   socket.on('dualjoinRoom', (msg) => {
     const name=msg.name
@@ -49,7 +50,7 @@ module.exports=(io,socket)=>{
     }
     socket.roomId = assignedRoom;
   })
-socket.on('dualgomove', (item) => { 
+socket.on('dualgomove', async(item) => { 
   const roomId = socket.roomId; 
 if (!roomId || !rooms[roomId]){
   socket.to(roomId).emit("dualLeft", "A player has been disconnected...");
@@ -80,6 +81,10 @@ else{
   players,
   game: game[roomId]
 })
+try {
+await UsersCollection.updateOne({ username: batter.name },{ $inc: { total: 100 } });
+} catch (err) {
+console.error("Error updating winner:", err);}
 delete rooms[roomId]
   delete game[roomId]
   io.in(roomId).socketsLeave(roomId);
@@ -110,6 +115,10 @@ else{
   players,
   game: game[roomId]
 })
+try {
+await Promise.all([ UsersCollection.updateOne({ username: bowler.name }, { $inc: { total: 50 } }),UsersCollection.updateOne({ username: batter.name }, { $inc: { total: 50 } })]);
+} catch (err) {
+console.error("Error updating tie:", err);}
   }
   else
   {
@@ -118,6 +127,11 @@ else{
   players,
   game: game[roomId]
 })
+try {
+await UsersCollection.updateOne({ username: bowler.name },{ $inc: { total: 100 } });
+} catch (err) {
+console.error("Error updating winner:", err);
+  }
   }
   delete rooms[roomId]
   delete game[roomId]

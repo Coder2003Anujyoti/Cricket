@@ -1,5 +1,7 @@
 import React,{useState,useEffect,useRef} from "react";
 import { FaFacebook, FaTwitter, FaInstagram, FaYoutube, FaPaperPlane } from 'react-icons/fa';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faTimes } from '@fortawesome/free-solid-svg-icons';
 import { FaArrowUp } from "react-icons/fa";
 import {HashLink} from 'react-router-hash-link'
 import {socket} from "../socket/socket"
@@ -15,12 +17,21 @@ const [start,setStart]=useState(false)
 const [data,setData]=useState([])
 const [opt,setOpt]=useState(0)
 const [imp,setImp]=useState("")
+const [closed,setClosed]=useState(false)
 const [disable,setDisable]=useState(false)
 const buttons=[1,2,3,4,5,6]
 const inactivityTimeout = useRef(null);
 const countdownInterval = useRef(null);
 const [timer, setTimer] = useState(20);
 const teams=["Mi","Csk","Rr","Kkr","Gt","Pbks","Rcb","Lsg","Dc","Srh"];
+useEffect(() => {
+  if(closed==false){
+    document.body.style.overflow = "hidden"; 
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [closed]);
   const triggerInactivity = () => {
     setImp('Connection issues...');
     socket.disconnect()
@@ -120,6 +131,27 @@ const optio=(i)=>{
   return (
   <>
   { load==false && <>
+  { closed==false && <>
+<div className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm flex items-center justify-center z-50">
+  <div className="relative bg-gray-900 text-white p-5 rounded-xl shadow-xl max-w-md w-full mx-4 animate-fadeIn">
+  <button onClick={()=>setClosed(!closed)}
+    className="absolute -top-0 -right-0  text-white px-3 py-2 text-center font-bold transition-all duration-200"
+  >
+    <FontAwesomeIcon icon={faTimes} className="text-xl text-white font-bold" />
+  </button>
+ <h3 className="text-lg font-bold mb-3">Playing Guidelines</h3>
+<ul className="list-disc font-semibold list-inside text-sm space-y-2">  
+  <li>Each player starts with 1 wicket ⚾🥅</li>
+  <li>Winner rewarded with 100 points 🏆🎉</li>
+  <li>Draw rewarded with 50 points 🤝✨</li>
+  <li>Loser rewarded with 0 points ❌😢</li>
+  <li>Batting continues until the player loses their wicket ⚾💥 ️</li>
+  <li>Runs are scored as per hand cricket rules 🎲🏏 (player chooses a number, opponent chooses a number; if numbers match, wicket lost 💀)</li>
+</ul>
+      </div>
+    </div>
+  </>
+}
 { start===false && imp=='' && <>
 { msg=='' && 
 <>
