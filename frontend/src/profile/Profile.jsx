@@ -43,6 +43,7 @@ const Profile = () => {
   const raul=get_raul()
   const password=get_password()
   const navigate = useNavigate();
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [deleted,setDeleted]=useState(false)
   const [isOpen, setIsOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
@@ -193,7 +194,7 @@ const handle=async(icon)=>{
     loading==false && <>
 {closed === false && (
   badges.filter(badge => items[0].total >= badge.min).slice(-1)[0] && (
- <div className="fixed inset-0 flex md:hidden items-center justify-center z-[100] overflow-hidden">
+ <div className={`fixed inset-0 ${imageLoaded ? 'flex' : 'hidden'} md:hidden items-center justify-center z-[100] overflow-hidden`}>
   <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
 <motion.div initial={{ scale: 0, opacity: 0 }}
  animate={{ scale: 1, opacity: 1 }}
@@ -223,11 +224,12 @@ const handle=async(icon)=>{
           .map((badge, index) => (
    <motion.img
   key={index}
+  onLoad={() => setImageLoaded(true)}
   src={`Badges/${badge.name}.webp`}
   alt={badge.name}
   className="w-40 h-40 object-contain"
-  initial={{ scale: 0 }}
-  animate={{ scale: 1 }}
+  initial={{ scale: 0, rotate:0 }}
+  animate={{ scale: 1, rotate:360 }}
   transition={{ type: "spring", stiffness: 150, damping: 10, duration: 1.5 }}
 />
           ))}
