@@ -221,15 +221,15 @@ const handle=async(icon)=>{
           .filter(badge => items[0].total >= badge.min)
           .slice(-1)
           .map((badge, index) => (
-            <motion.img
-              key={index}
-              src={`Badges/${badge.name}.webp`}
-              alt={badge.name}
-              className="w-40 h-40 object-contain"
-              initial={{ scale: 0, rotate: 0 }}
-              animate={{ scale: 1, rotate: 360 }}
-              transition={{ type: "spring", stiffness: 150, damping: 10, duration: 1.5 }}
-            />
+   <motion.img
+  key={index}
+  src={`Badges/${badge.name}.webp`}
+  alt={badge.name}
+  className="w-40 h-40 object-contain"
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
+  transition={{ type: "spring", stiffness: 150, damping: 10, duration: 1.5 }}
+/>
           ))}
       </motion.div>
     </div>
