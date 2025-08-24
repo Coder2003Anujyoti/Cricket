@@ -9,9 +9,22 @@ const NewsCollection= require('../schemas/news.js');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware.js")
+const BackupCollection= require('../schemas/backup.js');
+const backs=require("../data/Backup.json")
    const addDataToMongodb = async() => {
-    await NewsCollection.deleteMany();
-    await NewsCollection.insertMany(news);
+    try {
+    await Promise.all([
+      NewsCollection.deleteMany(),
+      BackupCollection.deleteMany()
+    ]);
+    await Promise.all([
+      NewsCollection.insertMany(news),
+      BackupCollection.insertMany(backs)
+    ]);
+    console.log("✅ News & Backup data inserted successfully");
+  } catch (error) {
+    console.error("❌ Error seeding data:", error);
+  }
 }
 //addDataToMongodb();
 router.get('/getnews', async (req, res) => {

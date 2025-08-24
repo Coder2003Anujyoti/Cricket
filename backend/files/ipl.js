@@ -18,34 +18,41 @@ const news=require("../data/News.json")
 const BackupCollection= require('../schemas/backup.js');
 const tours=require("../data/Tournaments.json")
    const addDataToMongodb = async() => {
-    await GFGCollection.deleteMany();
-    await GFGCollection.insertMany(data);
-   await Collection.deleteMany();
-    await Collection.insertMany(history);
-   await ResultCollection.deleteMany();
-    await ResultCollection.insertMany(result);
-  await TournamentsCollection.deleteMany();
-  await TournamentsCollection.insertMany(tours);
-    await NewsCollection.deleteMany();
-    await NewsCollection.insertMany(news);
-await ChallengesCollection.deleteMany();
-await ChallengesCollection.insertMany(chs);
-await BackupCollection.deleteMany();
-const users = await UsersCollection.find({});
-await Promise.all(
-  users.map(async (user) => {
-    if (user.participation && user.participation.length > 0) {
-      await BackupCollection.create({
-        username: user.username,
-        participation: user.participation,
-      });
-      user.participation = [];
-      user.markModified("participation");
-      await user.save();
-    }
-  })
-);
-   }
+    await Promise.all([
+  GFGCollection.deleteMany(),
+  Collection.deleteMany(),
+  ResultCollection.deleteMany(),
+  TournamentsCollection.deleteMany(),
+  NewsCollection.deleteMany(),
+  ChallengesCollection.deleteMany(),
+  BackupCollection.deleteMany(),
+]);
+
+await Promise.all([
+  GFGCollection.insertMany(data),
+  Collection.insertMany(history),
+  ResultCollection.insertMany(result),
+  TournamentsCollection.insertMany(tours),
+  NewsCollection.insertMany(news),
+  ChallengesCollection.insertMany(chs),
+]);
+const users = await UsersCollection.find(
+  { "participation.0": { $exists: true } }, 
+  { username: 1, participation: 1 }
+).lean();
+if (users.length > 0) {
+  await BackupCollection.insertMany(
+    users.map(user => ({
+      username: user.username,
+      participation: user.participation,
+    }))
+  );
+  await UsersCollection.updateMany(
+    { "participation.0": { $exists: true } },
+    { $set: { participation: [] } }
+  );
+}
+}
 //addDataToMongodb();
 router.post("/resetdata", async (req, res) => {
   try {

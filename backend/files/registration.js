@@ -14,6 +14,7 @@ const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware
 app.use(express.json());
 const UsersCollection= require('../schemas/users.js');
 const NewsCollection= require('../schemas/news.js');
+const ChallengesCollection= require('../schemas/challenges.js');
 //*Add Data in Mongodb
    const addDataToMongodb = async() => {
     await UsersCollection.deleteMany();
@@ -155,46 +156,57 @@ router.get('/getpostslist', authenticateToken, authorizeRoles("admin"), async (r
     res.status(500).json({ error: "Internal server error" });
   }
 });
-router.get('/allusers', async (req, res) => {
+router.get("/allusers", async (req, res) => {
   try {
-    const [tournaments, users] = await Promise.all([ TournamentsCollection.find(),  
-      UsersCollection.find()
+    const [tournaments, challenges] = await Promise.all([
+      TournamentsCollection.find({}, { matchID: 1 }),
+      ChallengesCollection.find({}, { challengeID: 1 }),
     ]);
- const validMatchIds = tournaments.map(t => t.matchID);
-    const topUsers = users
-      .filter(u => u.role !== "admin")
-      .map(user => {
-        const totalScore = user.participation.length > 0
-          ? user.participation.reduce((acc, it) => {
-              return validMatchIds.includes(it.id)
-                ? acc + Number(it.score || 0)
-                : acc;
-            }, 0)
-          : 0;
+    const validMatchIds = [
+      ...tournaments.map(t => t.matchID),
+      ...challenges.map(c => c.challengeID),
+    ];
+    const topUsers = await UsersCollection.aggregate([
+      { $match: { role: { $ne: "admin" } } }, 
+      {
+        $addFields: {
+          totalScore: {
+            $sum: {
+              $map: {
+                input: {
+                  $filter: {
+                    input: "$participation",
+                    as: "p",
+                    cond: { $in: ["$$p.id", validMatchIds] },
+                  },
+                },
+                as: "f",
+                in: "$$f.score",
+              },
+            },
+          },
+        },
+      },
+      { $sort: { totalScore: -1 } }, // sort in DB
+      { $limit: 5 }, // only top 5
+      {
+        $project: {
+          username: 1,
+          icon: 1,
+          role: 1,
+          totalScore: 1,
+          participation: 1,
+          total: 1,
+        },
+      },
+    ]);
 
-        return {
-          username: user.username,
-          icon: user.icon,
-          role: user.role,
-          totalScore,
-          participation: user.participation,
-          total: user.total
-        };
-      })
-      .sort((a, b) => b.totalScore - a.totalScore)
-      .slice(0, 5);
-
-    // 4️⃣ Send leaderboard
     return res.json({ user_data: topUsers });
-
   } catch (err) {
     console.error("Error fetching top users:", err);
     return res.status(500).json({ error: "Internal Server Error" });
   }
 });
-router.get('/getrooms',async(req,res)=>{
-  
-})
 router.get('/specificuser', async (req, res) => {
   const { id, name } = req.query;
 
@@ -313,24 +325,29 @@ router.post('/adddetails',async(req,res)=>{
   catch (error) {
     res.status(500).json({ error: error.message });
   }
-
 })
 router.post('/addParticipation', async (req, res) => {
   const { username, participationEntry } = req.body;
   try {
-    const [user, tour] = await Promise.all([
-  UsersCollection.findOne({ username }),
-  TournamentsCollection.findOne({ matchID: participationEntry.id })
-]);
-    if (!user) return res.status(404).json({ message: "User not found" });
-    if(tour.hasStarted==true || tour.winner!=""){
-      return res.status(404).json({ message: "Tournament already started" })
+    const tour = await TournamentsCollection.findOne({ matchID: participationEntry.id });
+    if (!tour) {
+      return res.status(404).json({ message: "Tournament not found" });
     }
-  user.participation.push(participationEntry);
-    await user.save();
-    res.status(200).json({ message: "Participation added", user });
+    if (tour.hasStarted === true || tour.winner !== "") {
+      return res.status(400).json({ message: "Tournament already started" });
+    }
+    const updatedUser = await UsersCollection.findOneAndUpdate(
+      { username, "participation.id": { $ne: participationEntry.id } }, 
+      { $push: { participation: participationEntry } },
+      { new: true } // return updated document
+    );
+    if (!updatedUser) {
+      return res.status(400).json({ message: "User not found or already participating" });
+    }
+    res.status(200).json({ message: "Participation added", user: updatedUser });
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    console.error("Error adding participation:", error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 router.get("/getprofilerooms", async (req, res) => {
