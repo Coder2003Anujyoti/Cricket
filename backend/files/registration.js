@@ -158,48 +158,32 @@ router.get('/getpostslist', authenticateToken, authorizeRoles("admin"), async (r
 });
 router.get("/allusers", async (req, res) => {
   try {
-    const [tournaments, challenges] = await Promise.all([
+    // Fetch tournaments and challenges
+    const [tournaments, challenges, users] = await Promise.all([
       TournamentsCollection.find({}, { matchID: 1 }),
       ChallengesCollection.find({}, { challengeID: 1 }),
+      UsersCollection.find({ role: { $ne: "admin" } }) // exclude admins directly
     ]);
     const validMatchIds = [
       ...tournaments.map(t => t.matchID),
       ...challenges.map(c => c.challengeID),
     ];
-    const topUsers = await UsersCollection.aggregate([
-      { $match: { role: { $ne: "admin" } } }, 
-      {
-        $addFields: {
-          totalScore: {
-            $sum: {
-              $map: {
-                input: {
-                  $filter: {
-                    input: "$participation",
-                    as: "p",
-                    cond: { $in: ["$$p.id", validMatchIds] },
-                  },
-                },
-                as: "f",
-                in: "$$f.score",
-              },
-            },
-          },
-        },
-      },
-      { $sort: { totalScore: -1 } }, // sort in DB
-      { $limit: 5 }, // only top 5
-      {
-        $project: {
-          username: 1,
-          icon: 1,
-          role: 1,
-          totalScore: 1,
-          participation: 1,
-          total: 1,
-        },
-      },
-    ]);
+    const processedUsers = users.map(user => {
+      const totalScore = (user.participation || [])
+        .filter(p => validMatchIds.includes(p.id))
+        .reduce((sum, p) => sum + (p.score || 0), 0);
+      return {
+        username: user.username,
+        icon: user.icon,
+        role: user.role,
+        participation: user.participation,
+        total: user.total,
+        totalScore
+      };
+    });
+    const topUsers = processedUsers
+      .sort((a, b) => b.totalScore - a.totalScore)
+      .slice(0, 5);
 
     return res.json({ user_data: topUsers });
   } catch (err) {
@@ -327,28 +311,22 @@ router.post('/adddetails',async(req,res)=>{
   }
 })
 router.post('/addParticipation', async (req, res) => {
-  const { username, participationEntry } = req.body;
-  try {
-    const tour = await TournamentsCollection.findOne({ matchID: participationEntry.id });
-    if (!tour) {
-      return res.status(404).json({ message: "Tournament not found" });
-    }
-    if (tour.hasStarted === true || tour.winner !== "") {
-      return res.status(400).json({ message: "Tournament already started" });
-    }
-    const updatedUser = await UsersCollection.findOneAndUpdate(
-      { username, "participation.id": { $ne: participationEntry.id } }, 
-      { $push: { participation: participationEntry } },
-      { new: true } // return updated document
-    );
-    if (!updatedUser) {
-      return res.status(400).json({ message: "User not found or already participating" });
-    }
-    res.status(200).json({ message: "Participation added", user: updatedUser });
-  } catch (error) {
-    console.error("Error adding participation:", error);
-    res.status(500).json({ error: "Internal Server Error" });
-  }
+const { username, participationEntry } = req.body;
+try {
+const [user, tour] = await Promise.all([
+UsersCollection.findOne({ username }),
+TournamentsCollection.findOne({ matchID: participationEntry.id })
+]);
+if (!user) return res.status(404).json({ message: "User not found" });
+if(tour.hasStarted==true || tour.winner!=""){
+return res.status(404).json({ message: "Tournament already started" })
+}
+user.participation.push(participationEntry);
+await user.save();
+res.status(200).json({ message: "Participation added", user });
+} catch (error) {
+res.status(500).json({ error: error.message });
+}
 });
 router.get("/getprofilerooms", async (req, res) => {
   try {
