@@ -194,12 +194,12 @@ const handle=async(icon)=>{
     loading==false && <>
 {closed === false && (
   badges.filter(badge => items[0].total >= badge.min).slice(-1)[0] && (
- <div className={`fixed inset-0 ${imageLoaded ? 'flex' : 'hidden'} md:hidden items-center justify-center z-[100] overflow-hidden`}>
+ <div className="fixed inset-0 flex md:hidden items-center justify-center z-[100] overflow-hidden">
   <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
 <motion.div initial={{ scale: 0, opacity: 0 }}
  animate={{ scale: 1, opacity: 1 }}
   transition={{ type: "spring", stiffness: 200, damping: 12 }}
-        className="relative z-[101] max-w-[80%] max-h-[80%] bg-gray-900 rounded-2xl p-6 shadow-2xl flex flex-col items-center"
+        className={`relative z-[101] max-w-[80%] max-h-[80%] bg-gray-900 rounded-2xl p-6 shadow-2xl ${imageLoaded ? 'flex' : 'hidden'}  flex-col items-center`}
       >
         {/* Close Button */}
         <button
@@ -228,8 +228,8 @@ const handle=async(icon)=>{
   src={`Badges/${badge.name}.webp`}
   alt={badge.name}
   className="w-40 h-40 object-contain"
-  initial={{ scale: 0, rotate:0 }}
-  animate={{ scale: 1, rotate:360 }}
+  initial={{ scale: 0 }}
+  animate={{ scale: 1 }}
   transition={{ type: "spring", stiffness: 150, damping: 10, duration: 1.5 }}
 />
           ))}
