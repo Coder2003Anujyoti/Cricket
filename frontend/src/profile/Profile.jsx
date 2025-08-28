@@ -47,7 +47,6 @@ const Profile = () => {
   const [deleted,setDeleted]=useState(false)
   const [isOpen, setIsOpen] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
-  const [closed,setClosed]=useState(()=>get_close()||false)
   const [loading,setLoading]=useState(true)
   const [items,setItems]=useState([])
   const [score,setScore]=useState(0)
@@ -160,17 +159,6 @@ const handle=async(icon)=>{
     handle(i)
     }
     }
-    useEffect(() => {
-  const hasAchievement = badges?.some(badge => items[0]?.total >= badge.min);
-  if (!closed && hasAchievement) {
-    document.body.style.overflow = "hidden";
-  } else {
-    document.body.style.overflow = "auto";
-  }
-  return () => {
-    document.body.style.overflow = "auto";
-  };
-}, [closed, badges, items]);
   return (
     <>
      {loading == true && <>
@@ -192,51 +180,6 @@ const handle=async(icon)=>{
   </>}
   {
     loading==false && <>
-{closed === false && (
-  badges.filter(badge => items[0].total >= badge.min).slice(-1)[0] && (
- <div className="fixed inset-0 flex md:hidden items-center justify-center z-[100] overflow-hidden">
-  <div className="fixed inset-0 bg-black bg-opacity-60 backdrop-blur-sm"></div>
-<motion.div initial={{ scale: 0, opacity: 0 }}
- animate={{ scale: 1, opacity: 1 }}
-  transition={{ type: "spring", stiffness: 200, damping: 12 }}
-        className={`relative z-[101] max-w-[80%] max-h-[80%] bg-gray-900 rounded-2xl p-6 shadow-2xl ${imageLoaded ? 'flex' : 'hidden'}  flex-col items-center`}
-      >
-        {/* Close Button */}
-        <button
-          onClick={() => {
-            sessionStorage.setItem("profileclose", JSON.stringify(true));
-            setClosed(true);
-          }}
-          className="absolute -top-4 -right-4 bg-gray-700 text-white rounded-full px-3 py-2 shadow-lg flex items-center justify-center hover:scale-110 transition-transform duration-200"
-        >
-          <FontAwesomeIcon icon={faTimes} className="text-lg" />
-        </button>
-
-        {/* Title */}
-        <h2 className="text-xl  font-bold text-white text-center mb-4">
-         Achievement Unlocked !
-        </h2>
-
-        {/* Latest Badge */}
-        {badges
-          .filter(badge => items[0].total >= badge.min)
-          .slice(-1)
-          .map((badge, index) => (
-   <motion.img
-  key={index}
-  onLoad={() => setImageLoaded(true)}
-  src={`Badges/${badge.name}.webp`}
-  alt={badge.name}
-  className="w-40 h-40 object-contain"
-  initial={{ scale: 0 }}
-  animate={{ scale: 1 }}
-  transition={{ type: "spring", stiffness: 150, damping: 10, duration: 1.5 }}
-/>
-          ))}
-      </motion.div>
-    </div>
-  )
-)}
     <div className="relative w-full bg-slate-800 md:flex hidden items-center justify-between p-2 z-50 lg:hidden md:px-4 md:py-3">
       <img className="w-28 h-16" src={`Logos/Logo.webp`} />
         <button onClick={() => setIsOpen(!isOpen)} className="text-white focus:outline-none">
@@ -478,7 +421,7 @@ const handle=async(icon)=>{
 <div className="flex flex-wrap gap-3">
   {raul=="admin" && badges.filter(badge => items[0].total <= badge.min).map((badge, idx, arr) => {
 return (
-<img key={idx} src={`Badges/${badge.name}.webp`} alt={badge.name} className="w-28 h-20 object-contain transition-all duration-300  drop-shadow-[0_0_5px_#facc15]"/>
+<img key={idx} src={`Badges/${badge.name}.webp`} alt={badge.name} className="w-28 h-20 object-contain transition-all duration-300"/>
       );
     })}
   { raul==="user" && 
@@ -490,7 +433,7 @@ return (
         <img
           src={`Badges/${badge.name}.webp`}
           alt={badge.name}
-          className={`w-full h-full object-contain transition-all duration-300 drop-shadow-[0_0_5px_#facc15] ${
+          className={`w-full h-full object-contain transition-all duration-300  ${
             unlocked ? "" : "filter blur-sm"
           }`}
         />
