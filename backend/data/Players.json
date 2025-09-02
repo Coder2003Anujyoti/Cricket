@@ -439,6 +439,17 @@
     "runs":0,
     "wickets":0
   },
+    {
+     "name":"Y.Dhull",
+    "fullname":"Yash Dhull",
+    "image":"Dc/Y.Dhull.webp",
+    "role":"Batsman",
+    "team":"Dc",
+    "captain":false,
+    "matches":0,
+    "runs":0,
+    "wickets":0
+  },
   {
      "name":"Gulbadin",
     "fullname":"Gulbadin Naib",

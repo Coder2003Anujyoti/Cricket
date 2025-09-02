@@ -129,11 +129,13 @@ type: "search",
   </div>
   { mode=="agent" && <>
    <div className="flex flex-col">
-  <div className="relative flex ml-8 w-72 mt-6">
+<div className="w-full mt-6 flex justify-center items-center">
+  <div className="relative flex w-72">
   <textarea style={{ resize: "none" }} type="text" value={text} onChange={(e)=>setText(e.target.value)} placeholder="Enter Text...." className="w-full text-white bg-slate-800 border border-slate-700 font-semibold px-4 py-2 pr-10 rounded-lg shadow-md focus:outline-none border-none focus:ring-0  transition disabled:bg-slate-800 disabled:text-black text-sm placeholder-white"/>
     <button onClick={handleSubmit} disabled={subload} className="absolute right-3 top-1/3 transform -translate-y-1/2 text-sky-500 text-xl disabled:text-slate-800">
     <FontAwesomeIcon icon={faPaperPlane} />
     </button>
+</div>
 </div>
   <div className="flex-1 p-4 overflow-y-auto space-y-4 my-8 text-xs">
 {messages.map((msg, index) =>{

@@ -196,30 +196,34 @@ const PlayerSearch = () => {
 <FontAwesomeIcon icon={faCheckCircle} className="absolute top-0 right-0 text-green-500 bg-white rounded-full" size="lg"/>)}
 </div>))}</div> </div>
 <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Players Details</h1>
-<div className="w-full px-3 p-2 justify-start items-start flex flex-row gap-4 lg:px-12 flex-wrap md:gap-6 lg:gap-10 md:ml-4 md:my-4">
- {items
-  .sort((a, b) => a.name.localeCompare(b.name))
-  .map((i, index) =>
-    (selectedTeams.length === 0 || selectedTeams.includes(i.team)) ? (
-      <div
-        key={index}
-        className="flex justify-center flex-col text-center text-white font-bold bg-slate-800 rounded-md p-2"
-      >
-        <div className="w-full flex justify-center items-center">
-          <img src={i.image} alt={i.name || "team-logo"} className="w-36 h-36" />
+<div className="w-full px-3 p-2 flex flex-row flex-wrap gap-3 md:gap-6 lg:gap-10 lg:px-12 md:ml-4 md:my-4 md:justify-start md:items-start justify-center items-center">
+  {items
+    .sort((a, b) => a.name.localeCompare(b.name))
+    .map((i, index) =>
+      (selectedTeams.length === 0 || selectedTeams.includes(i.team)) ? (
+        <div
+          key={index}
+          className="flex flex-col justify-center text-center text-white font-bold bg-slate-800 rounded-md p-2"
+        >
+          <div className="w-full flex justify-center items-center">
+            <img
+              src={i.image}
+              alt={i.name || "team-logo"}
+              className="w-36 h-36"
+            />
+          </div>
+          <p className="my-2">{i.name}</p>
+          <div className="w-full">
+            <Link to={`/profile?name=${i.name}&team=${i.team}`}>
+              <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">
+                Show Profile
+              </button>
+            </Link>
+          </div>
         </div>
-        <p className="my-2">{i.name}</p>
-        <div className="w-full">
-         <Link to={`/profile?name=${i.name}&team=${i.team}`}>
-          <button className="bg-slate-900 text-white text-base px-6 py-2 font-bold rounded-md shadow-md">
-            Show Profile
-          </button>
-          </Link>
-        </div>
-      </div>
-    ) : null
-  )
-}
+      ) : null
+    )
+  }
 </div>
 
 </>
