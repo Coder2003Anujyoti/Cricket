@@ -117,7 +117,7 @@ useEffect(()=>{
   }
   else{
     alert("Your Low budget")
-    window.location.href="https://coder2003anujyoti.github.io/benweb/"
+    window.location.href="https://coder2003anujyoti.github.io/Cricket/"
   }
    }
    if(bid!=0){
@@ -130,7 +130,7 @@ useEffect(()=>{
        }
        else{
     alert("Your Low budget")
-    window.location.href="https://coder2003anujyoti.github.io/benweb/"
+    window.location.href="https://coder2003anujyoti.github.io/Cricket/"
   }
    }
  }
