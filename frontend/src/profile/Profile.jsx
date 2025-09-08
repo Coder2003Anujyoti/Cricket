@@ -363,6 +363,10 @@ const handle=async(icon)=>{
         {showPassword ? <FontAwesomeIcon icon={faEyeSlash} />:  <FontAwesomeIcon icon={faEye} />}
       </button>
     </div>
+     <p className="font-bold ml-6 text-white text-base mt-4 md:mt-6">Email</p>
+  <div className="w-64 h-10 rounded-lg flex justify-start items-center bg-slate-800 text-white ml-6 mt-1">
+    <p className="font-bold ml-4 text-white text-sm md:text-base">{items[0].email}</p>
+  </div>
   </div>
   <div className="flex w-full flex-col justify-start items-start mt-4 md:mt-6">
   <p className="font-bold ml-6 text-white text-base">Choose Icons</p>
@@ -485,6 +489,10 @@ return (
     className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition">
     Delete Records
   </button>
+  <HashLink smooth to="/email">  <button 
+    className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition">
+  Write Email
+  </button></HashLink>
   </div>
     </>
   }

@@ -456,7 +456,7 @@ const handleEdit= () => {
   </button>
 </div>
 { mode=="users" && <>
- <div className="overflow-x-auto scroll-smooth px-3 py-4 my-4 lg:flex lg:justify-center lg:items-center lg:py-6">
+ <div className="overflow-x-auto scroll-smooth px-3 py-4 my-4 lg:hidden lg:justify-center lg:items-center lg:py-6">
 <div className="flex gap-4 w-max md:justify-center md:items-center lg:gap-10">
 {teams.map((team) => (
 <div key={team} onClick={() => handleSelectteam(team)} className="relative bg-slate-800 rounded-full px-4 py-3 cursor-pointer">
@@ -471,11 +471,12 @@ const handleEdit= () => {
       <tr className="bg-emerald-500 text-white">
               <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Icon</th>
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Username</th>
+        <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Email</th>
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Password</th>
         <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Role</th>
- <th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Participations</th>
-<th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Rooms</th>
-<th className="px-6 py-3 text-left text-sm font-semibold w-1/3">Score</th>
+ <th className="px-6 py-3 text-left text-sm font-semibold w-1/3 md:hidden">Participations</th>
+<th className="px-6 py-3 text-left text-sm font-semibold w-1/3 md:hidden">Rooms</th>
+<th className="px-6 py-3 text-left text-sm font-semibold w-1/3 md:hidden">Score</th>
       </tr>
     </thead>
     <tbody>
@@ -491,7 +492,7 @@ const handleEdit= () => {
           )}
         </td>
         <td className="px-6 py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">{i.username}</td>
-
+         <td className="px-6 py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">{i.email}</td>
         <td className="px-6 py-6 whitespace-nowrap w-1/3 flex items-center space-x-3 font-semibold text-xs md:text-sm text-center">
           <FontAwesomeIcon
             icon={showPassword[idx] ? faUnlock : faLock}
@@ -516,13 +517,13 @@ const handleEdit= () => {
             {i.role[0].toUpperCase() + i.role.slice(1)}
           </span>
         </td>
-        <td className="px-6 py-4 text-center text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">
+        <td className="px-6 py-4 text-center text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold md:hidden">
           {i.participation.length}
         </td>
-        <td className="px-6 text-center py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">
+        <td className="px-6 text-center py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold md:hidden">
           {i.rooms.length}
         </td>
-        <td className="px-6 text-center py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold">
+        <td className="px-6 text-center py-4 text-xs md:text-sm whitespace-nowrap w-1/3 font-semibold md:hidden">
           {i.total}
         </td>
       </tr>

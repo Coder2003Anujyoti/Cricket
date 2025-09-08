@@ -33,7 +33,22 @@ export default function Login() {
   const handSubmit = async () => {
     let valid = true;
 
-    if (username.trim() === "" || password.trim() === "" || username.trim().length >= 15) {
+    if (mode=="login" && (username.trim() === "" || password.trim() === "" || username.trim().length >= 15)) {
+      toast.error("Invalid input");
+      valid = false;
+      setLock(false);
+    }
+    if (mode=="signup" && (username.trim() === "" || password.trim() === "" || username.trim().length >= 15 || email.trim() === "")) {
+      toast.error("Invalid input");
+      valid = false;
+      setLock(false);
+    }
+     if (mode=="forgot" && otpSent==false && (username.trim() === "" || username.trim().length >= 15 || email.trim() === "")) {
+      toast.error("Invalid input");
+      valid = false;
+      setLock(false);
+    }
+   if (mode=="forgot" && otpSent==true && (username.trim() === "" || username.trim().length >= 15 || email.trim() === "" || password.trim()=== "" || otp.trim() === "")) {
       toast.error("Invalid input");
       valid = false;
       setLock(false);
@@ -49,7 +64,7 @@ export default function Login() {
           body: JSON.stringify({
             username: username.trim(),
             password: password.trim(),
-            email: email.trim()
+            email: email.trim().replace(/\s/g, "")
           }),
         });
       } else if (mode === "login") {
@@ -66,7 +81,7 @@ export default function Login() {
         response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/request-otp", {
           method: 'POST',
           headers: { 'Content-Type': "application/json" },
-          body: JSON.stringify({ email: email.trim() }),
+          body: JSON.stringify({ email: email.trim().replace(/\s/g, "") , username: username.trim() }),
         });
         const data = await response.json();
         if (response.ok) {
@@ -79,13 +94,14 @@ export default function Login() {
         }
       } else if (mode === "forgot" && otpSent) {
         // Step 2: Verify OTP + reset password
-        response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/reset-password", {
+        response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/forget", {
           method: 'POST',
           headers: { 'Content-Type': "application/json" },
           body: JSON.stringify({
-            email: email.trim(),
+            username:username.trim(),
+            email: email.trim().replace(/\s/g, ""),
             otp: otp.trim(),
-            newPassword: password.trim(),
+            password: password.trim(),
           }),
         });
       }
@@ -157,7 +173,7 @@ export default function Login() {
 
       {/* Main Form */}
       <div className="min-h-screen relative z-10 flex items-center justify-center">
-        <Toaster position="top-center" toastOptions={{ className: shouldShowMobile ? "font-bold" : "", duration: 2000 }} />
+        <Toaster position="top-center" toastOptions={{ className: shouldShowMobile ? "font-bold" : "font-bold", duration: 2000 }} />
 
         <div className="w-full my-28 max-w-md max-h-full overflow-y-auto rounded-2xl p-8 flex flex-col items-center m-4">
           <video src="Icons/movable.webm" autoPlay loop muted className="w-24 h-24 mb-4 rounded-full shadow-md"></video>
@@ -179,7 +195,7 @@ export default function Login() {
                 type="email"
                 placeholder="Email"
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+                onChange={(e) => setEmail(e.target.value.replace(/\s/g, ""))}
                 className="w-full px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none"
               />
             )}
@@ -208,7 +224,7 @@ export default function Login() {
                 type="text"
                 placeholder="Enter OTP"
                 value={otp}
-                onChange={(e) => setOtp(e.target.value)}
+                onChange={(e) => setOtp(e.target.value.replace(/\s/g, ""))}
                 className="w-full px-4 py-2 mb-4 border rounded-md font-semibold focus:outline-none"
               />
             )}
