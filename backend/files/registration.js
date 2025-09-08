@@ -8,6 +8,10 @@ const bodyParser=require('body-parser');
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const multer = require("multer");
+const nodemailer = require("nodemailer");
+const path = require("path");
+const fs = require("fs");
 const TournamentsCollection= require('../schemas/tournaments');
 const BackupCollection= require('../schemas/backup.js');
 const { authenticateToken,authorizeRoles }=require("../middleware/authMiddleware.js")
@@ -15,6 +19,8 @@ app.use(express.json());
 const UsersCollection= require('../schemas/users.js');
 const NewsCollection= require('../schemas/news.js');
 const ChallengesCollection= require('../schemas/challenges.js');
+require("dotenv").config();
+let otpstore={}
 //*Add Data in Mongodb
    const addDataToMongodb = async() => {
     await UsersCollection.deleteMany();
@@ -27,16 +33,241 @@ const ChallengesCollection= require('../schemas/challenges.js');
     await UsersCollection.insertMany(hashedUsers);
 }
 //addDataToMongodb();
+let transporter = nodemailer.createTransport({
+  service: "gmail",
+  auth: {
+    user: process.env.EMAIL_USER, // from .env
+    pass: process.env.EMAIL_PASS, // from .env
+  },
+});
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, "uploads/"); // save in uploads folder
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + path.extname(file.originalname)); // unique filename
+  },
+});
+const fileFilter = (req, file, cb) => {
+  const fileTypes = /jpeg|jpg|png|gif/;
+  const extname = fileTypes.test(path.extname(file.originalname).toLowerCase());
+  const mimetype = fileTypes.test(file.mimetype);
+  if (extname && mimetype) {
+    cb(null, true);
+  } else {
+    cb(new Error("Only image files are allowed!"), false);
+  }
+};
+const upload = multer({
+  storage,
+  fileFilter,
+  limits: { fileSize: 5 * 1024 * 1024 },
+});
+function generateOTP(length) {
+  const chars = "0123456789abcdefghijklmnopqrstuvwxyz"; // numbers + lowercase letters
+  let otp = "";
+  for (let i = 0; i < length; i++) {
+    otp += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return otp;
+}
 //* Setup Different HTTPS methods
+router.post("/send-email", upload.single("image"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ success: false, error: "No image uploaded!" });
+    }
+
+    const { from, to, name, subject, message } = req.body;
+
+    let mailOptions = {
+      from,
+      to,
+      subject,
+    html: `
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; padding: 0; border: 1px solid #eee; border-radius: 10px; background: #fafafa; box-shadow: 0 4px 12px rgba(0,0,0,0.1);  background: #1e293b;">
+  <h2 style="background: #00a3ee; color: #fff; text-align: center; margin: 0; padding: 20px; border-radius: 10px 10px 0 0; font-weight: 700; font-size: 22px;">
+   📢 Message from Cricket Fever
+  </h2>
+  <div style="padding: 25px; text-align:start;">
+    <p style="color: #fff; font-size: 17px; margin-bottom: 20px;">
+      Hi <strong>${name}</strong>,
+    </p>
+    <p style="color: #fff; font-size: 16px; margin-bottom: 20px;">
+    ${message}
+    </p>
+    <p style="color: #fff; font-size: 16px; margin-bottom: 30px;">
+      Cheers,<br/>
+      The <strong>Cricket Fever</strong> Team
+    </p>
+    <div style="text-align: center; margin: 20px 0;">
+      <img src="cid:image1" style="max-width: 90%; height: auto; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.2);" alt="Welcome Image" />
+    </div>
+  </div>
+  <hr style="border: none; border-top: 1px solid #ddd; margin: 0;" />
+  <p style="font-size: 14px; color: #fff; text-align: center; padding: 12px; font-weight: 500;">
+    Sent with ❤️ via <strong>Cricket Fever</strong>
+  </p>
+</div>
+`,
+      attachments: [
+        {
+          filename: req.file.originalname,
+          path: req.file.path,
+          cid: "image1", // same cid as in html img src
+        },
+      ],
+    };
+
+    let info = await transporter.sendMail(mailOptions);
+    console.log("Email sent:", info.response);
+
+    // Delete the uploaded file after sending
+    fs.unlink(req.file.path, (err) => {
+      if (err) console.error("Error deleting uploaded file:", err);
+      else console.log("Uploaded file deleted successfully!");
+    });
+
+    res.json({ success: true, message: "Email sent with inline image!" });
+  } catch (err) {
+    console.error(err);
+    // Delete uploaded file even on error
+    if (req.file && req.file.path) {
+      fs.unlink(req.file.path, (err) => {
+        if (err) console.error("Error deleting uploaded file:", err);
+        else console.log("Uploaded file deleted successfully!");
+      });
+    }
+    res.status(500).json({ success: false, error: err.message || "Server error" });
+  }
+});
+
 router.post('/signup', async (req, res) => {
-  const { username, password,icon="", participation = [] } = req.body;
-  const existing = await UsersCollection.findOne({ username });
-  if (existing) return res.status(400).json({ error: 'User already exists' });
+  try {
+  const { username, password,email,icon="", participation = [] } = req.body;
+  const existing = await UsersCollection.findOne({
+  $or: [{ username }, { email }]
+});
+  if (existing) {
+  if (existing.username === username) {
+    return res.status(400).json({ error: "Username already exists" });
+  }
+  if (existing.email === email) {
+    return res.status(400).json({ error: "Email already exists" });
+  }
+}
   const hashedPassword = await bcrypt.hash(password, 10);
-  const user = new UsersCollection({ username, password, hasheduserpassword:hashedPassword, role: 'user',total:0, icon,
+  const user = new UsersCollection({ username, email, password, hasheduserpassword:hashedPassword, role: 'user',total:0, icon,
     participation,rooms:[]}); 
   await user.save();
-  return res.json({ message: 'User registered', user: { username: user.username, role: user.role } });
+ res.json({ message: 'User registered', user: { username: user.username, role: user.role } });
+ const mailOptions = {
+      from:process.env.EMAIL_USER,
+      to:email,
+      subject:"Welcome Message",
+      html: `
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; padding: 0; border: 1px solid #eee; border-radius: 10px; background: #fafafa; box-shadow: 0 4px 12px rgba(0,0,0,0.1);  background: #1e293b;">
+  <h2 style="background: #00a3ee; color: #fff; text-align: center; margin: 0; padding: 20px; border-radius: 10px 10px 0 0; font-weight: 700; font-size: 22px;">
+    🎉 Welcome to Cricket Fever!
+  </h2>
+  <div style="padding: 25px; text-align:start;">
+    <p style="color: #fff; font-size: 17px; margin-bottom: 20px;">
+      Hi <strong>${username}</strong>,
+    </p>
+    <p style="color: #fff; font-size: 16px; margin-bottom: 20px;">
+      Welcome to <strong>Cricket Fever</strong>! We’re excited to have you join our community.  
+      Start exploring your account and enjoy all the features we’ve built for you.  
+      If you need help, just reach out — we’re here anytime.
+    </p>
+    <p style="color: #fff; font-size: 16px; margin-bottom: 30px;">
+      Cheers,<br/>
+      The <strong>Cricket Fever</strong> Team
+    </p>
+    <div style="text-align: center; margin: 20px 0;">
+      <img src="cid:image1" style="max-width: 90%; height: auto; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.2);" alt="Welcome Image" />
+    </div>
+  </div>
+  <hr style="border: none; border-top: 1px solid #ddd; margin: 0;" />
+  <p style="font-size: 14px; color: #fff; text-align: center; padding: 12px; font-weight: 500;">
+    Sent with ❤️ via <strong>Cricket Fever</strong>
+  </p>
+</div>
+`,
+      attachments: [
+        {
+          filename: "1.jpg",
+          path: "C:\\Cricket\\backend\\images\\1.jpg", // Attach from images folder
+          cid: "image1", // same cid as in HTML
+        },
+      ],
+    };
+
+    // Fire email in background
+    transporter
+      .sendMail(mailOptions)
+      .then((info) => console.log("Email sent:", info.response))
+      .catch((err) => console.error("Error sending email:", err));
+}
+catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message || "Server error" });
+  }
+})
+router.post("/request-otp",async(req,res)=>{
+  try{
+const { email,username } = req.body;
+const otp = generateOTP(6); 
+const expiry = Date.now() + 300000; 
+otpstore[email] = { otp, expiry };
+const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: email,
+    subject: "Your OTP for Cricket Fever",
+    html: `
+<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; padding: 0; border: 1px solid #eee; border-radius: 10px; background: #1e293b;">
+  <h2 style="background: #00a3ee; color: #fff; text-align: center; margin: 0; padding: 20px; border-radius: 10px 10px 0 0; font-weight: 700; font-size: 22px;">
+    🔐 Your OTP for Cricket Fever
+  </h2>
+  <div style="padding: 25px; text-align:start;">
+    <p style="color: #fff; font-size: 17px; margin-bottom: 20px;">
+      Hi <strong>${username}</strong>,
+    </p>
+    <p style="color: #fff; font-size: 16px; margin-bottom: 20px;">
+      Use the following OTP to verify your email. This OTP is valid for 5 minutes.
+    </p>
+    <h3 style="color: #fff; text-align: center; font-size: 28px; margin-bottom: 30px;">${otp}</h3>
+    <div style="text-align: center; margin: 20px 0;">
+      <img src="cid:image1" style="max-width: 90%; height: auto; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.2);" alt="OTP Image" />
+    </div>
+    <p style="color: #fff; font-size: 16px;">
+      Cheers,<br/>
+      The <strong>Cricket Fever</strong> Team
+    </p>
+  </div>
+  <hr style="border: none; border-top: 1px solid #ddd; margin: 0;" />
+  <p style="font-size: 14px; color: #fff; text-align: center; padding: 12px; font-weight: 500;">
+    Sent with ❤️ via <strong>Cricket Fever</strong>
+  </p>
+</div>
+`,
+    attachments: [
+      {
+        filename: "1.jpg",
+        path: "C:/Cricket/backend/images/1.jpg", // image path
+        cid: "image1", // match the src in HTML
+      },
+    ],
+  };
+   transporter
+      .sendMail(mailOptions)
+      .then((info) => console.log("Email sent:", info.response))
+      .catch((err) => console.error("Error sending email:", err));
+    res.json({ message: 'OTP sent successfully' });
+  }
+catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message || "Server error" });
+  }
 })
 router.post("/login",async(req,res)=>{
     const { username, password } = req.body;
@@ -76,12 +307,27 @@ router.delete("/deleteaccount", async (req, res) => {
   }
 });
 router.post('/forget',async(req,res)=>{
-    const { username,password } = req.body;
-    const person=await UsersCollection.findOne({username})
+    const { username,email,otp,password} = req.body;
+    const person=await UsersCollection.findOne({username , email})
   if (!person) return res.status(400).json({ error: 'User not found' });
+  const record = otpstore[email];
+  if (!record) return res.status(400).json({ error: "No OTP found" });
+  if (Date.now() > record.expiry) {
+    delete otpstore[email];
+    return res.status(400).json({ error: "OTP expired" });
+  }
+  if (otp !== record.otp) return res.status(400).json({ error: "Invalid OTP" });
+  delete otpstore[email];
   const newpassword=await bcrypt.hash(password,10);
-  person.password=password
-  person.hasheduserpassword=newpassword
+   await UsersCollection.updateOne(
+      { email: person.email }, 
+      { 
+        $set: { 
+          password: password, 
+          hasheduserpassword: newpassword
+        } 
+      }
+    );
   await person.save()
   res.json({ message: 'Password Updated Successfully' });
 })
