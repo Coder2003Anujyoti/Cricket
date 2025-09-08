@@ -1,8 +1,8 @@
 // src/EmailSender.jsx
 import React, { useState } from "react";
 import axios from "axios";
-
-const API_URL = "http://localhost:8000"; // backend URL
+import { toast, Toaster } from 'react-hot-toast';
+const API_URL = "https://intelligent-ailyn-handcricket-e8842259.koyeb.app"; // backend URL
 
 export default function EmailSender() {
   const activeForm = "image" 
@@ -26,7 +26,9 @@ export default function EmailSender() {
       const res = await axios.post(`${API_URL}/send-email`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
-      alert(res.data.message);
+    toast.success(<p style={{ whiteSpace: 'nowrap' }}>{res.data.message}</p>);
+      setImageEmail({ from: "", to: "", name:"", subject: "", message: "" })
+      setImageFile(null)
     } catch (err) {
       alert(err.response?.data?.error || "Error sending image email");
     }
@@ -34,6 +36,8 @@ export default function EmailSender() {
 
   return (
     <>
+      <Toaster position="top-center" toastOptions={{className: 'font-bold', duration:2000, // Tailwind class applied to all toasts
+            }}/>
      <div className="relative w-full bg-slate-800 md:flex items-center justify-between p-2 z-50 md:px-4 md:py-3">
       <img className="w-28 h-16" src={`Logos/Logo.webp`} />
       </div>
@@ -49,7 +53,7 @@ export default function EmailSender() {
                <input type="text" placeholder="Name" value={imageEmail.name} onChange={(e) => setImageEmail({ ...imageEmail, name: e.target.value.replace(/\s/g, "") })} className="w-full p-3 border rounded-lg focus:outline-none" required />
               <input type="text" placeholder="Subject" value={imageEmail.subject} onChange={(e) => setImageEmail({ ...imageEmail, subject: e.target.value })} className="w-full p-3 border rounded-lg focus:outline-none" required />
               <textarea placeholder="Message" style={{ resize: "none"}} value={imageEmail.message} onChange={(e) => setImageEmail({ ...imageEmail, message: e.target.value })} className="w-full p-3 border rounded-lg focus:outline-none" required></textarea>
-              <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} className="w-full p-2 border rounded-lg bg-white" required />
+              <input type="file" accept="image/*" onChange={(e) => setImageFile(e.target.files[0])} className="w-full p-2 border rounded-lg bg-white text-black" required />
               <button className="w-full bg-green-600  text-white font-semibold py-3 rounded-lg transition">Send Image Email</button>
             </form>
           </div>
