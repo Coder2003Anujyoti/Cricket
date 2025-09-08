@@ -196,7 +196,7 @@ router.post('/signup', async (req, res) => {
       attachments: [
         {
           filename: "1.jpg",
-          path: "C:\\Cricket\\backend\\images\\1.jpg", // Attach from images folder
+          path: "./images/1.jpg", // Attach from images folder
           cid: "image1", // same cid as in HTML
         },
       ],
@@ -253,7 +253,7 @@ const mailOptions = {
     attachments: [
       {
         filename: "1.jpg",
-        path: "C:/Cricket/backend/images/1.jpg", // image path
+        path: "./images/1.jpg", // image path
         cid: "image1", // match the src in HTML
       },
     ],
