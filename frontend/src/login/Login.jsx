@@ -120,7 +120,7 @@ export default function Login() {
           sessionStorage.setItem("role", JSON.stringify(data.role));
           sessionStorage.setItem("userpassword", JSON.stringify(data.password));
         } else if (mode === "forgot" && otpSent) {
-          toast.success("Password reset successful!");
+          toast.success("Password reset successfully");
           setMode("login");
           setOtpSent(false);
         }
