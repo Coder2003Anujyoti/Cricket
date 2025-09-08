@@ -134,15 +134,15 @@ const handDelete = async() => {
     const data=await response.json();
     console.log(data)
     if(!response.ok){
-        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+        toast.error(<p style={{ whiteSpace: 'nowrap' }}>Session Timeout</p>);
     }
     else if(response.ok){
-      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Tournament deleted successfully</strong>);
+      toast.success(<p style={{ whiteSpace: 'nowrap' }}>Tournament deleted successfully</p>);
     }
   }
     catch(err){
         console.log(err)
-     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+     toast.error(<p style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
       }
       finally {
       setDeletelock(false);
@@ -184,15 +184,15 @@ const handDelete = async() => {
     const data=await response.json();
     console.log(data)
     if(!response.ok){
-        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+        toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Session Timeout</p>);
     }
     else if(response.ok){
-      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Tournament register successfully</strong>);
+      toast.success(<p  style={{ whiteSpace: 'nowrap' }}>Tournament register successfully</p>);
     }
   }
     catch(err){
         console.log(err)
-     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+     toast.error(<p style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
       }
       finally {
       setLock(false);
@@ -231,15 +231,15 @@ const handDelete = async() => {
     const data=await response.json();
     console.log(data)
     if(!response.ok){
-        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+        toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Session Timeout</p>);
     }
     else if(response.ok){
-      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Tournament updated successfully</strong>);
+      toast.success(<p style={{ whiteSpace: 'nowrap' }}>Tournament updated successfully</p>);
     }
   }
     catch(err){
         console.log(err)
-     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+     toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
       }
       finally {
       setEditlock(false);

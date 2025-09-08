@@ -110,7 +110,7 @@ window.scrollTo({ top: 0, behavior: "smooth" });
 const handSubmit = async() => {
     if (tournamentName && matchID && userTeam && computerTeam) {
     if(tournamentName!=name || matchID==name){
-      toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Wrong Username</strong>);
+      toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Wrong Username</p>);
       setLock(false);
     }
     else{
@@ -129,15 +129,15 @@ const handSubmit = async() => {
 });
     const data=await response.json();
     if(!response.ok){
-        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+        toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
     }
     else if(response.ok){
-      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Room created successfully</strong>);
+      toast.success(<p  style={{ whiteSpace: 'nowrap' }}>Room created successfully</p>);
     }
   }
     catch(err){
         console.log(err)
-     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+     toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
       }
       finally {
       setLock(false);
@@ -176,7 +176,7 @@ const handleDelete=async(it)=>{
       }
     catch(err){
     console.log(err)
-   toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+   toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
     }
   }
 const handDelete=(i)=>{

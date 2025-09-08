@@ -140,15 +140,15 @@ const handDelete = async() => {
     const data=await response.json();
     console.log(data)
     if(!response.ok){
-        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+        toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Session Timeout</p>);
     }
     else if(response.ok){
-      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Challenge deleted successfully</strong>);
+      toast.success(<p  style={{ whiteSpace: 'nowrap' }}>Challenge deleted successfully</p>);
     }
   }
     catch(err){
         console.log(err)
-     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+     toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
       }
       finally {
       setDeletelock(false);
@@ -190,15 +190,15 @@ const handDelete = async() => {
     const data=await response.json();
     console.log(data)
     if(!response.ok){
-        toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Session Timeout</strong>);
+        toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Session Timeout</p>);
     }
     else if(response.ok){
-      toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Challenge register successfully</strong>);
+      toast.success(<p  style={{ whiteSpace: 'nowrap' }}>Challenge register successfully</p>);
     }
   }
     catch(err){
         console.log(err)
-     toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+     toast.error(<p style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
       }
       finally {
       setLock(false);

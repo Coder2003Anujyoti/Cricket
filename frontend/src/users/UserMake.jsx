@@ -122,11 +122,11 @@ const matchtime=searchParams.get("matchtime")
 })
 const data=await response.json();
 if(!response.ok){
-toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+toast.error(<p style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
   setLocked(false)
 }
 else if(response.ok){
-toast.success(<strong  style={{ whiteSpace: 'nowrap' }}>Players register successfully</strong>);
+toast.success(<p  style={{ whiteSpace: 'nowrap' }}>Players register successfully</p>);
   setLocked(false)
   setHide(true)
 }
@@ -149,7 +149,7 @@ const handget=async()=>{
 })
 const data=await response.json();
 if(!response.ok){
-toast.error(<strong  style={{ whiteSpace: 'nowrap' }}>Something went wrong</strong>);
+toast.error(<p  style={{ whiteSpace: 'nowrap' }}>Something went wrong</p>);
   setSubload(false)
 }
 else if(response.ok){
