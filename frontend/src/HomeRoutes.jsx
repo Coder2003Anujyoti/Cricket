@@ -48,7 +48,7 @@ const HomeRoutes = () => {
  <Route path="/online" element={<Warning><Protected><Online /></Protected></Warning>} />
   <Route path="/onlinedual" element={<Warning><Protected><OnlineDual /></Protected></Warning>} />
   <Route path="/profilehistory" element={<Warning><Protected><ProfileHistory /></Protected></Warning>} />
-  <Route path="/email" element={<Warning><Protected><Email /></Protected></Warning>} />
+  <Route path="/email" element={<Warning><Protected allowedRoles={['admin']}><Email /></Protected></Warning>} />
     <Route path="/oldprofilehistory" element={<Warning><Protected><OldProfileHistory /></Protected></Warning>} />
   <Route path="/room" element={<Warning><Protected><Room /></Protected></Warning>} />
 <Route path="/allleaderboard" element={<Warning><Protected><AllLeaderBoard /></Protected></Warning>} />
