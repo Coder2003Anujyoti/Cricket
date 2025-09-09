@@ -1,11 +1,12 @@
 // src/EmailSender.jsx
-import React, { useState,useRef } from "react";
+import React, { useState,useRef,useEffect} from "react";
 import axios from "axios";
 import { toast, Toaster } from 'react-hot-toast';
 const API_URL = "https://intelligent-ailyn-handcricket-e8842259.koyeb.app"; // backend URL
 
 export default function EmailSender() {
   const activeForm = "image" 
+  const [load,setLoad]=useState(true)
   const [imageEmail, setImageEmail] = useState({ from: "", to: "", name:"", subject: "", message: "" });
   const [imageFile, setImageFile] = useState(null);
 const [lock,setLock]=useState(false)
@@ -42,8 +43,37 @@ const handleSend = (e) => {
     handleSendImage();
   }
 };
+const get_Details=()=>{
+    setTimeout(()=>{
+      setLoad(false)
+    },2000)
+  }
+useEffect(()=>{
+    window.scrollTo({ top: 0, behavior: "smooth" });
+    get_Details();
+  },[])
   return (
     <>
+  {
+    load==true && <>
+         <div className="w-full flex flex-col items-center justify-center py-40 md:py-48">
+    <img src="Logos/Logo.webp" className="w-30 h-24 md:w-60 md:h-32" />
+   <div className="w-full flex justify-center gap-y-2  text-center flex-col p-4 mt-4">
+
+    <div className="mt-4 flex flex-row flex-wrap justify-center gap-x-12 gap-y-12 ">
+  {new Array(4).fill("").map((i,ind)=>{
+  return(
+  <div className="text-center">
+    <img src={`sponsor/sponsor${ind+1}.png`} className="w-22 h-14 md:w-20 md:h-16"></img>
+    </div>
+    )
+  })}
+</div>
+    </div>
+    </div>
+    </>
+  }
+  { load==false && <>
       <Toaster position="top-center" toastOptions={{className: 'font-bold', duration:2000, // Tailwind class applied to all toasts
             }}/>
      <div className="relative w-full bg-slate-800 md:flex items-center justify-between p-2 z-50 md:px-4 md:py-3">
@@ -68,6 +98,8 @@ const handleSend = (e) => {
         )}
       </div>
     </div>
+  </>
+  }
     </>
   );
 }
