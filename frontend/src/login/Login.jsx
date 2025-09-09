@@ -129,7 +129,7 @@ export default function Login() {
       }
     } catch (err) {
       console.log(err);
-      toast.error("Something went wrong");
+     toast.error("Something went wrong");
     } finally {
       setLock(false);
     }
