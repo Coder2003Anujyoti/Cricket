@@ -133,7 +133,6 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
     console.log("Email sent:", info.response);
     if (info.accepted.length === 0) {
    console.log("Email not sent")
-   return res.status(500).json({ message: 'Something went wrong' });
     }
     else{
       return res.json({ success: true, message: "Email sent successfully!" });
@@ -235,7 +234,6 @@ router.post("/request-otp",async(req,res)=>{
 const { email,username } = req.body;
 const person=await UsersCollection.findOne({username , email})
   if (!person) return res.status(404).json({ error: 'User not found' });
-else{
 const otp = generateOTP(6); 
 const expiry = Date.now() + 300000; 
 otpstore[email] = { otp, expiry };
@@ -281,12 +279,10 @@ const mailOptions = {
   const info= await transporter.sendMail(mailOptions)
 if (info.accepted.length === 0) {
     console.log("OTP not sent")
-   return res.status(500).json({ message: 'Something went wrong' });
     }
   else{
     return res.json({ message: 'OTP sent successfully' });
   }
-}
 }
 catch (err) {
     console.error(err);
