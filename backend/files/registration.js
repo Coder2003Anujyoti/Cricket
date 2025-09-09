@@ -79,7 +79,8 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
     }
 
     const { from, to, name, subject, message } = req.body;
-
+    const person=await UsersCollection.findOne({username:name , email:to})
+  if (!person) return res.json({ success: false, message: "Invalid Credentials" });
     let mailOptions = {
       from,
       to,
@@ -128,7 +129,7 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
       else console.log("Uploaded file deleted successfully!");
     });
 
-    res.json({ success: true, message: "Email sent with inline image!" });
+    res.json({ success: true, message: "Email sent successfully!" });
   } catch (err) {
     console.error(err);
     // Delete uploaded file even on error
@@ -216,6 +217,8 @@ catch (err) {
 router.post("/request-otp",async(req,res)=>{
   try{
 const { email,username } = req.body;
+const person=await UsersCollection.findOne({username , email})
+  if (!person) return res.status(400).json({ error: 'User not found' });
 const otp = generateOTP(6); 
 const expiry = Date.now() + 300000; 
 otpstore[email] = { otp, expiry };

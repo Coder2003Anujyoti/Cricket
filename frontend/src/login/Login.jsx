@@ -88,6 +88,8 @@ export default function Login() {
           toast.success("OTP sent to your email");
           setOtpSent(true);
           setLock(false);
+          setPassword("")
+          setShowPassword(false)
           return;
         } else {
           toast.error(data.error || "Error sending OTP");
@@ -235,9 +237,9 @@ export default function Login() {
           </form>
 
           <div className="flex justify-between w-full text-sm mt-2">
-            {mode !== 'signup' && (<button onClick={() => setMode('signup')} className="text-white font-bold">New User</button>)}
+            {mode !== 'signup' && (<button onClick={() => {setMode('signup'); setOtpSent(false);}} className="text-white font-bold">New User</button>)}
             {mode !== 'forgot' && (<button onClick={() => setMode('forgot')} className="text-white font-bold">Forgot Password?</button>)}
-            {(mode === 'signup' || mode === 'forgot') && (<button onClick={() => { setMode('login'); setOtpSent(false); }} className="text-white font-bold">Back to Login</button>)}
+            {(mode === 'signup' || mode === 'forgot') && (<button onClick={() => { setMode('login'); setOtpSent(false);}} className="text-white font-bold">Back to Login</button>)}
           </div>
         </div>
       </div>

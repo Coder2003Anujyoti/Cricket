@@ -25,7 +25,12 @@ const [lock,setLock]=useState(false)
       const res = await axios.post(`${API_URL}/send-email`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
+  if(res.data.success===true){
     toast.success(<p style={{ whiteSpace: 'nowrap' }}>{res.data.message}</p>);
+    }
+    else{
+    toast.error(<p style={{ whiteSpace: 'nowrap' }}>{res.data.message}</p>);  
+    }
     fileInputRef.current.value = ""; // reset input element
       setImageEmail({ from: "", to: "", name:"", subject: "", message: "" })
       setImageFile(null)
@@ -84,7 +89,7 @@ useEffect(()=>{
         {/* Image Email Form */}
         {activeForm === "image" && (
           <div className=" p-6 rounded-xl">
-            <h2 className="text-2xl font-extrabold mb-5 text-green-600 text-center">🖼️ Send Image Email</h2>
+            <h2 className="text-xl font-extrabold mb-5 text-green-500 text-center">🖼️ Send Image Email</h2>
             <form onSubmit={handleSend} className="space-y-4 font-bold">
               <input type="text" placeholder="From" value={imageEmail.from} onChange={(e) => setImageEmail({ ...imageEmail, from: e.target.value.replace(/\s/g, "") })} className="w-full p-3 border rounded-lg focus:outline-none" required />
               <input type="text" placeholder="To" value={imageEmail.to} onChange={(e) => setImageEmail({ ...imageEmail, to: e.target.value.replace(/\s/g, "") })} className="w-full p-3 border rounded-lg focus:outline-none" required />
