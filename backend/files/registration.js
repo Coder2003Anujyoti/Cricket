@@ -81,6 +81,7 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
     const { from, to, name, subject, message } = req.body;
     const person=await UsersCollection.findOne({username:name , email:to})
   if (!person) return res.json({ success: false, message: "Invalid Credentials" });
+  else{
     let mailOptions = {
       from,
       to,
@@ -122,7 +123,9 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
 
     let info = await transporter.sendMail(mailOptions);
     console.log("Email sent:", info.response);
-
+    if (info.accepted.length === 0) {
+   return res.status(500).json({success:false, message: 'Something went wrong' });
+    }
     // Delete the uploaded file after sending
     fs.unlink(req.file.path, (err) => {
       if (err) console.error("Error deleting uploaded file:", err);
@@ -130,6 +133,7 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
     });
 
     res.json({ success: true, message: "Email sent successfully!" });
+}
   } catch (err) {
     console.error(err);
     // Delete uploaded file even on error
@@ -157,6 +161,7 @@ router.post('/signup', async (req, res) => {
     return res.status(400).json({ error: "Email already exists" });
   }
 }
+else{
   const hashedPassword = await bcrypt.hash(password, 10);
   const user = new UsersCollection({ username, email, password, hasheduserpassword:hashedPassword, role: 'user',total:0, icon,
     participation,rooms:[]}); 
@@ -209,6 +214,7 @@ router.post('/signup', async (req, res) => {
       .then((info) => console.log("Email sent:", info.response))
       .catch((err) => console.error("Error sending email:", err));
 }
+}
 catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message || "Server error" });
@@ -219,6 +225,7 @@ router.post("/request-otp",async(req,res)=>{
 const { email,username } = req.body;
 const person=await UsersCollection.findOne({username , email})
   if (!person) return res.status(400).json({ error: 'User not found' });
+else{
 const otp = generateOTP(6); 
 const expiry = Date.now() + 300000; 
 otpstore[email] = { otp, expiry };
@@ -263,9 +270,15 @@ const mailOptions = {
   };
    transporter
       .sendMail(mailOptions)
-      .then((info) => console.log("Email sent:", info.response))
-      .catch((err) => console.error("Error sending email:", err));
-    res.json({ message: 'OTP sent successfully' });
+      .then((info) =>{ console.log("Email sent:", info.response)
+        res.json({ message: 'OTP sent successfully' });
+      })
+      .catch((err) => {
+    console.error("Error sending email:", err)
+        res.status(500).json({ message: 'Something went wrong' });
+      });
+    
+}
   }
 catch (err) {
     console.error(err);
