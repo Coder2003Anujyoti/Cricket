@@ -77,23 +77,11 @@ export default function Login() {
           }),
         });
       } else if (mode === "forgot" && !otpSent) {
-        // Step 1: Request OTP
         response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/request-otp", {
           method: 'POST',
           headers: { 'Content-Type': "application/json" },
           body: JSON.stringify({ email: email.trim().replace(/\s/g, "") , username: username.trim() }),
         });
-        const data = await response.json();
-        if (response.ok) {
-          toast.success("OTP sent to your email");
-          setOtpSent(true);
-          setLock(false);
-          setPassword("")
-          setShowPassword(false)
-          return;
-        } else {
-          toast.error(data.error || "Error sending OTP");
-        }
       } else if (mode === "forgot" && otpSent) {
         // Step 2: Verify OTP + reset password
         response = await fetch("https://intelligent-ailyn-handcricket-e8842259.koyeb.app/forget", {
@@ -121,15 +109,22 @@ export default function Login() {
           sessionStorage.setItem("username", JSON.stringify(data.username));
           sessionStorage.setItem("role", JSON.stringify(data.role));
           sessionStorage.setItem("userpassword", JSON.stringify(data.password));
-        } else if (mode === "forgot" && otpSent) {
+        } else if (mode === "forgot" && otpSent==true) {
           toast.success("Password reset successfully");
           setMode("login");
           setOtpSent(false);
         }
+    else if (mode === "forgot" && otpSent==false) {
+    toast.success("OTP sent to your email");
+          setOtpSent(true);
+          setLock(false);
+          setPassword("")
+          setShowPassword(false)
+    }
       }
     } catch (err) {
       console.log(err);
-     toast.error("Something went wrong");
+    toast.error("Something went wrong");
     } finally {
       setLock(false);
     }

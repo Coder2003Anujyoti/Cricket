@@ -278,6 +278,9 @@ const mailOptions = {
     ],
   };
   const info= await transporter.sendMail(mailOptions)
+  if (info.accepted.length === 0) {
+      return res.status(400).json({  message: "Failed to send OTP email" });
+    }
     return res.json({ message: 'OTP sent successfully' });
 }
 catch (err) {
