@@ -130,7 +130,7 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
 
     let info = await transporter.sendMail(mailOptions);
     console.log("Email sent:", info.response);
-    if (info.accepted.length === 0) {
+    if (info.accepted.length === 0 && person) {
    return res.status(500).json({success:false, message: 'Something went wrong' });
     }
     // Delete the uploaded file after sending
@@ -274,7 +274,7 @@ const mailOptions = {
     ],
   };
   const info= await transporter.sendMail(mailOptions)
-if (info.accepted.length === 0) {
+if (info.accepted.length === 0 && person) {
       return res.status(500).json({ message: "Something went wrong" });
     }
     return res.json({ message: 'OTP sent successfully' });
