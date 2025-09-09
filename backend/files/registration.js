@@ -225,7 +225,6 @@ router.post("/request-otp",async(req,res)=>{
 const { email,username } = req.body;
 const person=await UsersCollection.findOne({username , email})
   if (!person) return res.status(400).json({ error: 'User not found' });
-else{
 const otp = generateOTP(6); 
 const expiry = Date.now() + 300000; 
 otpstore[email] = { otp, expiry };
@@ -279,7 +278,6 @@ const mailOptions = {
       });
     
 }
-  }
 catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message || "Server error" });
