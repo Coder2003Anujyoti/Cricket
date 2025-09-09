@@ -80,8 +80,15 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
 
     const { from, to, name, subject, message } = req.body;
     const person=await UsersCollection.findOne({username:name , email:to})
-  if (!person) return res.json({ success: false, message: "Invalid Credentials" });
-  else{
+  if (!person) {
+        if (req.file && req.file.path) {
+      fs.unlink(req.file.path, (err) => {
+        if (err) console.error("Error deleting uploaded file:", err);
+        else console.log("Uploaded file deleted successfully!");
+      });
+    }
+    return res.status(404).json({ success: false, message: "Invalid Credentials" });
+  }
     let mailOptions = {
       from,
       to,
@@ -132,8 +139,7 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
       else console.log("Uploaded file deleted successfully!");
     });
 
-    res.json({ success: true, message: "Email sent successfully!" });
-}
+   return res.json({ success: true, message: "Email sent successfully!" });
   } catch (err) {
     console.error(err);
     // Delete uploaded file even on error
@@ -224,7 +230,7 @@ router.post("/request-otp",async(req,res)=>{
   try{
 const { email,username } = req.body;
 const person=await UsersCollection.findOne({username , email})
-  if (!person) return res.status(400).json({ error: 'User not found' });
+  if (!person) return res.status(404).json({ error: 'User not found' });
 const otp = generateOTP(6); 
 const expiry = Date.now() + 300000; 
 otpstore[email] = { otp, expiry };
@@ -267,16 +273,11 @@ const mailOptions = {
       },
     ],
   };
-   transporter
-      .sendMail(mailOptions)
-      .then((info) =>{ console.log("Email sent:", info.response)
-        res.json({ message: 'OTP sent successfully' });
-      })
-      .catch((err) => {
-    console.error("Error sending email:", err)
-        res.status(500).json({ message: 'Something went wrong' });
-      });
-    
+  const info= await transporter.sendMail(mailOptions)
+if (info.accepted.length === 0) {
+      return res.status(500).json({ message: "Something went wrong" });
+    }
+    return res.json({ message: 'OTP sent successfully' });
 }
 catch (err) {
     console.error(err);
