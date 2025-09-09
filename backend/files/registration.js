@@ -87,7 +87,7 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
         else console.log("Uploaded file deleted successfully!");
       });
     }
-    return res.status(404).json({ success: false, message: "Invalid Credentials" });
+    return res.status(400).json({ success: false, message: "Invalid Credentials" });
   }
   else{
     let mailOptions = {
@@ -133,6 +133,7 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
     console.log("Email sent:", info.response);
     if (info.accepted.length === 0) {
    console.log("Email not sent")
+   return res.status(400).json({ success: false, message: "Server is busy" });
     }
     else{
       return res.json({ success: true, message: "Email sent successfully!" });
@@ -233,7 +234,7 @@ router.post("/request-otp",async(req,res)=>{
   try{
 const { email,username } = req.body;
 const person=await UsersCollection.findOne({username , email})
-  if (!person) return res.status(404).json({ error: 'User not found' });
+  if (!person) return res.status(400).json({ error: 'User not found' });
 const otp = generateOTP(6); 
 const expiry = Date.now() + 300000; 
 otpstore[email] = { otp, expiry };
@@ -279,6 +280,7 @@ const mailOptions = {
   const info= await transporter.sendMail(mailOptions)
 if (info.accepted.length === 0) {
     console.log("OTP not sent")
+  return res.status(400).json({ error: 'Server is busy' });
     }
   else{
     return res.json({ message: 'OTP sent successfully' });
