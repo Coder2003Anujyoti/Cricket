@@ -278,13 +278,7 @@ const mailOptions = {
     ],
   };
   const info= await transporter.sendMail(mailOptions)
-if (info.accepted.length === 0) {
-    console.log("OTP not sent")
-  return res.status(400).json({ error: 'Server is busy' });
-    }
-  else{
     return res.json({ message: 'OTP sent successfully' });
-  }
 }
 catch (err) {
     console.error(err);
