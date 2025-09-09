@@ -89,6 +89,7 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
     }
     return res.status(404).json({ success: false, message: "Invalid Credentials" });
   }
+  else{
     let mailOptions = {
       from,
       to,
@@ -130,16 +131,19 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
 
     let info = await transporter.sendMail(mailOptions);
     console.log("Email sent:", info.response);
-    if (info.accepted.length === 0 && person) {
-   return res.status(500).json({success:false, message: 'Something went wrong' });
+    if (info.accepted.length === 0) {
+   console.log("Email not sent")
+   return res.status(500).json({ message: 'Something went wrong' });
+    }
+    else{
+      return res.json({ success: true, message: "Email sent successfully!" });
     }
     // Delete the uploaded file after sending
     fs.unlink(req.file.path, (err) => {
       if (err) console.error("Error deleting uploaded file:", err);
       else console.log("Uploaded file deleted successfully!");
     });
-
-   return res.json({ success: true, message: "Email sent successfully!" });
+  }
   } catch (err) {
     console.error(err);
     // Delete uploaded file even on error
@@ -231,6 +235,7 @@ router.post("/request-otp",async(req,res)=>{
 const { email,username } = req.body;
 const person=await UsersCollection.findOne({username , email})
   if (!person) return res.status(404).json({ error: 'User not found' });
+else{
 const otp = generateOTP(6); 
 const expiry = Date.now() + 300000; 
 otpstore[email] = { otp, expiry };
@@ -274,10 +279,14 @@ const mailOptions = {
     ],
   };
   const info= await transporter.sendMail(mailOptions)
-if (info.accepted.length === 0 && person) {
-      return res.status(500).json({ message: "Something went wrong" });
+if (info.accepted.length === 0) {
+    console.log("OTP not sent")
+   return res.status(500).json({ message: 'Something went wrong' });
     }
+  else{
     return res.json({ message: 'OTP sent successfully' });
+  }
+}
 }
 catch (err) {
     console.error(err);
