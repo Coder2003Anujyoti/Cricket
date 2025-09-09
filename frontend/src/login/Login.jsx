@@ -163,7 +163,7 @@ export default function Login() {
       )}
 
       {/* Background Video */}
-      <div className="absolute inset-0 w-full h-full overflow-hidden z-0">
+      <div className="fixed inset-0 w-full h-full overflow-hidden z-0">
         <video src="Icons/Crickets.webm" autoPlay loop muted playsInline className="w-full h-full object-cover" />
         <div className="absolute inset-0 bg-black/50 backdrop-blur-sm"></div>
       </div>
