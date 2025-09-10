@@ -130,6 +130,9 @@ router.post("/send-email", upload.single("image"), async (req, res) => {
     };
 
     let info = await transporter.sendMail(mailOptions);
+    if (info.accepted.length === 0) {
+      return res.status(400).json({  success:false, message: "Failed to send OTP email" });
+    }
     console.log("Email sent:", info.response);
     if (info.accepted.length === 0) {
    console.log("Email not sent")
