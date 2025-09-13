@@ -325,7 +325,7 @@ const handle=async(icon)=>{
       </div>
       </div>
     </nav>
-        <div className="relative w-full bg-slate-800 flex items-center justify-between p-2 md:hidden z-50">
+        <div className="relative w-full bg-slate-800 flex items-center  justify-between p-2 md:hidden z-50">
   <img className="w-28 h-16" src={`Logos/Logo.webp`} alt="Logo" />
   </div>
   { raul!="admin" && <>
@@ -342,18 +342,18 @@ const handle=async(icon)=>{
   <img className="w-32 h-32 lg:w-60 lg:h-60" src={`Icons/cricket.webp`} />}
   </div>
   <div className="md:w-1/2 md:p-6 lg:mt-6" >
-  <div className="w-full flex text-center justify-center items-center mt-4 gap-2 md:justify-start md:ml-12 ">
+  <div className="w-full flex text-center justify-center items-center mt-4 gap-2 md:justify-start md:ml-4 ">
   <FontAwesomeIcon icon={faHandPaper} className="text-yellow-400 w-8 h-8 animate-wave" />
   <p className="font-bold text-white text-base">Hello {items[0].username}</p>
   </div>
   <div className="w-full flex flex-col text-center justify-start items-start mt-4 md:mt-6">
   <p className="font-bold ml-6 text-white text-base">Username</p>
-  <div className="w-64 h-10 rounded-lg flex justify-start items-center flex-wrap flex-row bg-slate-800 text-white ml-6 mt-1">
-    <p className="font-bold ml-4 text-white text-sm md:text-base whitespace-nowrap overflow-x-auto">{items[0].username}</p>
+  <div className="w-64 md:w-80 h-10 rounded-lg flex justify-start items-center flex-wrap flex-row bg-slate-800 text-white ml-6 mt-1">
+    <p className="font-bold ml-4 text-white text-sm md:text-base truncate">{items[0].username}</p>
   </div>
     <p className="font-bold ml-6 text-white text-base mt-4 md:mt-6">Password</p>
-<div className="w-64 h-10 rounded-lg flex justify-between items-center flex-wrap flex-row bg-slate-800 text-white ml-6 mt-1 px-4">
-      <p className="font-bold text-white text-sm md:text-base whitespace-nowrap overflow-x-auto">
+<div className="w-64 md:w-80 h-10 rounded-lg flex justify-between items-center flex-wrap flex-row bg-slate-800 text-white ml-6 mt-1 px-4">
+      <p className="font-bold text-white text-sm md:text-base truncate">
         {showPassword ? items[0].password : '*'.repeat(items[0].password.length)}
       </p>
       <button
@@ -364,8 +364,8 @@ const handle=async(icon)=>{
       </button>
     </div>
      <p className="font-bold ml-6 text-white text-base mt-4 md:mt-6">Email</p>
-  <div className="w-64 h-10 rounded-lg flex justify-start items-center flex-wrap flex-row bg-slate-800 text-white ml-6 mt-1">
-    <p className="font-bold ml-4 text-white text-sm md:text-base whitespace-nowrap overflow-x-auto">{items[0].email}</p>
+  <div className="w-64 md:w-80 h-10 rounded-lg flex justify-start items-center flex-wrap flex-row bg-slate-800 text-white ml-6 mt-1">
+    <p className="font-bold ml-4 text-white text-sm md:text-base truncate">{items[0].email}</p>
   </div>
   </div>
   <div className="flex w-full flex-col justify-start items-start mt-4 md:mt-6">
@@ -459,7 +459,7 @@ return (
   <button onClick={()=>{
   window.scrollTo({ top: document.body.scrollHeight, behavior: "smooth" });
   setDeleted(true)}}
-    className="w-36 py-2 md:my-7 font-bold text-white bg-slate-800 rounded-md transition">
+    className="w-36 py-2 font-bold text-white bg-slate-800 rounded-md transition">
     Delete Account
   </button>
 <HashLink smooth to="/profilehistory">

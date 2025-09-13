@@ -258,10 +258,18 @@ const get_data=async()=>{
             <span>Admin</span>
           </Link>
         )}
-         <Link to="/loginprofile" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
+       { role === "admin" && (
+        <Link to="/loginprofile" className="flex items-center space-x-3 text-white font-medium hover:text-green-500">
+          <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-green-500" />
+          <span>Profile</span>
+        </Link>
+       )} 
+          { role === "user" && (
+        <Link to="/loginprofile" className="flex items-center space-x-3 text-white font-medium hover:text-pink-500">
           <FontAwesomeIcon icon={faUser} className="w-5 h-5 text-pink-500" />
           <span>Profile</span>
         </Link>
+       )}
         <Link to="/login" className="flex items-center space-x-3 text-white font-medium hover:text-red-600">
           <FontAwesomeIcon icon={faSignOutAlt} className="w-5 h-5 text-red-500" />
           <span>Sign Out</span>

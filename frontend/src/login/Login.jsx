@@ -33,12 +33,12 @@ export default function Login() {
   const handSubmit = async () => {
     let valid = true;
 const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (mode=="login" && (username.trim() === "" || password.trim() === "" || username.trim().length >= 15)) {
+    if (mode=="login" && (username.trim() === "" || password.trim() === "" || username.trim().length >= 15 || password.trim().length >= 20)) {
       toast.error("Invalid input");
       valid = false;
       setLock(false);
     }
-    if (mode=="signup" && (username.trim() === "" || password.trim() === "" || username.trim().length >= 15 || email.trim() === "" || (!emailRegex.test(email.trim()))) ) {
+    if (mode=="signup" && (username.trim() === "" || password.trim() === "" || username.trim().length >= 15 || password.trim().length >= 20 || email.trim() === "" || (!emailRegex.test(email.trim()))) ) {
       toast.error("Invalid input");
       valid = false;
       setLock(false);
@@ -48,7 +48,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
       valid = false;
       setLock(false);
     }
-   if (mode=="forgot" && otpSent==true && (username.trim() === "" || username.trim().length >= 15 || email.trim() === "" || password.trim()=== "" || otp.trim() === "" || (!emailRegex.test(email.trim())))) {
+   if (mode=="forgot" && otpSent==true && (username.trim() === "" || username.trim().length >= 15 || email.trim() === "" || password.trim()=== "" || password.trim().length >= 20 || otp.trim() === "" || (!emailRegex.test(email.trim())))) {
       toast.error("Invalid input");
       valid = false;
       setLock(false);
@@ -154,6 +154,7 @@ const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
               <li>✏ Username must be less than 15 characters</li>
               <li>📧 Email is required</li>
               <li>🔒 Password must be strong</li>
+               <li>✅ Password length must be less than 20 characters</li>
             <li>🌍 Respect community rules and avoid spam</li>    
       <li>🛡 Do not share your credentials with anyone</li>    
       <li>📜 All actions are subject to our platform policy</li>    

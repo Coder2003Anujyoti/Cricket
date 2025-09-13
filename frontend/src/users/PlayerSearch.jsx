@@ -187,7 +187,7 @@ const PlayerSearch = () => {
       </div>
   </div>
 </nav>
-<div className="overflow-x-auto scroll-smooth px-3 py-4 lg:flex lg:justify-center lg:items-center lg:py-6">
+<div className="overflow-x-auto scroll-smooth px-3 py-4 lg:flex lg:justify-center  lg:items-center lg:py-6">
 <div className="flex gap-4 w-max lg:justify-center lg:items-center lg:gap-10">
 {teams.map((team) => (
 <div key={team} onClick={() => handleSelect(team)} className="relative cursor-pointer">
@@ -196,7 +196,7 @@ const PlayerSearch = () => {
 <FontAwesomeIcon icon={faCheckCircle} className="absolute top-0 right-0 text-green-500 bg-white rounded-full" size="lg"/>)}
 </div>))}</div> </div>
 <h1 className="text-green-400 text-lg font-bold shadow-green-400 text-center my-4">Players Details</h1>
-<div className="w-full px-3 p-2 flex flex-row flex-wrap gap-3 md:gap-6 lg:gap-10 lg:px-12 md:ml-4 md:my-4 md:justify-start md:items-start justify-center items-center">
+<div className="w-full px-3 p-2 flex flex-row flex-wrap gap-3  md:gap-6 lg:gap-10 lg:px-12 md:my-4 md:justify-start md:items-start justify-center items-center">
   {items
     .sort((a, b) => a.name.localeCompare(b.name))
     .map((i, index) =>
