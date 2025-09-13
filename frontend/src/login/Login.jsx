@@ -32,23 +32,23 @@ export default function Login() {
 
   const handSubmit = async () => {
     let valid = true;
-
+const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (mode=="login" && (username.trim() === "" || password.trim() === "" || username.trim().length >= 15)) {
       toast.error("Invalid input");
       valid = false;
       setLock(false);
     }
-    if (mode=="signup" && (username.trim() === "" || password.trim() === "" || username.trim().length >= 15 || email.trim() === "")) {
+    if (mode=="signup" && (username.trim() === "" || password.trim() === "" || username.trim().length >= 15 || email.trim() === "" || (!emailRegex.test(email.trim()))) ) {
       toast.error("Invalid input");
       valid = false;
       setLock(false);
     }
-     if (mode=="forgot" && otpSent==false && (username.trim() === "" || username.trim().length >= 15 || email.trim() === "")) {
+     if (mode=="forgot" && otpSent==false && (username.trim() === "" || username.trim().length >= 15 || email.trim() === "" || (!emailRegex.test(email.trim())))) {
       toast.error("Invalid input");
       valid = false;
       setLock(false);
     }
-   if (mode=="forgot" && otpSent==true && (username.trim() === "" || username.trim().length >= 15 || email.trim() === "" || password.trim()=== "" || otp.trim() === "")) {
+   if (mode=="forgot" && otpSent==true && (username.trim() === "" || username.trim().length >= 15 || email.trim() === "" || password.trim()=== "" || otp.trim() === "" || (!emailRegex.test(email.trim())))) {
       toast.error("Invalid input");
       valid = false;
       setLock(false);
