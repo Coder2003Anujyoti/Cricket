@@ -348,12 +348,12 @@ const handle=async(icon)=>{
   </div>
   <div className="w-full flex flex-col text-center justify-start items-start mt-4 md:mt-6">
   <p className="font-bold ml-6 text-white text-base">Username</p>
-  <div className="w-64 h-10 rounded-lg flex justify-start items-center bg-slate-800 text-white ml-6 mt-1">
-    <p className="font-bold ml-4 text-white text-sm md:text-base">{items[0].username}</p>
+  <div className="w-64 h-10 rounded-lg flex justify-start items-center flex-wrap flex-row bg-slate-800 text-white ml-6 mt-1">
+    <p className="font-bold ml-4 text-white text-sm md:text-base whitespace-nowrap overflow-x-auto">{items[0].username}</p>
   </div>
     <p className="font-bold ml-6 text-white text-base mt-4 md:mt-6">Password</p>
-<div className="w-64 h-10 rounded-lg flex justify-between items-center bg-slate-800 text-white ml-6 mt-1 px-4">
-      <p className="font-bold text-white text-sm md:text-base">
+<div className="w-64 h-10 rounded-lg flex justify-between items-center flex-wrap flex-row bg-slate-800 text-white ml-6 mt-1 px-4">
+      <p className="font-bold text-white text-sm md:text-base whitespace-nowrap overflow-x-auto">
         {showPassword ? items[0].password : '*'.repeat(items[0].password.length)}
       </p>
       <button
@@ -364,8 +364,8 @@ const handle=async(icon)=>{
       </button>
     </div>
      <p className="font-bold ml-6 text-white text-base mt-4 md:mt-6">Email</p>
-  <div className="w-64 h-10 rounded-lg flex justify-start items-center bg-slate-800 text-white ml-6 mt-1">
-    <p className="font-bold ml-4 text-white text-sm md:text-base">{items[0].email}</p>
+  <div className="w-64 h-10 rounded-lg flex justify-start items-center flex-wrap flex-row bg-slate-800 text-white ml-6 mt-1">
+    <p className="font-bold ml-4 text-white text-sm md:text-base whitespace-nowrap overflow-x-auto">{items[0].email}</p>
   </div>
   </div>
   <div className="flex w-full flex-col justify-start items-start mt-4 md:mt-6">
