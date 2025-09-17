@@ -561,7 +561,7 @@ const handleEdit= () => {
 }
 { mode=="create" && <>
 <div className='flex-col flex md:flex-row md:flex-wrap'>
-<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl md:shadow-lg space-y-6">
+<div className="max-w-xl w-full mx-auto mt-2 px-4 sm:px-6 py-4 rounded-xl space-y-6">
 <h2 className="text-xl font-bold text-center text-white">Create Announcement</h2>
 <input type="text" value={newsID}
 onChange={(e)=>setNewsID(e.target.value.replace(/\s/g,""))} placeholder="Enter News ID" className="w-full p-3 font-semibold border border-gray-300 rounded-md shadow-sm focus:outline-none"/>
