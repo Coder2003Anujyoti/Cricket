@@ -665,52 +665,6 @@ router.post("/addprofilerooms", async (req, res) => {
     await Promise.all([playerUser.save(), computerUser.save()]);
     if (added) {
       return res.json({ message: "Room added successfully" });
-        const mailOptions = {
-      from:process.env.EMAIL_USER,
-      to:email,
-      subject:"Welcome Message",
-      html: `
-<div style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 700px; margin: 0 auto; padding: 0; border: 1px solid #eee; border-radius: 10px; background: #fafafa; box-shadow: 0 4px 12px rgba(0,0,0,0.1);  background: #1e293b;">
-  <h2 style="background: #00a3ee; color: #fff; text-align: center; margin: 0; padding: 20px; border-radius: 10px 10px 0 0; font-weight: 700; font-size: 22px;">
-    ⚡ Challenge Invitation!
-  </h2>
-  <div style="padding: 25px; text-align:start;">
-    <p style="color: #fff; font-size: 17px; margin-bottom: 20px;">
-      Hi <strong>${computer}</strong>,
-    </p>
-    <p style="color: #fff; font-size: 16px; margin-bottom: 20px;">
-      You’ve been invited from ${player} to participate in an exciting <strong>Cricket Fever Challenge</strong>!  
-      Test your skills, compete with others, and see if you can come out on top.  
-      Click the link below to join and start the challenge now!
-    </p>
-    <p style="color: #fff; font-size: 16px; margin-bottom: 30px;">
-      Best of luck!<br/>
-      The <strong>Cricket Fever</strong> Team
-    </p>
-    <div style="text-align: center; margin: 20px 0;">
-      <img src="cid:image1" style="max-width: 90%; height: auto; border-radius: 12px; box-shadow: 0 6px 15px rgba(0,0,0,0.2);" alt="Challenge Image" />
-    </div>
-  </div>
-  <hr style="border: none; border-top: 1px solid #ddd; margin: 0;" />
-  <p style="font-size: 14px; color: #fff; text-align: center; padding: 12px; font-weight: 500;">
-    Sent with ❤️ via <strong>Cricket Fever</strong>
-  </p>
-</div>
-`,
-      attachments: [
-        {
-          filename: "1.jpg",
-          path: "./images/1.jpg", // Attach from images folder
-          cid: "image1", // same cid as in HTML
-        },
-      ],
-    };
-
-    // Fire email in background
-    transporter
-      .sendMail(mailOptions)
-      .then((info) => console.log("Email sent:", info.response))
-      .catch((err) => console.error("Error sending email:", err));
     } else {
       return res.json({ message: "Room already exists, not added" });
     }
