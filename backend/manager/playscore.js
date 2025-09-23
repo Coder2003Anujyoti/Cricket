@@ -9,6 +9,13 @@ module.exports=(io,socket)=>{
     const team=msg.team
     const player=msg.player
     let assignedRoom=null;
+  for (const roomID in rooms) {
+    const existingPlayer = rooms[roomID].find(p => p.name === name);
+    if (existingPlayer) {
+   socket.emit("dualwait", "Already joined in another room...");
+      return;
+    }
+  }
     for(const roomID in rooms){
       if(rooms[roomID].length<2){
         assignedRoom=roomID;

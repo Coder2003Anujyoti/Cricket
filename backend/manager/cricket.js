@@ -8,6 +8,13 @@ module.exports=(io,socket)=>{
     const name=msg.name
     const team=msg.team
     let assignedRoom=null;
+  for (const roomID in rooms) {
+    const existingPlayer = rooms[roomID].find(p => p.name === name);
+    if (existingPlayer) {
+   socket.emit("wait", "Already joined in another room...");
+      return;
+    }
+  }
     for(const roomID in rooms){
       if(rooms[roomID].length<2){
         assignedRoom=roomID;
