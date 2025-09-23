@@ -12,7 +12,7 @@ module.exports=(io,socket)=>{
     const existingPlayer = rooms[roomID].find(p => p.name === name);
     if (existingPlayer) {
    socket.emit("wait", "Already joined in another room...");
-      return;
+   return;
     }
   }
     for(const roomID in rooms){

@@ -171,8 +171,7 @@ const optio=(i)=>{
 }
 { msg!="" &&
 <div className="my-44 text-center text-white font-bold">
-<h1>Waiting for another player..... 
-</h1>
+<h1>{msg}</h1>
 </div>
 }
 </>
