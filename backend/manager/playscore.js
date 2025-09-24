@@ -94,6 +94,7 @@ await UsersCollection.updateOne({ username: batter.name },{ $inc: { total: 100 }
 console.error("Error updating winner:", err);}
 delete rooms[roomId]
   delete game[roomId]
+  delete turn[roomId]
   io.in(roomId).socketsLeave(roomId);
 }
   players.forEach((c)=>c.choice=0)
@@ -142,6 +143,7 @@ console.error("Error updating winner:", err);
   }
   delete rooms[roomId]
   delete game[roomId]
+  delete turn[roomId]
   io.in(roomId).socketsLeave(roomId);
 }
           io.to(players[turn[roomId]].id).emit('dualchoiceturn',"Your Turn")
