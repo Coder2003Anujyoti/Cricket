@@ -94,6 +94,7 @@ delete rooms[roomId]
   delete game[roomId]
 delete turn[roomId]
   io.in(roomId).socketsLeave(roomId);
+  return;
 }
   players.forEach((c)=>c.choice=0)
     io.to(players[turn[roomId]].id).emit('choiceturn',"Your Turn")
@@ -144,6 +145,7 @@ console.error("Error updating winner:", err);
   delete game[roomId]
   delete turn[roomId]
   io.in(roomId).socketsLeave(roomId);
+  return ;
 }
           io.to(players[turn[roomId]].id).emit('choiceturn',"Your Turn")
      io.to(players[(turn[roomId]+1)%2].id).emit('choiceturn',"Opposition Turn")
