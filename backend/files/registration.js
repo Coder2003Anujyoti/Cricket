@@ -19,6 +19,7 @@ app.use(express.json());
 const UsersCollection= require('../schemas/users.js');
 const NewsCollection= require('../schemas/news.js');
 const ChallengesCollection= require('../schemas/challenges.js');
+const { v4: uuidv4 } = require('uuid');
 require("dotenv").config();
 let otpstore={}
 //*Add Data in Mongodb
@@ -626,6 +627,7 @@ router.post("/addprofilerooms", async (req, res) => {
       return res.status(400).json({ error: "All fields are required" });
     }
     const baseRoom = {
+      id:uuidv4(),
       player,
       computer,
       playerteam,

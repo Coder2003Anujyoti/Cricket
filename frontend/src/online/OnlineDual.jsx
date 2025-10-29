@@ -32,6 +32,7 @@ const admin=searchParams.get("player");
 const comp=searchParams.get("computer");
 const adminteam=searchParams.get("playerteam");
 const idteam = searchParams.get("computerteam");
+const inden=searchParams.get("inden");
 useEffect(() => {
   if(closed==false){
     document.body.style.overflow = "hidden"; 
@@ -128,7 +129,7 @@ useEffect(() => {
 }, []);
 const add_Name=(i,it)=>{
   if (disable==false) {
-  socket.emit('dualjoinRoom', {name:name,team:i,player:it,teamone:idteam,teamtwo:adminteam,players:admin,computer:comp});
+  socket.emit('dualjoinRoom', {name:name,team:i,player:it,teamone:idteam,teamtwo:adminteam,players:admin,computer:comp,inden:inden});
     setDisable(true)
     }
 }

@@ -12,6 +12,7 @@ module.exports=(io,socket)=>{
     const teamtwo=msg.teamtwo
     const pl=msg.players
     const co=msg.computer
+    const inden=msg.inden
     let assignedRoom=null;
   for (const roomID in rooms) {
     const existingPlayer = rooms[roomID].find(p => p.name === name);
@@ -21,7 +22,7 @@ module.exports=(io,socket)=>{
     }
   }
     for(const roomID in rooms){
-      if(rooms[roomID].length<2  && (rooms[roomID].filter((i)=> (i.team == teamone && i.name== co) || (i.name == pl && i.team==teamtwo)).length > 0)){
+      if(rooms[roomID].length<2  && (rooms[roomID].filter((i)=> ((i.team == teamone && i.name== co) || (i.name == pl && i.team==teamtwo)) && i.inden== inden).length > 0)){
         assignedRoom=roomID;
         break;
       }
@@ -30,7 +31,7 @@ module.exports=(io,socket)=>{
       assignedRoom=uuidv4();
       rooms[assignedRoom]=[]
     }
-    rooms[assignedRoom].push({ id: socket.id, name, choice:0,team,player});
+    rooms[assignedRoom].push({ id: socket.id, name, choice:0,team,player,inden});
     console.log(rooms[assignedRoom])
     socket.join(assignedRoom);
 
