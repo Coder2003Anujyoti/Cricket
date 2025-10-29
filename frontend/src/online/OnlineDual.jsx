@@ -127,7 +127,7 @@ useEffect(() => {
 }, []);
 const add_Name=(i,it)=>{
   if (disable==false) {
-  socket.emit('dualjoinRoom', {name:name,team:i,player:it});
+  socket.emit('dualjoinRoom', {name:name,team:i,player:it,teamone:idteam,teamtwo:adminteam});
     setDisable(true)
     }
 }
