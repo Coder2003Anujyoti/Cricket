@@ -29,6 +29,7 @@ const [timer, setTimer] = useState(20);
 const teamicons=[{team:"Csk",image:"Csk/Gaikwad.webp"},{team:"Dc",image:"Dc/Pant.webp"},{team:"Kkr",image:"Kkr/S.Iyer.webp"},{team:"Mi",image:"Mi/Hardik.webp"},{team:"Rr",image:"Rr/Samson.webp"},{team:"Gt",image:"Gt/Gill.webp"},{team:"Pbks",image:"Pbks/Dhawan.webp"},{team:"Rcb",image:"Rcb/Duplesis.webp"},{team:"Srh",image:"Srh/Cummins.webp"},{team:"Lsg",image:"Lsg/KL Rahul.webp"}]
 const id = searchParams.get("id");
 const admin=searchParams.get("player");
+const comp=searchParams.get("computer");
 const adminteam=searchParams.get("playerteam");
 const idteam = searchParams.get("computerteam");
 useEffect(() => {
@@ -127,7 +128,7 @@ useEffect(() => {
 }, []);
 const add_Name=(i,it)=>{
   if (disable==false) {
-  socket.emit('dualjoinRoom', {name:name,team:i,player:it,teamone:idteam,teamtwo:adminteam});
+  socket.emit('dualjoinRoom', {name:name,team:i,player:it,teamone:idteam,teamtwo:adminteam,players:admin,computer:comp});
     setDisable(true)
     }
 }
